@@ -1,0 +1,4 @@
+[submodule "Synth/ClickTrack/jni"]
+	path = Synth/ClickTrack/jni
+	url = git@github.com:thenyeguy/ClickTrack
+    branch = android-master
