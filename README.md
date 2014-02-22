@@ -16,7 +16,15 @@ can be perform by using:
 
 To pull changes from the ClickTrack repo, perform:
 
+    # From the root of 18551-project
     git submodule update
+
+By default, the submodule is checked out into a detached head. To modify the
+repository, it is simpler if you set it to track a local branch as follows:
+
+    # From the root of the submodule (Synth/ClickTrack/jni)
+    git checkout -b android-master
+    git branch -u origin/android-master
 
 
 ClickTrack
@@ -27,6 +35,10 @@ also [hosted on GitHub](https://github.com/thenyeguy/ClickTrack). The project is
 an audio processing framework written C++, and is used as the backend of this
 project, by integrating with the Android NDK. This project's submodule tracks
 the `ClickTrack/android-master` branch.
+
+To build the code, you must manually run `ndk-build` in the
+`Synth/ClickTrack/jni` directory. The Android Studio project will automatically
+include the library files.
 
 Since ClickTrack has been developed for some time, it is important for the
 capstone project to track what has been developed specifically as part of the

@@ -4,6 +4,11 @@ android {
     compileSdkVersion 19
     buildToolsVersion "19.0.1"
 
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir 'libs'
+    }
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
