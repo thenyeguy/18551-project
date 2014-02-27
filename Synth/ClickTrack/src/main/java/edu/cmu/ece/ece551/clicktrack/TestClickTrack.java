@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
+import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.media.AudioRecord;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,29 +18,29 @@ import android.os.Build;
 
 public class TestClickTrack extends Activity {
 
-    /*
-     * Declare our native functions
-     */
-    private static native void initOpenSlesTest();
+    private ClickTrack master;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_track);
 
-        // Load the library
-        Log.i("TestClickTrack", "Loading library...");
-        System.loadLibrary("clicktrack");
-        Log.i("TestClickTrack", "Sucessfully loaded library.");
+        Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
+        master = new ClickTrack();
+    }
 
-        // Run the test
-        new Runnable() {
-            public void run() {
-                Log.i("TestClickTrack", "Entering native playback...");
-                initOpenSlesTest();
-            }
-        }.run();
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        master.play();
+    }
 
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        master.pause();
     }
 
 
