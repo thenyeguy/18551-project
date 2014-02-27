@@ -15,31 +15,59 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 
 public class TestClickTrack extends Activity {
 
     private ClickTrack master;
+    private enum State { PLAYING, PAUSED }
+    State state;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_track);
 
+        // Create our instance
         Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
         master = new ClickTrack();
+        state = State.PAUSED;
+
+        // Register our buttons
+        Button play = (Button) findViewById(R.id.playButton);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = State.PLAYING;
+                master.play();
+            }
+        });
+
+        Button pause = (Button) findViewById(R.id.pauseButton);
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = State.PAUSED;
+                master.pause();
+            }
+        });
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        master.play();
+
+        if(state == State.PLAYING)
+            master.play();
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
+
         master.pause();
     }
 
