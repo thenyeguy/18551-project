@@ -52,6 +52,38 @@ public class TestClickTrack extends Activity {
                 master.pause();
             }
         });
+
+        Button micOn = (Button) findViewById(R.id.micOnButton);
+        micOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setMicGain(0.5f);
+            }
+        });
+
+        Button micOff = (Button) findViewById(R.id.micOffButton);
+        micOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setMicGain(0.0f);
+            }
+        });
+
+        Button oscOn = (Button) findViewById(R.id.oscOnButton);
+        oscOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setOscGain(0.5f);
+            }
+        });
+
+        Button oscOff = (Button) findViewById(R.id.oscOffButton);
+        oscOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setOscGain(0.0f);
+            }
+        });
     }
 
     @Override

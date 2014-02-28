@@ -10,18 +10,60 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:orientation="horizontal">
-        <Button android:id="@+id/playButton"
-                android:text="@string/playButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <Space
-                android:layout_width="50px"
-                android:layout_height="1px"/>
-        <Button android:id="@+id/pauseButton"
-                android:text="@string/pauseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <Button android:id="@+id/playButton"
+                    android:text="@string/playButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <Space
+                    android:layout_width="30dp"
+                    android:layout_height="1px"/>
+            <Button android:id="@+id/pauseButton"
+                    android:text="@string/pauseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <Button android:id="@+id/micOnButton"
+                    android:text="@string/micOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <Space
+                    android:layout_width="30dp"
+                    android:layout_height="1px"/>
+            <Button android:id="@+id/micOffButton"
+                    android:text="@string/micOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <Button android:id="@+id/oscOnButton"
+                    android:text="@string/oscOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <Space
+                    android:layout_width="30dp"
+                    android:layout_height="1px"/>
+            <Button android:id="@+id/oscOffButton"
+                    android:text="@string/oscOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

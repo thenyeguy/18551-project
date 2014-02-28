@@ -32,8 +32,10 @@ public class ClickTrack {
      */
     public void play()
     {
-        Log.i("LibClickTrack", "Playing audio.");
+        long timestamp = System.currentTimeMillis();
+        Log.i("LibClickTrack", "Playing audio, timestamp: " + timestamp);
         ClickTrackMasterPlay(master);
+        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
     }
 
     /*
@@ -41,8 +43,29 @@ public class ClickTrack {
      */
     public void pause()
     {
-        Log.i("LibClickTrack", "Pausing audio.");
+        long timestamp = System.currentTimeMillis();
+        Log.i("LibClickTrack", "Pausing audio, timestamp: " + timestamp);
         ClickTrackMasterPause(master);
+        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
+    }
+
+    /*
+     * These functions will set the gain on our different components
+     */
+    public void setMicGain(float gain)
+    {
+        long timestamp = System.currentTimeMillis();
+        Log.i("LibClickTrack", "Setting mic gain to " + gain + ", timestamp:" + timestamp);
+        ClickTrackMasterSetMicGain(master, gain);
+        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
+    }
+
+    public void setOscGain(float gain)
+    {
+        long timestamp = System.currentTimeMillis();
+        Log.i("LibClickTrack", "Setting osc gain to " + gain + ", timestamp: " + timestamp);
+        ClickTrackMasterSetOscGain(master, gain);
+        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
     }
 
 
@@ -72,4 +95,9 @@ public class ClickTrack {
     /* Tells the library to stop playing audio.
      */
     private native void ClickTrackMasterPause(long obj);
+
+    /* Set the gains on our different components
+     */
+    private native void ClickTrackMasterSetMicGain(long obj, float gain);
+    private native void ClickTrackMasterSetOscGain(long obj, float gain);
 }

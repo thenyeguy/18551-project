@@ -4,7 +4,11 @@
     <string name="app_name">Test ClickTrack</string>
     <string name="action_settings">Settings</string>
     <string name="dummy_message">The device should currently by mirroring the microphone to the speaker</string>
-    <string name="playButton">Play!</string>
-    <string name="pauseButton">Pause</string>
+    <string name="playButton">Sound On</string>
+    <string name="pauseButton">Sound Off</string>
+    <string name="oscOn">Oscillator On</string>
+    <string name="oscOff">Oscillator Off</string>
+    <string name="micOn">Microphone On</string>
+    <string name="micOff">Microphone Off</string>
 
 </resources>
