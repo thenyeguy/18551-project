@@ -6,8 +6,7 @@ import android.util.Log;
  * The ClickTrack is a Java wrapper into the native libclicktrack
  */
 public class ClickTrack {
-    public ClickTrack()
-    {
+    public ClickTrack() {
         // Load the library
         Log.i("LibClickTrack", "Loading libclicktrack native library...");
         System.loadLibrary("clicktrack");
@@ -18,11 +17,9 @@ public class ClickTrack {
     }
 
     @Override
-    protected void finalize() throws Throwable
-    {
+    protected void finalize() throws Throwable {
         // Free our native master object
         freeClickTrackMaster(master);
-
         super.finalize();
     }
 
@@ -30,43 +27,40 @@ public class ClickTrack {
      * This function will trigger audio playback in a separate thread. It gracefully handles
      * redundant play commands.
      */
-    public void play()
-    {
-        long timestamp = System.currentTimeMillis();
-        Log.i("LibClickTrack", "Playing audio, timestamp: " + timestamp);
+    public void play() {
         ClickTrackMasterPlay(master);
-        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
     }
 
     /*
      * This function will pause the audio playback. It gracefully handles redundant pause commands.
      */
-    public void pause()
-    {
-        long timestamp = System.currentTimeMillis();
-        Log.i("LibClickTrack", "Pausing audio, timestamp: " + timestamp);
+    public void pause() {
         ClickTrackMasterPause(master);
-        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
     }
 
     /*
      * These functions will set the gain on our different components
      */
-    public void setMicGain(float gain)
-    {
-        long timestamp = System.currentTimeMillis();
-        Log.i("LibClickTrack", "Setting mic gain to " + gain + ", timestamp:" + timestamp);
+    public void setMicGain(float gain) {
         ClickTrackMasterSetMicGain(master, gain);
-        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
+    }
+    public void setOscGain(float gain) {
+        ClickTrackMasterSetOscGain(master, gain);
+    }
+    public void setSubSynthGain(float gain) {
+        ClickTrackMasterSetSubSynthGain(master, gain);
     }
 
-    public void setOscGain(float gain)
-    {
-        long timestamp = System.currentTimeMillis();
-        Log.i("LibClickTrack", "Setting osc gain to " + gain + ", timestamp: " + timestamp);
-        ClickTrackMasterSetOscGain(master, gain);
-        Log.i("LibClickTrack", "Exiting native, timestamp: " + timestamp);
+    /*
+     * These functions will play notes on the subtractive synthesizer
+     */
+    public void subSynthNoteDown(int note, float velocity) {
+        ClickTrackMasterSubSynthNoteDown(master, note, velocity);
     }
+    public void subSynthNoteUp(int note, float velocity) {
+        ClickTrackMasterSubSynthNoteDown(master, note, velocity);
+    }
+
 
 
     /* This is our pointer to the native C++ object
@@ -100,4 +94,10 @@ public class ClickTrack {
      */
     private native void ClickTrackMasterSetMicGain(long obj, float gain);
     private native void ClickTrackMasterSetOscGain(long obj, float gain);
+    private native void ClickTrackMasterSetSubSynthGain(long obj, float gain);
+
+    /* Send MIDI messages to the subtractive synth
+      */
+    private native void ClickTrackMasterSubSynthNoteDown(long obj, int note, float velocity);
+    private native void ClickTrackMasterSubSynthNoteUp(long obj, int note, float velocity);
 }

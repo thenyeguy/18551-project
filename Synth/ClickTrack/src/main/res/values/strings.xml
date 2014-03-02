@@ -10,5 +10,11 @@
     <string name="oscOff">Oscillator Off</string>
     <string name="micOn">Microphone On</string>
     <string name="micOff">Microphone Off</string>
+    <string name="subSynthOn">SubSynth On</string>
+    <string name="subSynthOff">SubSynth Off</string>
+    <string name="C">C</string>
+    <string name="E">E</string>
+    <string name="G">G</string>
+    <string name="SynthNotes">Play synth:</string>
 
 </resources>

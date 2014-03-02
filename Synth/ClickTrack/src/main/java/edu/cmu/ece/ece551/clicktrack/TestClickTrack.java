@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.ToggleButton;
 
 public class TestClickTrack extends Activity {
 
@@ -82,6 +83,58 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 master.setOscGain(0.0f);
+            }
+        });
+
+        Button subSynthOn = (Button) findViewById(R.id.subSynthOnButton);
+        subSynthOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setSubSynthGain(0.5f);
+            }
+        });
+
+        Button subSynthOff = (Button) findViewById(R.id.subSynthOffButton);
+        subSynthOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                master.setSubSynthGain(0.0f);
+            }
+        });
+
+        ToggleButton c = (ToggleButton) findViewById(R.id.cButton);
+        c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((ToggleButton) view).isChecked()) {
+                    master.subSynthNoteDown(60, 0.5f);
+                } else {
+                    master.subSynthNoteUp(60, 0.0f);
+                }
+            }
+        });
+
+        ToggleButton e = (ToggleButton) findViewById(R.id.eButton);
+        e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((ToggleButton) view).isChecked()) {
+                    master.subSynthNoteDown(64, 0.5f);
+                } else {
+                    master.subSynthNoteUp(64, 0.0f);
+                }
+            }
+        });
+
+        ToggleButton g = (ToggleButton) findViewById(R.id.gButton);
+        g.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((ToggleButton) view).isChecked()) {
+                    master.subSynthNoteDown(67, 0.5f);
+                } else {
+                    master.subSynthNoteUp(67, 0.0f);
+                }
             }
         });
     }
