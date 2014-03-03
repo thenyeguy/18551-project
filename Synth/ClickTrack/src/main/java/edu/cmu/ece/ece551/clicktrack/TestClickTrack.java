@@ -90,7 +90,7 @@ public class TestClickTrack extends Activity {
         subSynthOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setSubSynthGain(0.5f);
+                master.subtractiveSynth.setGain(0.5f);
             }
         });
 
@@ -98,7 +98,7 @@ public class TestClickTrack extends Activity {
         subSynthOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setSubSynthGain(0.0f);
+                master.subtractiveSynth.setGain(0.0f);
             }
         });
 
@@ -107,9 +107,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subSynthNoteDown(60, 0.5f);
+                    master.subtractiveSynth.noteDown(60, 0.5f);
                 } else {
-                    master.subSynthNoteUp(60, 0.0f);
+                    master.subtractiveSynth.noteUp(60, 0.0f);
                 }
             }
         });
@@ -119,9 +119,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subSynthNoteDown(64, 0.5f);
+                    master.subtractiveSynth.noteDown(64, 0.5f);
                 } else {
-                    master.subSynthNoteUp(64, 0.0f);
+                    master.subtractiveSynth.noteUp(64, 0.0f);
                 }
             }
         });
@@ -131,9 +131,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subSynthNoteDown(67, 0.5f);
+                    master.subtractiveSynth.noteDown(67, 0.5f);
                 } else {
-                    master.subSynthNoteUp(67, 0.0f);
+                    master.subtractiveSynth.noteUp(67, 0.0f);
                 }
             }
         });
@@ -144,6 +144,8 @@ public class TestClickTrack extends Activity {
     {
         super.onResume();
 
+        // Restart the engine, and if the library was currently playing, start playing again
+        master.start();
         if(state == State.PLAYING)
             master.play();
     }
@@ -153,7 +155,8 @@ public class TestClickTrack extends Activity {
     {
         super.onPause();
 
-        master.pause();
+        // Stop the engine
+        master.stop();
     }
 
 
