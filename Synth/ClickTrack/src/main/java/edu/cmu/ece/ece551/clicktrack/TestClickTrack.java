@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class TestClickTrack extends Activity {
@@ -137,6 +139,72 @@ public class TestClickTrack extends Activity {
                 }
             }
         });
+
+        // Configure timing test
+        runningTimingTest = false;
+        noteDur = 0;
+
+        ToggleButton arpeggio = (ToggleButton) findViewById(R.id.scaleButton);
+        arpeggio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((ToggleButton) view).isChecked()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            timingTest();
+                        }
+                    }).start();
+                } else {
+                    runningTimingTest = false;
+                }
+            }
+        });
+
+        final TextView tempoText = (TextView) findViewById(R.id.tempoText);
+        SeekBar tempo = (SeekBar) findViewById(R.id.tempoBar);
+        tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                noteDur = 4 * progress + 50;
+
+                String text = "Tempo: " + String.format("%2f",1000.0/(noteDur)) + " notes per " +
+                        "second";
+                tempoText.setText(text.toCharArray(), 0, text.length());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+        tempo.setProgress(50);
+    }
+
+    private Boolean runningTimingTest;
+    private long noteDur;
+    private void timingTest()
+    {
+        runningTimingTest = true;
+        int notes[] = {60, 64, 67, 72};
+        while(runningTimingTest) {
+            for(int note: notes) {
+                try {
+                    master.subtractiveSynth.noteDown(note, 0.7f);
+                    Thread.sleep(noteDur - 9);
+                    master.subtractiveSynth.noteUp(note, 0.7f);
+                    Thread.sleep(9);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override

@@ -1,116 +1,127 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.cmu.ece.ece551.clicktrack.TestClickTrack"
-    tools:ignore="MergeRootFrame">
+    tools:ignore="MergeRootFrame"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-            <Button android:id="@+id/playButton"
-                    android:text="@string/playButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <Space
-                    android:layout_width="30dp"
-                    android:layout_height="1px"/>
-            <Button android:id="@+id/pauseButton"
-                    android:text="@string/pauseButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-            <Button android:id="@+id/micOnButton"
-                    android:text="@string/micOn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <Space  android:layout_width="30dp"
-                    android:layout_height="1px"/>
-            <Button android:id="@+id/micOffButton"
-                    android:text="@string/micOff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-            <Button android:id="@+id/oscOnButton"
-                    android:text="@string/oscOn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <Space  android:layout_width="30dp"
-                    android:layout_height="1px"/>
-            <Button android:id="@+id/oscOffButton"
-                    android:text="@string/oscOff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-            <Button android:id="@+id/subSynthOnButton"
-                    android:text="@string/subSynthOn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <Space  android:layout_width="30dp"
-                    android:layout_height="1px"/>
-            <Button android:id="@+id/subSynthOffButton"
-                    android:text="@string/subSynthOff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <Space android:layout_width="1dp"
-               android:layout_height="30dp" />
-
-        <TextView
+            android:orientation="horizontal">
+        <Button android:id="@+id/playButton"
+                android:text="@string/playButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/SynthNotes"/>
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-            <ToggleButton
-                    android:id="@+id/cButton"
-                    android:textOff="@string/C"
-                    android:textOn="@string/C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <ToggleButton
-                    android:id="@+id/eButton"
-                    android:textOff="@string/E"
-                    android:textOn="@string/E"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            <ToggleButton
-                    android:id="@+id/gButton"
-                    android:textOff="@string/G"
-                    android:textOn="@string/G"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"/>
+        <Space
+                android:layout_width="30dp"
+                android:layout_height="1px"/>
+        <Button android:id="@+id/pauseButton"
+                android:text="@string/pauseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <Button android:id="@+id/micOnButton"
+                android:text="@string/micOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Space  android:layout_width="30dp"
+                android:layout_height="1px"/>
+        <Button android:id="@+id/micOffButton"
+                android:text="@string/micOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <Button android:id="@+id/oscOnButton"
+                android:text="@string/oscOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Space  android:layout_width="30dp"
+                android:layout_height="1px"/>
+        <Button android:id="@+id/oscOffButton"
+                android:text="@string/oscOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <Button android:id="@+id/subSynthOnButton"
+                android:text="@string/subSynthOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Space  android:layout_width="30dp"
+                android:layout_height="1px"/>
+        <Button android:id="@+id/subSynthOffButton"
+                android:text="@string/subSynthOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <Space android:layout_width="1dp"
+           android:layout_height="30dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SynthNotes"/>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <ToggleButton
+                android:id="@+id/cButton"
+                android:textOff="@string/C"
+                android:textOn="@string/C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ToggleButton
+                android:id="@+id/eButton"
+                android:textOff="@string/E"
+                android:textOn="@string/E"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ToggleButton
+                android:id="@+id/gButton"
+                android:textOff="@string/G"
+                android:textOn="@string/G"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <ToggleButton
+            android:id="@+id/scaleButton"
+            android:textOff="@string/playScale"
+            android:textOn="@string/playScale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:id="@+id/tempoText"
+            android:text="@string/tempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <SeekBar
+            android:id="@+id/tempoBar"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

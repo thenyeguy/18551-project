@@ -16,5 +16,7 @@
     <string name="E">E</string>
     <string name="G">G</string>
     <string name="SynthNotes">Play synth:</string>
+    <string name="playScale">Play arpeggio</string>
+    <string name="tempo">Tempo:</string>
 
 </resources>
