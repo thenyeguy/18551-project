@@ -3,25 +3,31 @@ package edu.cmu.ece.ece551.clicktrack;
 import android.util.Log;
 
 /**
- * The ClickTrack is a Java wrapper into the native libclicktrack
+ * The ClickTrack is a Java wrapper into the native libclicktrack. It contains only static
+ * methods, and is used as a container for the native functions.
+ *
+ * All native functions reference a singleton element in C++ that contains the signal chain
  */
 public class ClickTrack {
+    /* First the library must be loaded
+     */
+    public static void loadLibray(){
+        // Load the library
+        Log.i("LibClickTrack", "Loading libclicktrack native library...");
+        System.loadLibrary("clicktrack");
+        Log.i("LibClickTrack", "libclicktrack loaded.");
+    }
+
     /*
      * This function will trigger audio playback in a separate thread. It gracefully handles
      * redundant play commands.
      */
-    private native void nativePlay(long obj);
-    public void play() {
-        nativePlay(master);
-    }
+    public static native void play();
 
     /*
      * This function will pause the audio playback. It gracefully handles redundant pause commands.
      */
-    private native void nativePause(long obj);
-    public void pause() {
-        nativePause(master);
-    }
+    public static native void pause();
 
     /*
      * These functions will start/stop the processing backend entirely.
@@ -29,80 +35,22 @@ public class ClickTrack {
      * Note that the library is not started by default
      * Note that unless the library is stopped, OpenSL ES will hold a wakelock
      */
-    private native void nativeStart(long obj);
-    public void start() {
-        nativeStart(master);
-    }
-
-    private native void nativeStop(long obj);
-    public void stop() {
-        nativeStop(master);
-    }
+    public static native void start();
+    public static native void stop();
 
     /*
      * These functions will set the gain on our different components
      */
-    private native void nativeMicSetGain(long obj, float gain);
-    public void setMicGain(float gain) {
-        nativeMicSetGain(master, gain);
-    }
-
-    private native void nativeOscSetGain(long obj, float gain);
-    public void setOscGain(float gain) {
-        nativeOscSetGain(master, gain);
-    }
+    public static native void setMicGain(float gain);
+    public static native void setOscGain(float gain);
 
 
     /*
      * This class provides a clean Java interface for the ClickTrack subtractive synthesizer
      */
-    public SubtractiveSynth subtractiveSynth;
-
-    private native void nativeSubtractiveSynthSetGain(long obj, float gain);
-    private native void nativeSubtractiveSynthNoteDown(long obj, int note, float velocity);
-    private native void nativeSubtractiveSynthNoteUp(long obj, int note, float velocity);
-
-    public class SubtractiveSynth {
-        public void setGain(float gain) {
-            nativeSubtractiveSynthSetGain(master, gain);
-        }
-
-        public void noteDown(int note, float velocity) {
-            nativeSubtractiveSynthNoteDown(master, note, velocity);
-        }
-
-        public void noteUp(int note, float velocity) {
-            nativeSubtractiveSynthNoteUp(master, note, velocity);
-        }
+    public static class SubtractiveSynth {
+        public static native void setGain(float gain);
+        public static native void noteDown(int note, float velocity);
+        public static native void noteUp(int note, float velocity);
     }
-
-    /*
-     * During initialization, we load the native library and initialize the C++ manager class,
-     * storing its pointer as a long.
-     */
-    private native long nativeInitClickTrackMaster();
-    private long master;
-    public ClickTrack() {
-        // Load the library
-        Log.i("LibClickTrack", "Loading libclicktrack native library...");
-        System.loadLibrary("clicktrack");
-        Log.i("LibClickTrack", "libclicktrack loaded.");
-
-        // Create our master object
-        master = nativeInitClickTrackMaster();
-
-        subtractiveSynth = new SubtractiveSynth();
-    }
-
-    /*
-     * During object destruction, we must explicitly free the C++ master class
-     */
-    private native void nativeFreeClickTrackMaster(long obj);
-    @Override
-    protected void finalize() throws Throwable {
-        // Free our native master object
-        nativeFreeClickTrackMaster(master);
-        super.finalize();
-    }
-
 }

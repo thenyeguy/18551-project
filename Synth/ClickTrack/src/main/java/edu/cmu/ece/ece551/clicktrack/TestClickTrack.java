@@ -1,20 +1,11 @@
 package edu.cmu.ece.ece551.clicktrack;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.content.Context;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,7 +13,6 @@ import android.widget.ToggleButton;
 
 public class TestClickTrack extends Activity {
 
-    private ClickTrack master;
     private enum State { PLAYING, PAUSED }
     State state;
 
@@ -32,9 +22,9 @@ public class TestClickTrack extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_track);
 
-        // Create our instance
+        // Load the library
         Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
-        master = new ClickTrack();
+        ClickTrack.loadLibray();
         state = State.PAUSED;
 
         // Register our buttons
@@ -43,7 +33,7 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 state = State.PLAYING;
-                master.play();
+                ClickTrack.play();
             }
         });
 
@@ -52,7 +42,7 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 state = State.PAUSED;
-                master.pause();
+                ClickTrack.pause();
             }
         });
 
@@ -60,7 +50,7 @@ public class TestClickTrack extends Activity {
         micOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setMicGain(0.5f);
+                ClickTrack.setMicGain(0.5f);
             }
         });
 
@@ -68,7 +58,7 @@ public class TestClickTrack extends Activity {
         micOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setMicGain(0.0f);
+                ClickTrack.setMicGain(0.0f);
             }
         });
 
@@ -76,7 +66,7 @@ public class TestClickTrack extends Activity {
         oscOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setOscGain(0.5f);
+                ClickTrack.setOscGain(0.5f);
             }
         });
 
@@ -84,7 +74,7 @@ public class TestClickTrack extends Activity {
         oscOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.setOscGain(0.0f);
+                ClickTrack.setOscGain(0.0f);
             }
         });
 
@@ -92,7 +82,7 @@ public class TestClickTrack extends Activity {
         subSynthOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.subtractiveSynth.setGain(0.5f);
+                ClickTrack.SubtractiveSynth.setGain(0.5f);
             }
         });
 
@@ -100,7 +90,7 @@ public class TestClickTrack extends Activity {
         subSynthOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                master.subtractiveSynth.setGain(0.0f);
+                ClickTrack.SubtractiveSynth.setGain(0.0f);
             }
         });
 
@@ -109,9 +99,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subtractiveSynth.noteDown(60, 0.5f);
+                    ClickTrack.SubtractiveSynth.noteDown(60, 0.5f);
                 } else {
-                    master.subtractiveSynth.noteUp(60, 0.0f);
+                    ClickTrack.SubtractiveSynth.noteUp(60, 0.0f);
                 }
             }
         });
@@ -121,9 +111,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subtractiveSynth.noteDown(64, 0.5f);
+                    ClickTrack.SubtractiveSynth.noteDown(64, 0.5f);
                 } else {
-                    master.subtractiveSynth.noteUp(64, 0.0f);
+                    ClickTrack.SubtractiveSynth.noteUp(64, 0.0f);
                 }
             }
         });
@@ -133,9 +123,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    master.subtractiveSynth.noteDown(67, 0.5f);
+                    ClickTrack.SubtractiveSynth.noteDown(67, 0.5f);
                 } else {
-                    master.subtractiveSynth.noteUp(67, 0.0f);
+                    ClickTrack.SubtractiveSynth.noteUp(67, 0.0f);
                 }
             }
         });
@@ -196,9 +186,9 @@ public class TestClickTrack extends Activity {
         while(runningTimingTest) {
             for(int note: notes) {
                 try {
-                    master.subtractiveSynth.noteDown(note, 0.7f);
+                    ClickTrack.SubtractiveSynth.noteDown(note, 0.7f);
                     Thread.sleep(noteDur - 9);
-                    master.subtractiveSynth.noteUp(note, 0.7f);
+                    ClickTrack.SubtractiveSynth.noteUp(note, 0.7f);
                     Thread.sleep(9);
                 } catch(InterruptedException e) {
                     e.printStackTrace();
@@ -213,9 +203,9 @@ public class TestClickTrack extends Activity {
         super.onResume();
 
         // Restart the engine, and if the library was currently playing, start playing again
-        master.start();
+        ClickTrack.start();
         if(state == State.PLAYING)
-            master.play();
+            ClickTrack.play();
     }
 
     @Override
@@ -224,7 +214,7 @@ public class TestClickTrack extends Activity {
         super.onPause();
 
         // Stop the engine
-        master.stop();
+        ClickTrack.stop();
     }
 
 
