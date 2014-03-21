@@ -38,11 +38,15 @@ public class ClickTrack {
     public static native void start();
     public static native void stop();
 
+
     /*
-     * These functions will set the gain on our different components
+     * This class provides a clean Java interface for the master channel reverb
      */
-    public static native void setMicGain(float gain);
-    public static native void setOscGain(float gain);
+    public static class Reverb {
+        public static native void setRevTime(float revTime);
+        public static native void setGain(float gain);
+        public static native void setWetness(float wetness);
+    }
 
 
     /*
@@ -56,14 +60,14 @@ public class ClickTrack {
 
         /* Oscillator modes. Please use the provided constants only
          */
-        public static final int SINE = 0;
-        public static final int SAW = 1;
-        public static final int SQUARE = 2;
-        public static final int TRI = 3;
-        public static final int WHITENOISE = 4;
-        public static final int BLEPSAW = 5;
-        public static final int BLEPSQUARE = 6;
-        public static final int BLEPTRI = 7;
+        public enum OscillatorMode {
+            SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
+
+            public int value;
+            private OscillatorMode(int value) {
+                this.value = value;
+            }
+        }
         public static native void setOsc1Mode(int mode);
         public static native void setOsc2Mode(int mode);
 
@@ -82,9 +86,14 @@ public class ClickTrack {
          *
          * Please use provided constants for the modes on points 1 & 4
          */
-        public static final int PASS12DB = 0;
-        public static final int PASS24DB = 1;
-        public static final int SHELF = 2;
+        public enum EqMode {
+            PASS12DB(0), PASS24DB(1), SHELF(2);
+
+            public int value;
+            private EqMode(int value) {
+                this.value = value;
+            }
+        }
 
         public static native void setPoint1(int mode, float cutoff, float gain);
         public static native void setPoint4(int mode, float cutoff, float gain);
@@ -95,5 +104,42 @@ public class ClickTrack {
         /* Output gain of the synth
          */
         public static native void setGain(float gain);
+    }
+
+
+    /*
+     * This class provides a clean Java interface for the ClickTrack subtractive synthesizer
+     */
+    public static class DrumMachine {
+        /* Note down to trigger. The drum machine follows the standard MIDI numbering for drums.
+         * Note that a voice may not contain all drum types
+         */
+        public enum DrumNotes {
+            BASSDRUM2(35), BASSDRUM1(36), RIMSHOT(37), SNAREDRUM1(38), HANDCLAP(39),
+            SNAREDRUM2(40), LOWTOM2(41), CLOSEDHIHAT(42), LOWTOM1(43), PEDALHIHAT(44), MIDTOM2(45),
+            OPENHIHAT(46), MIDTOM1(47), HIGHTOM2(48), CRASHCYMBAL1(49), HIGHTOM1(50),
+            RIDECYMBAL1(51), CHINESECYMBAL(52), RIDEBELL(53), TAMBOURINE(54), SPLASHCYMBAL(55),
+            COWBELL(56), CRASHCYMBAL2(57), VIBRASLAP(58), RIDECYMBAL2(59), HIGHBONGO(60),
+            LOWBONGO(61), MUTEHIGHCONGA(62), OPENHIGHCONGA(63), LOWCONGA(64), HIGHTIMBALE(65),
+            LOWTIMBALE(66), HIGHAGOGO(67), LOWAGOGO(68), CABASA(69), MARACAS(70), SHORTWHISTLE(71),
+            LONGWHISTLE(72), SHORTGUIRO(73), LONGGUIRO(74), CLAVES(75), HIGHWOODBLOCK(76),
+            LOWWOODBLOCK(77), MUTECUICA(78), OPENCUICA(79), MUTETRIANGLE(80), OPENTRIANGLE(81);
+
+            public int value;
+            private DrumNotes(int value) {
+                this.value = value;
+            }
+        }
+        public static native void noteDown(int note, float velocity);
+
+        /* Output gain of the machine
+         */
+        public static native void setGain(float gain);
+
+        /* Tells the drum machine to load a set of voices in the specified path. The path must
+         * contain a keymap.txt that outlines the noises for each note. See the ClickTrack
+         * documentation for further details
+         */
+        public static native void setVoice(String path);
     }
 }

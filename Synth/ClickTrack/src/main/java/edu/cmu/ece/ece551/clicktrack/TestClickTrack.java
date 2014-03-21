@@ -25,75 +25,15 @@ public class TestClickTrack extends Activity {
         // Load the library
         Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
         ClickTrack.loadLibray();
-        state = State.PAUSED;
+        ClickTrack.start();
+        ClickTrack.play();
+        state = State.PLAYING;
 
-        // Register our buttons
-        Button play = (Button) findViewById(R.id.playButton);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                state = State.PLAYING;
-                ClickTrack.play();
-            }
-        });
+        // Configure the drum machine
+        ClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
 
-        Button pause = (Button) findViewById(R.id.pauseButton);
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                state = State.PAUSED;
-                ClickTrack.pause();
-            }
-        });
 
-        Button micOn = (Button) findViewById(R.id.micOnButton);
-        micOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.setMicGain(0.5f);
-            }
-        });
-
-        Button micOff = (Button) findViewById(R.id.micOffButton);
-        micOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.setMicGain(0.0f);
-            }
-        });
-
-        Button oscOn = (Button) findViewById(R.id.oscOnButton);
-        oscOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.setOscGain(0.5f);
-            }
-        });
-
-        Button oscOff = (Button) findViewById(R.id.oscOffButton);
-        oscOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.setOscGain(0.0f);
-            }
-        });
-
-        Button subSynthOn = (Button) findViewById(R.id.subSynthOnButton);
-        subSynthOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.SubtractiveSynth.setGain(0.5f);
-            }
-        });
-
-        Button subSynthOff = (Button) findViewById(R.id.subSynthOffButton);
-        subSynthOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClickTrack.SubtractiveSynth.setGain(0.0f);
-            }
-        });
-
+        // Set up buttons
         ToggleButton c = (ToggleButton) findViewById(R.id.cButton);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +115,33 @@ public class TestClickTrack extends Activity {
             }
         });
         tempo.setProgress(50);
+
+        Button bassDrum = (Button) findViewById(R.id.bassButton);
+        bassDrum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.BASSDRUM1.value,
+                        1.0f);
+            }
+        });
+        
+        Button snareDrum = (Button) findViewById(R.id.snareButton);
+        snareDrum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.SNAREDRUM1.value,
+                        1.0f);
+            }
+        });
+        
+        Button hihat = (Button) findViewById(R.id.hihatButton);
+        hihat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.CLOSEDHIHAT.value,
+                        1.0f);
+            }
+        });
     }
 
     private Boolean runningTimingTest;
