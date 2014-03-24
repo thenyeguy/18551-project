@@ -23,5 +23,10 @@
     <string name="snareDrum">Snare drum</string>
     <string name="reverb">Set reverb:</string>
     <string name="hihat">Hi Hat</string>
+    <string name="title_activity_subtractive_synth_tone_control">SubtractiveSynthToneControl</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="configureTone">Configure tone</string>
+    <string name="stop">Stop audio</string>
+    <string name="start">Restart audio</string>
 
 </resources>

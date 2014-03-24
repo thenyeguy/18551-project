@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="oscillator_modes">
+        <item>Sine</item>
+        <item>Saw</item>
+        <item>Square</item>
+        <item>Triangle</item>
+        <item>White Noise</item>
+    </string-array>
+</resources>

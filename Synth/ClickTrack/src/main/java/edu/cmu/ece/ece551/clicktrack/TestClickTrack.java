@@ -1,6 +1,7 @@
 package edu.cmu.ece.ece551.clicktrack;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,24 +25,52 @@ public class TestClickTrack extends Activity {
 
         // Load the library
         Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
-        ClickTrack.loadLibray();
-        ClickTrack.start();
-        ClickTrack.play();
+        NativeClickTrack.loadLibray();
+        NativeClickTrack.start();
+        NativeClickTrack.play();
         state = State.PLAYING;
 
         // Configure the drum machine
-        ClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
+        NativeClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
+        Log.i("TestClickTrack", "Drum machine loaded");
 
 
         // Set up buttons
+        Button startAudio = (Button) findViewById(R.id.startAudio);
+        startAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NativeClickTrack.start();
+                NativeClickTrack.play();
+            }
+        });
+
+        Button stopAudio = (Button) findViewById(R.id.stopAudio);
+        stopAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NativeClickTrack.stop();
+            }
+        });
+
+        Button tone = (Button) findViewById(R.id.toneButton);
+        tone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SubtractiveSynthToneControl
+                        .class);
+                startActivity(intent);
+            }
+        });
+
         ToggleButton c = (ToggleButton) findViewById(R.id.cButton);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    ClickTrack.SubtractiveSynth.noteDown(60, 0.5f);
+                    NativeClickTrack.SubtractiveSynth.noteDown(60, 0.5f);
                 } else {
-                    ClickTrack.SubtractiveSynth.noteUp(60, 0.0f);
+                    NativeClickTrack.SubtractiveSynth.noteUp(60, 0.0f);
                 }
             }
         });
@@ -51,9 +80,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    ClickTrack.SubtractiveSynth.noteDown(64, 0.5f);
+                    NativeClickTrack.SubtractiveSynth.noteDown(64, 0.5f);
                 } else {
-                    ClickTrack.SubtractiveSynth.noteUp(64, 0.0f);
+                    NativeClickTrack.SubtractiveSynth.noteUp(64, 0.0f);
                 }
             }
         });
@@ -63,9 +92,9 @@ public class TestClickTrack extends Activity {
             @Override
             public void onClick(View view) {
                 if(((ToggleButton) view).isChecked()) {
-                    ClickTrack.SubtractiveSynth.noteDown(67, 0.5f);
+                    NativeClickTrack.SubtractiveSynth.noteDown(67, 0.5f);
                 } else {
-                    ClickTrack.SubtractiveSynth.noteUp(67, 0.0f);
+                    NativeClickTrack.SubtractiveSynth.noteUp(67, 0.0f);
                 }
             }
         });
@@ -99,7 +128,7 @@ public class TestClickTrack extends Activity {
                                           boolean fromUser) {
                 noteDur = 4 * progress + 50;
 
-                String text = "Tempo: " + String.format("%2f",1000.0/(noteDur)) + " notes per " +
+                String text = "Tempo: " + String.format("%2f", 1000.0 / (noteDur)) + " notes per " +
                         "second";
                 tempoText.setText(text.toCharArray(), 0, text.length());
             }
@@ -120,7 +149,7 @@ public class TestClickTrack extends Activity {
         bassDrum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.BASSDRUM1.value,
+                NativeClickTrack.DrumMachine.noteDown(NativeClickTrack.DrumMachine.DrumNotes.BASSDRUM1.value,
                         1.0f);
             }
         });
@@ -129,7 +158,7 @@ public class TestClickTrack extends Activity {
         snareDrum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.SNAREDRUM1.value,
+                NativeClickTrack.DrumMachine.noteDown(NativeClickTrack.DrumMachine.DrumNotes.SNAREDRUM1.value,
                         1.0f);
             }
         });
@@ -138,10 +167,14 @@ public class TestClickTrack extends Activity {
         hihat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClickTrack.DrumMachine.noteDown(ClickTrack.DrumMachine.DrumNotes.CLOSEDHIHAT.value,
+                NativeClickTrack.DrumMachine.noteDown(NativeClickTrack.DrumMachine.DrumNotes.CLOSEDHIHAT.value,
                         1.0f);
             }
         });
+
+        // Start playing
+        NativeClickTrack.start();
+        NativeClickTrack.play();
     }
 
     private Boolean runningTimingTest;
@@ -153,35 +186,15 @@ public class TestClickTrack extends Activity {
         while(runningTimingTest) {
             for(int note: notes) {
                 try {
-                    ClickTrack.SubtractiveSynth.noteDown(note, 0.7f);
+                    NativeClickTrack.SubtractiveSynth.noteDown(note, 0.7f);
                     Thread.sleep(noteDur - 9);
-                    ClickTrack.SubtractiveSynth.noteUp(note, 0.7f);
+                    NativeClickTrack.SubtractiveSynth.noteUp(note, 0.7f);
                     Thread.sleep(9);
                 } catch(InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        // Restart the engine, and if the library was currently playing, start playing again
-        ClickTrack.start();
-        if(state == State.PLAYING)
-            ClickTrack.play();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-
-        // Stop the engine
-        ClickTrack.stop();
     }
 
 

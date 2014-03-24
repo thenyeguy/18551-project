@@ -3,19 +3,30 @@ package edu.cmu.ece.ece551.clicktrack;
 import android.util.Log;
 
 /**
- * The ClickTrack is a Java wrapper into the native libclicktrack. It contains only static
+ * The NativeClickTrack is a Java wrapper into the native libclicktrack. It contains only static
  * methods, and is used as a container for the native functions.
  *
  * All native functions reference a singleton element in C++ that contains the signal chain
  */
-public class ClickTrack {
-    /* First the library must be loaded
+public class NativeClickTrack {
+    /*
+     * First the library must be loaded
      */
     public static void loadLibray(){
         // Load the library
         Log.i("LibClickTrack", "Loading libclicktrack native library...");
         System.loadLibrary("clicktrack");
         Log.i("LibClickTrack", "libclicktrack loaded.");
+    }
+
+    /*
+     * Convenience function to between dB and amplitude
+     */
+    public static float dbToAmplitude(float db) {
+        return (float)Math.pow(10, db/10);
+    }
+    public static float amplitudeToDb(float amp) {
+        return (float)(10*Math.log10(amp));
     }
 
     /*
@@ -50,7 +61,7 @@ public class ClickTrack {
 
 
     /*
-     * This class provides a clean Java interface for the ClickTrack subtractive synthesizer
+     * This class provides a clean Java interface for the NativeClickTrack subtractive synthesizer
      */
     public static class SubtractiveSynth {
         /* Note events
@@ -73,33 +84,10 @@ public class ClickTrack {
 
         /* ADSR envelope
          */
-        public static native void set_attack_time(float attack_time);
-        public static native void set_decay_time(float decay_time);
-        public static native void set_sustain_level(float sustain_level);
-        public static native void set_release_time(float release_time);
-
-        /* A 4 point equalizer as follows:
-         *
-         *     Point 1: Either a lowpass(12dB or 24dB/octave) or a low shelf
-         *     Points 2&3: Peak filters with adjustable Q
-         *     Point 4: Either a highpass(12dB or 24dB/octae) or a high shelf
-         *
-         * Please use provided constants for the modes on points 1 & 4
-         */
-        public enum EqMode {
-            PASS12DB(0), PASS24DB(1), SHELF(2);
-
-            public int value;
-            private EqMode(int value) {
-                this.value = value;
-            }
-        }
-
-        public static native void setPoint1(int mode, float cutoff, float gain);
-        public static native void setPoint4(int mode, float cutoff, float gain);
-
-        public static native void setPoint2(float cutoff, float Q, float gain);
-        public static native void setPoint3(float cutoff, float Q, float gain);
+        public static native void setAttackTime(float attack_time);
+        public static native void setDecayTime(float decay_time);
+        public static native void setSustainLevel(float sustain_level);
+        public static native void setReleaseTime(float release_time);
 
         /* Output gain of the synth
          */
@@ -108,7 +96,7 @@ public class ClickTrack {
 
 
     /*
-     * This class provides a clean Java interface for the ClickTrack subtractive synthesizer
+     * This class provides a clean Java interface for the NativeClickTrack subtractive synthesizer
      */
     public static class DrumMachine {
         /* Note down to trigger. The drum machine follows the standard MIDI numbering for drums.
@@ -137,7 +125,7 @@ public class ClickTrack {
         public static native void setGain(float gain);
 
         /* Tells the drum machine to load a set of voices in the specified path. The path must
-         * contain a keymap.txt that outlines the noises for each note. See the ClickTrack
+         * contain a keymap.txt that outlines the noises for each note. See the NativeClickTrack
          * documentation for further details
          */
         public static native void setVoice(String path);

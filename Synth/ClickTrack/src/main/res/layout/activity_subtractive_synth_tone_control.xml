@@ -1,0 +1,165 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControl"
+    tools:ignore="MergeRootFrame">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Output Gain"
+            android:id="@+id/subsynthGainText"
+            android:gravity="center"/>
+
+    <SeekBar
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/subsynthGain"
+            android:layout_gravity="center"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Oscillator modes"
+                    android:id="@+id/oscModeLabel"
+                    android:gravity="center"/>
+
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/osc1mode"
+                    android:spinnerMode="dropdown"/>
+
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/osc2mode"
+                    android:spinnerMode="dropdown"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="ADSR Envelope"
+                    android:id="@+id/adsrLabel"
+                    android:gravity="center"/>
+
+            <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    >
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="12dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Attack"
+                            android:id="@+id/attackLabel"
+                            android:layout_column="0"
+                            android:gravity="center_vertical"/>
+
+                    <SeekBar
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/attackSeekbar"
+                            android:layout_column="1"
+                            android:minWidth="200dp"/>
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="12dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Decay"
+                            android:id="@+id/decayLabel"
+                            android:layout_column="0"
+                            android:gravity="center_vertical"/>
+
+                    <SeekBar
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/decaySeekbar"
+                            android:minWidth="200dp"/>
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="12dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Sustain"
+                            android:id="@+id/sustainLabel"
+                            android:layout_column="0"
+                            android:gravity="center_vertical"/>
+
+                    <SeekBar
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sustainSeekbar"
+                            android:minWidth="200dp"/>
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="12dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Release"
+                            android:id="@+id/releaseLabel"
+                            android:layout_column="0"
+                            android:gravity="center_vertical"/>
+
+                    <SeekBar
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/releaseSeekbar"
+                            android:minWidth="200dp"/>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

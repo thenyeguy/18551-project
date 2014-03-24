@@ -8,10 +8,38 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stop"
+                android:id="@+id/stopAudio"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start"
+                android:id="@+id/startAudio"/>
+    </LinearLayout>
+
+    <Space android:layout_width="1dp"
+           android:layout_height="30dp" />
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/SynthNotes"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/configureTone"
+            android:id="@+id/toneButton"
+            android:layout_gravity="center_horizontal"/>
+
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
