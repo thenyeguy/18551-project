@@ -6,15 +6,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
-public class SubtractiveSynthToneControl extends Activity {
+public class SubtractiveSynthToneControls extends Activity {
     protected final String TAG = "ClickTrack_SubSynthToneControl";
 
     @Override
@@ -30,7 +32,7 @@ public class SubtractiveSynthToneControl extends Activity {
         // Configure our gain
         final TextView gainText = (TextView) findViewById(R.id.subsynthGainText);
         String text = "Output gain (" + floatToString(NativeClickTrack.amplitudeToDb(controller
-                .getOutputGain())) + "):";
+                .getOutputGain())) + "dB):";
         gainText.setText(text.toCharArray(), 0, text.length());
 
         final SeekBar gainSeekbar = (SeekBar) findViewById(R.id.subsynthGain);
@@ -38,7 +40,7 @@ public class SubtractiveSynthToneControl extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 float db = (1f * i - 100) * 20 / 100;
-                String text = "Output gain (" + floatToString(db) + "):";
+                String text = "Output gain (" + floatToString(db) + "dB):";
                 gainText.setText(text.toCharArray(), 0, text.length());
                 controller.setOutputGain(NativeClickTrack.dbToAmplitude(db));
             }
@@ -63,6 +65,7 @@ public class SubtractiveSynthToneControl extends Activity {
 
         final Spinner osc1Spinner = (Spinner) findViewById(R.id.osc1mode);
         osc1Spinner.setAdapter(oscModes);
+        osc1Spinner.setSelection(controller.getOsc1mode().value);
         osc1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,6 +81,7 @@ public class SubtractiveSynthToneControl extends Activity {
 
         final Spinner osc2Spinner = (Spinner) findViewById(R.id.osc2mode);
         osc2Spinner.setAdapter(oscModes);
+        osc2Spinner.setSelection(controller.getOsc2mode().value);
         osc2Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -88,6 +92,44 @@ public class SubtractiveSynthToneControl extends Activity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+
+
+        // Set up oscillator transpositions
+        final int minTranspose = -24; final int maxTranspose = 24;
+
+        NumberPicker osc1transpose = (NumberPicker) findViewById(R.id.osc1transpose);
+        osc1transpose.setMinValue(0); osc1transpose.setMaxValue(maxTranspose-minTranspose);
+        osc1transpose.setValue(0 - minTranspose);
+        osc1transpose.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int index) {
+                return Integer.toString(index + minTranspose);
+            }
+        });
+        osc1transpose.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i2) {
+                controller.setOsc1transposition((float)i2 - minTranspose);
+            }
+        });
+
+
+        NumberPicker osc2transpose = (NumberPicker) findViewById(R.id.osc2transpose);
+        osc2transpose.setMinValue(0); osc2transpose.setMaxValue(maxTranspose-minTranspose);
+        osc2transpose.setValue(0 - minTranspose);
+        osc2transpose.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int index) {
+                return Integer.toString(index + minTranspose);
+            }
+        });
+        osc2transpose.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i2) {
+                controller.setOsc2transposition((float) i2 - minTranspose);
             }
         });
 
@@ -203,8 +245,119 @@ public class SubtractiveSynthToneControl extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+        }); 
+
+
+        // Set filter mode
+        ArrayAdapter<CharSequence> filterModes = ArrayAdapter.createFromResource(this,
+                R.array.filter_modes, android.R.layout.simple_spinner_item);
+        filterModes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final Spinner filterModeSpinner = (Spinner) findViewById(R.id.filterModeSpinner);
+        filterModeSpinner.setAdapter(filterModes);
+        filterModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String modeText = (String) adapterView.getItemAtPosition(i);
+                controller.setFilterMode(stringToFilterMode(modeText));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
+
+
+        // Set filter sliders
+        final TextView filterCutoffLabel = (TextView) findViewById(R.id.filterCutoffLabel);
+        String cutoffString = "Cutoff (" + floatToString(controller.getFilterCutoff()) + "Hz)";
+        filterCutoffLabel.setText(cutoffString.toCharArray(), 0, cutoffString.length());
+
+        final SeekBar cutoffSeekbar = (SeekBar) findViewById(R.id.filterCutoffSeekbar);
+        cutoffSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                float cutoff = ((float) Math.pow(10, (i / 100f)) - 1)/9 * 19980 + 20;
+
+                String s = "Cutoff (" + floatToString(cutoff) + "Hz)";
+                filterCutoffLabel.setText(s.toCharArray(), 0, s.length());
+
+                controller.setFilterCutoff(cutoff);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        final TextView filterGainLabel = (TextView) findViewById(R.id.filterGainLabel);
+        String gainString = "Gain (" + floatToString(controller.getFilterGain()) + "dB)";
+        filterGainLabel.setText(gainString.toCharArray(), 0, gainString.length());
+
+        final SeekBar filterGainSeekbar = (SeekBar) findViewById(R.id.filterGainSeekbar);
+        filterGainSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                float gain = (i / 100f)*40 - 20;
+
+                String s = "Gain (" + floatToString(gain) + "dB)";
+                filterGainLabel.setText(s.toCharArray(), 0, s.length());
+
+                controller.setFilterGain(gain);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        final TextView filterQLabel = (TextView) findViewById(R.id.filterQLabel);
+        String qString = "Q (" + floatToString(controller.getFilterQ()) + "Hz)";
+        filterQLabel.setText(qString.toCharArray(), 0, qString.length());
+
+        final SeekBar qSeekbar = (SeekBar) findViewById(R.id.filterQSeekbar);
+        qSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                float q = (i / 100f)*10;
+
+                String s = "Q (" + floatToString(q) + ")";
+                filterQLabel.setText(s.toCharArray(), 0, s.length());
+
+                controller.setFilterQ(q);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        // Unfocus the spinner on launch
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 
     private NativeClickTrack.SubtractiveSynth.OscillatorMode stringToOscMode(String modeText)
     {
@@ -219,6 +372,23 @@ public class SubtractiveSynthToneControl extends Activity {
             mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPTRI;
         else if(modeText.equals("White Noise"))
             mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.WHITENOISE;
+
+        return mode;
+    }
+
+    private NativeClickTrack.SubtractiveSynth.FilterMode stringToFilterMode(String modeText)
+    {
+        NativeClickTrack.SubtractiveSynth.FilterMode mode = NativeClickTrack.SubtractiveSynth
+                .FilterMode.LOWPASS;
+
+        if(modeText.equals("Low shelf"))
+            mode = NativeClickTrack.SubtractiveSynth.FilterMode.LOWSHELF;
+        else if(modeText.equals("High pass"))
+            mode = NativeClickTrack.SubtractiveSynth.FilterMode.HIGHPASS;
+        else if(modeText.equals("High shelf"))
+            mode = NativeClickTrack.SubtractiveSynth.FilterMode.HIGHSHELF;
+        else if(modeText.equals("Peak"))
+            mode = NativeClickTrack.SubtractiveSynth.FilterMode.PEAK;
 
         return mode;
     }

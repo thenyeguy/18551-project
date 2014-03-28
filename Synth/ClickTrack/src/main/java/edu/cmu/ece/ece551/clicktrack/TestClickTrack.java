@@ -57,7 +57,7 @@ public class TestClickTrack extends Activity {
         tone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SubtractiveSynthToneControl
+                Intent intent = new Intent(getApplicationContext(), SubtractiveSynthToneControls
                         .class);
                 startActivity(intent);
             }

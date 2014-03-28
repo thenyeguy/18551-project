@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter_modes">
+        <item>Low pass</item>
+        <item>Low shelf</item>
+        <item>High pass</item>
+        <item>High shelf</item>
+        <item>Peak</item>
+    </string-array>
+</resources>

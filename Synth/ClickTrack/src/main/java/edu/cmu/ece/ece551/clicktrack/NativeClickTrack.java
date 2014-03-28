@@ -69,7 +69,7 @@ public class NativeClickTrack {
         public static native void noteDown(int note, float velocity);
         public static native void noteUp(int note, float velocity);
 
-        /* Oscillator modes. Please use the provided constants only
+        /* Oscillator modes. Please use the provided enum constants
          */
         public enum OscillatorMode {
             SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
@@ -82,12 +82,41 @@ public class NativeClickTrack {
         public static native void setOsc1Mode(int mode);
         public static native void setOsc2Mode(int mode);
 
+        /* Oscillator transpositions. Takes a number of steps; these can be fractional
+         */
+        public static native void setOsc1Transposition(float steps);
+        public static native void setOsc2Transposition(float steps);
+
         /* ADSR envelope
          */
         public static native void setAttackTime(float attack_time);
         public static native void setDecayTime(float decay_time);
         public static native void setSustainLevel(float sustain_level);
         public static native void setReleaseTime(float release_time);
+
+        /* Change the filter's mode and coefficients. Please use the provided enum contants.
+         *
+         * Low/high pass filters use only the cutoff
+         *
+         * Shelf filters ignore the Q factor
+         *
+         * Peak filters place a peak with a gain at the cutoff, and no change everywhere else.
+         * Q determines how sharp the peak is
+         *
+         * Cutoff is in Hz, gain is in dB
+         */
+        public enum FilterMode {
+            LOWPASS(0), LOWSHELF(1), HIGHPASS(2), HIGHSHELF(3), PEAK(4);
+
+            public int value;
+            private FilterMode(int value) {
+                this.value = value;
+            }
+        }
+        public static native void setFilterMode(int mode);
+        public static native void setFilterCutoff(float cutoff);
+        public static native void setFilterGain(float gain);
+        public static native void setFilterQ(float q);
 
         /* Output gain of the synth
          */
@@ -101,6 +130,8 @@ public class NativeClickTrack {
     public static class DrumMachine {
         /* Note down to trigger. The drum machine follows the standard MIDI numbering for drums.
          * Note that a voice may not contain all drum types
+         *
+         * The following enum gives a list of the standard MIDI drum note mappings
          */
         public enum DrumNotes {
             BASSDRUM2(35), BASSDRUM1(36), RIMSHOT(37), SNAREDRUM1(38), HANDCLAP(39),

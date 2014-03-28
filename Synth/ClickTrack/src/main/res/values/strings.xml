@@ -28,5 +28,9 @@
     <string name="configureTone">Configure tone</string>
     <string name="stop">Stop audio</string>
     <string name="start">Restart audio</string>
+    <string name="osc1label">Oscillator 1</string>
+    <string name="osc1transposeLabel">Transpose</string>
+    <string name="osc2label">Oscillator 2</string>
+    <string name="osc2transposeLabel">Transpose</string>
 
 </resources>
