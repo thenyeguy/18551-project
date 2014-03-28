@@ -24,14 +24,14 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal">
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="20dp">
 
             <TextView
@@ -69,7 +69,7 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="20dp">
 
             <TextView
@@ -119,7 +119,7 @@
 
             <TableLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     >
 
                 <TableRow
@@ -226,7 +226,7 @@
 
             <TableLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content">
 
                 <TableRow
                         android:layout_width="fill_parent"
@@ -316,5 +316,12 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:id="@+id/toneTestButton"
+            android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

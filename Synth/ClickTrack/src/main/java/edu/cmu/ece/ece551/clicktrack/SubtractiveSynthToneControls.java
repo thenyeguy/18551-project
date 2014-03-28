@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -112,7 +114,7 @@ public class SubtractiveSynthToneControls extends Activity {
         osc1transpose.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i2) {
-                controller.setOsc1transposition((float)i2 - minTranspose);
+                controller.setOsc1transposition((float)i2 + minTranspose);
             }
         });
 
@@ -129,7 +131,7 @@ public class SubtractiveSynthToneControls extends Activity {
         osc2transpose.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i2) {
-                controller.setOsc2transposition((float) i2 - minTranspose);
+                controller.setOsc2transposition((float) i2 + minTranspose);
             }
         });
 
@@ -334,7 +336,7 @@ public class SubtractiveSynthToneControls extends Activity {
         qSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                float q = (i / 100f)*10;
+                float q = (i / 100f)*9.5f + 0.5f;
 
                 String s = "Q (" + floatToString(q) + ")";
                 filterQLabel.setText(s.toCharArray(), 0, s.length());
@@ -350,6 +352,21 @@ public class SubtractiveSynthToneControls extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+
+        // Place a test button
+        Button testButton = (Button) findViewById(R.id.toneTestButton);
+        testButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN)
+                    NativeClickTrack.SubtractiveSynth.noteDown(60, 1.0f);
+                else if (action == MotionEvent.ACTION_UP)
+                    NativeClickTrack.SubtractiveSynth.noteUp(60, 0.0f);
+                return false;   //  the listener has NOT consumed the event, pass it on
             }
         });
 
@@ -396,6 +413,17 @@ public class SubtractiveSynthToneControls extends Activity {
     private String floatToString(float f) {
         DecimalFormat format = new DecimalFormat("0.00");
         return format.format(f);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NativeClickTrack.addReference();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NativeClickTrack.removeReference();
     }
 
     @Override

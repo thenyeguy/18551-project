@@ -14,10 +14,6 @@ import android.widget.ToggleButton;
 
 public class TestClickTrack extends Activity {
 
-    private enum State { PLAYING, PAUSED }
-    State state;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +22,6 @@ public class TestClickTrack extends Activity {
         // Load the library
         Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
         NativeClickTrack.loadLibray();
-        NativeClickTrack.start();
-        NativeClickTrack.play();
-        state = State.PLAYING;
 
         // Configure the drum machine
         NativeClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
@@ -36,23 +29,6 @@ public class TestClickTrack extends Activity {
 
 
         // Set up buttons
-        Button startAudio = (Button) findViewById(R.id.startAudio);
-        startAudio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NativeClickTrack.start();
-                NativeClickTrack.play();
-            }
-        });
-
-        Button stopAudio = (Button) findViewById(R.id.stopAudio);
-        stopAudio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NativeClickTrack.stop();
-            }
-        });
-
         Button tone = (Button) findViewById(R.id.toneButton);
         tone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +171,22 @@ public class TestClickTrack extends Activity {
                 }
             }
         }
+    }
+
+
+    /*
+     * Reference count the clicktrack backend
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NativeClickTrack.addReference();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NativeClickTrack.removeReference();
+        runningTimingTest = false;
     }
 
 

@@ -1,6 +1,11 @@
 package edu.cmu.ece.ece551.clicktrack;
 
+import android.media.AudioFormat;
+import android.media.AudioTrack;
 import android.util.Log;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The NativeClickTrack is a Java wrapper into the native libclicktrack. It contains only static
@@ -9,14 +14,65 @@ import android.util.Log;
  * All native functions reference a singleton element in C++ that contains the signal chain
  */
 public class NativeClickTrack {
+    protected static final String TAG = "LibClickTrack";
     /*
      * First the library must be loaded
      */
+    private static boolean loaded = false;
+    private static native void setBufferSize(int bufferSize);
     public static void loadLibray(){
+        // Check for loaded
+        if(loaded)
+            return;
+        loaded = true;
+
         // Load the library
-        Log.i("LibClickTrack", "Loading libclicktrack native library...");
+        Log.i(TAG, "Loading libclicktrack native library...");
         System.loadLibrary("clicktrack");
-        Log.i("LibClickTrack", "libclicktrack loaded.");
+
+        // Get the buffer size
+        int bufferSize = AudioTrack.getMinBufferSize(44100, AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT);
+        NativeClickTrack.setBufferSize(bufferSize);
+        Log.i(TAG, "libclicktrack loaded with buffer size: " + bufferSize);
+    }
+
+    /*
+     * Reference counting for the library, to shut down the sound when no activity is using it
+     */
+    private static int references = 0;
+    public static void addReference() {
+        // If this is a first reference, restart playback
+        if(references == 0) {
+            start();
+            play();
+        }
+
+        // Update the reference count
+        references++;
+        Log.i(TAG, "Reference added, now at: " + references);
+    }
+    public static void removeReference() {
+        // Update the reference count
+        references--;
+        Log.i(TAG, "Reference removed, now at: " + references);
+
+        // Stop audio in one second
+        if(references == 0) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    checkForEnd();
+                }
+            }, 1000);
+        }
+    }
+    private static void checkForEnd() {
+        if(references == 0) {
+            pause();
+            stop();
+            Log.i(TAG, "Shutting down audio playback");
+        }
     }
 
     /*
