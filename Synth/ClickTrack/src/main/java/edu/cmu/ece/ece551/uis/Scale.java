@@ -7,6 +7,6 @@ public interface Scale {
 
     public int getNotesPerOctave();
 
-    public List<String> getNoteNames();
+    public List<MusicNote> getNoteNames();
 
 }

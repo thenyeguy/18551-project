@@ -36,19 +36,12 @@ public class PianoRollView extends View {
 
     private String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
-
-
     private int currentOctave = 2;
-
     private Point size = new Point();
     private SparseArray pointerArray = new SparseArray();
-
     private Scale scale = new DiatonicScale("C", Tonality.MAJOR);
-
     private Rect r = new Rect();
-
     private Paint paint = new Paint();
-
 
     private int rectX = 0;
 
@@ -95,7 +88,7 @@ public class PianoRollView extends View {
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
 
-        List<String> scaleNotes = scale.getNoteNames();
+        List<MusicNote> scaleNotes = scale.getNoteNames();
 
         // Math here to determine how big to make things?
 
@@ -113,7 +106,7 @@ public class PianoRollView extends View {
 
             paint.setTextSize(100);
             paint.setColor(Color.GREEN);
-            canvas.drawText(scaleNotes.get(scale.getNotesPerOctave() - 1 - normPos), 5,
+            canvas.drawText(scaleNotes.get(scale.getNotesPerOctave() - 1 - normPos).toString(), 5,
                     (normPos + .9f) * FRAME_HEIGHT, paint);
 
             for (int j = 0; j < sequences[i].length; j++) {
@@ -155,23 +148,7 @@ public class PianoRollView extends View {
 
     public void moveRect(final int rectX) {
 
-        int j = (rectX / FRAME_WIDTH);
-        for (int i = 0; i < sequences.length; i++) {
-            if (j > 0) {
-                if (sequences[i][j-1] == 2) {
-                    sequences[i][j-1] = 1;
-                    int note = 60; // TODO: get this note number for MIDI
-                    instrument.noteUp(note, 1.0f);
-                }
-            }
-        }
-        for (int i = 0; i < sequences.length; i++) {
-            if (sequences[i][j] == 1) {
-                sequences[i][j] = 2;
-                int note = 60; // TODO: get this note number for MIDI
-                instrument.noteDown(note, 1.0f);
-            }
-        }
+
 
         if (rectX == 0) {
             for (int i = 0; i < sequences.length; i++) {
@@ -182,6 +159,31 @@ public class PianoRollView extends View {
                     }
                 }
 
+            }
+        }
+        else {
+            int j = (rectX / FRAME_WIDTH);
+            for (int i = 0; i < sequences.length; i++) {
+                if (j > 0) {
+                    if (sequences[i][j - 1] == 2) {
+                        sequences[i][j - 1] = 1;
+                        int idx = i % scale.getNotesPerOctave();
+                        Log.d("note", "tried to play: " + idx);
+                        int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
+                        Log.d("note", "Playing note: " + note);
+                        instrument.noteUp(note, 1.0f);
+                    }
+                }
+            }
+            for (int i = 0; i < sequences.length; i++) {
+                if (sequences[i][j] == 1) {
+                    sequences[i][j] = 2;
+                    int idx = i % scale.getNotesPerOctave();
+                    //Log.d("note", "tried to play: " + idx);
+                    int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
+                    //Log.d("note", "Playing note: " + note);
+                    instrument.noteDown(note, 1.0f);
+                }
             }
         }
 
@@ -238,6 +240,7 @@ public class PianoRollView extends View {
                 scale = null;
         }
 
+        Log.d("note", scale.getNoteNames().toString());
         sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][16];
         this.scale = scale;
     }

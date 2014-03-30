@@ -1,5 +1,7 @@
 package edu.cmu.ece.ece551.uis;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,19 +11,20 @@ import java.util.List;
  */
 public abstract class AbstractScale implements Scale {
 
-    private static final String[] noteNames = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
+    private static final MusicNote[] noteNames = MusicNote.values();
     protected Interval[] intervals;
     protected Tonality tonality;
     protected String tonic;
-    private List<String> notes = null;
+    private List<MusicNote> notes = null;
 
 
-    protected List<String> getNotes(String tonic, Interval[] intervals) {
-        List<String> result = new ArrayList<String>();
+    protected List<MusicNote> getNotes(String tonic, Interval[] intervals) {
+        List<MusicNote> result = Lists.newArrayList();
 
         if (notes == null) {
 
-            int idx = Arrays.binarySearch(noteNames, tonic);
+            int idx = Arrays.binarySearch(noteNames, MusicNote.getFromString(tonic));
+
 
             result.add(noteNames[idx]);
 
@@ -59,7 +62,7 @@ public abstract class AbstractScale implements Scale {
     }
 
     @Override
-    public List<String> getNoteNames() {
+    public List<MusicNote> getNoteNames() {
         return getNotes(tonic, intervals);
     }
 
