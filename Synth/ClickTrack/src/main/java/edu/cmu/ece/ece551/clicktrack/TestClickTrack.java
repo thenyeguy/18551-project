@@ -1,45 +1,39 @@
 package edu.cmu.ece.ece551.clicktrack;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class TestClickTrack extends Activity {
+import edu.cmu.ece.ece551.synth.R;
+
+public class TestClickTrack extends Fragment {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_click_track);
-
-        // Load the library
-        Log.i("TestClickTrack", "Creating a new ClickTrack instance.");
-        NativeClickTrack.loadLibray();
-
-        // Configure the drum machine
-        NativeClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
-        Log.i("TestClickTrack", "Drum machine loaded");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.test_click_track, container, false);
 
 
         // Set up buttons
-        Button tone = (Button) findViewById(R.id.toneButton);
+        Button tone = (Button) rootView.findViewById(R.id.toneButton);
         tone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SubtractiveSynthToneControls
+                Intent intent = new Intent(rootView.getContext(),
+                        SubtractiveSynthToneControls
                         .class);
                 startActivity(intent);
             }
         });
 
-        ToggleButton c = (ToggleButton) findViewById(R.id.cButton);
+        ToggleButton c = (ToggleButton) rootView.findViewById(R.id.cButton);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +45,7 @@ public class TestClickTrack extends Activity {
             }
         });
 
-        ToggleButton e = (ToggleButton) findViewById(R.id.eButton);
+        ToggleButton e = (ToggleButton) rootView.findViewById(R.id.eButton);
         e.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +57,7 @@ public class TestClickTrack extends Activity {
             }
         });
 
-        ToggleButton g = (ToggleButton) findViewById(R.id.gButton);
+        ToggleButton g = (ToggleButton) rootView.findViewById(R.id.gButton);
         g.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +73,7 @@ public class TestClickTrack extends Activity {
         runningTimingTest = false;
         noteDur = 0;
 
-        ToggleButton arpeggio = (ToggleButton) findViewById(R.id.scaleButton);
+        ToggleButton arpeggio = (ToggleButton) rootView.findViewById(R.id.scaleButton);
         arpeggio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,8 +90,8 @@ public class TestClickTrack extends Activity {
             }
         });
 
-        final TextView tempoText = (TextView) findViewById(R.id.tempoText);
-        SeekBar tempo = (SeekBar) findViewById(R.id.tempoBar);
+        final TextView tempoText = (TextView) rootView.findViewById(R.id.tempoText);
+        SeekBar tempo = (SeekBar) rootView.findViewById(R.id.tempoBar);
         tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
@@ -121,7 +115,7 @@ public class TestClickTrack extends Activity {
         });
         tempo.setProgress(50);
 
-        Button bassDrum = (Button) findViewById(R.id.bassButton);
+        Button bassDrum = (Button) rootView.findViewById(R.id.bassButton);
         bassDrum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,7 +124,7 @@ public class TestClickTrack extends Activity {
             }
         });
         
-        Button snareDrum = (Button) findViewById(R.id.snareButton);
+        Button snareDrum = (Button) rootView.findViewById(R.id.snareButton);
         snareDrum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +133,7 @@ public class TestClickTrack extends Activity {
             }
         });
         
-        Button hihat = (Button) findViewById(R.id.hihatButton);
+        Button hihat = (Button) rootView.findViewById(R.id.hihatButton);
         hihat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,9 +142,7 @@ public class TestClickTrack extends Activity {
             }
         });
 
-        // Start playing
-        NativeClickTrack.start();
-        NativeClickTrack.play();
+        return rootView;
     }
 
     private Boolean runningTimingTest;
@@ -171,42 +163,5 @@ public class TestClickTrack extends Activity {
                 }
             }
         }
-    }
-
-
-    /*
-     * Reference count the clicktrack backend
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        NativeClickTrack.addReference();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        NativeClickTrack.removeReference();
-        runningTimingTest = false;
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.click_track, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

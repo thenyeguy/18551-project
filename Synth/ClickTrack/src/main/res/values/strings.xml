@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Test ClickTrack</string>
+    <string name="app_name">ClickTrack Demo</string>
+    <string-array name="menu_options">
+        <item>Piano Roll</item>
+        <item>Knob Demo</item>
+        <item>Test ClickTrack</item>
+    </string-array>
+    <string-array name="scales">
+        <item>Diatonic Major</item>
+        <item>Diatonic Minor</item>
+        <item>Pentatonic Major</item>
+        <item>Pentatonic Minor</item>
+        <item>Major Blues</item>
+        <item>Minor Blues</item>
+    </string-array>
+    <string-array name="tonics">
+        <item>C</item>
+        <item>C#</item>
+        <item>D</item>
+        <item>D#</item>
+        <item>E</item>
+        <item>F</item>
+        <item>F#</item>
+        <item>G</item>
+        <item>G#</item>
+        <item>A</item>
+        <item>A#</item>
+        <item>B</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+
     <string name="action_settings">Settings</string>
     <string name="dummy_message">The device should currently by mirroring the microphone to the speaker</string>
     <string name="playButton">Sound On</string>
@@ -32,5 +64,6 @@
     <string name="osc1transposeLabel">Transpose</string>
     <string name="osc2label">Oscillator 2</string>
     <string name="osc2transposeLabel">Transpose</string>
+    <string name="title_activity_test_clicktrack">Test ClickTrack</string>
 
 </resources>

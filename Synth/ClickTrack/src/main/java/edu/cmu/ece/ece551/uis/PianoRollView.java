@@ -157,15 +157,19 @@ public class PianoRollView extends View {
 
         int j = (rectX / FRAME_WIDTH);
         for (int i = 0; i < sequences.length; i++) {
-            if (sequences[i][j] == 1) {
-                sequences[i][j] = 2;
-                // Start note playing
-            }
             if (j > 0) {
                 if (sequences[i][j-1] == 2) {
                     sequences[i][j-1] = 1;
-                    // Stop Note Playing
+                    int note = 60; // TODO: get this note number for MIDI
+                    instrument.noteUp(note, 1.0f);
                 }
+            }
+        }
+        for (int i = 0; i < sequences.length; i++) {
+            if (sequences[i][j] == 1) {
+                sequences[i][j] = 2;
+                int note = 60; // TODO: get this note number for MIDI
+                instrument.noteDown(note, 1.0f);
             }
         }
 

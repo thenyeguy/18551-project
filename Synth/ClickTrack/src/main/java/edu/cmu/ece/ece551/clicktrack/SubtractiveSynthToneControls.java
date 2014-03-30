@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import edu.cmu.ece.ece551.synth.R;
+
 public class SubtractiveSynthToneControls extends Activity {
     protected final String TAG = "ClickTrack_SubSynthToneControl";
 

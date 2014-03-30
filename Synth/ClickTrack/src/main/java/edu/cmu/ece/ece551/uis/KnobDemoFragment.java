@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import edu.cmu.ece.ece551.synth.R;
+
 /**
  * Created by michaelryan on 3/28/14.
  */

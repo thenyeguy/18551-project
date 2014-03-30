@@ -1,1 +1,1 @@
-include ':ClickTrack', ':uis'
+include ':ClickTrack'

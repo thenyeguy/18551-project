@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +35,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
+import edu.cmu.ece.ece551.clicktrack.TestClickTrack;
+import edu.cmu.ece.ece551.synth.R;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -64,12 +68,14 @@ import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
 public class MainActivity extends Activity {
+    private final String TAG = "ClicktrackMainActivity";
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] mMenuOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +83,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mMenuOptions = getResources().getStringArray(R.array.menu_options);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -85,12 +91,24 @@ public class MainActivity extends Activity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+                R.layout.drawer_list_item, mMenuOptions));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
+        // Load the library
+        Log.i(TAG, "Creating a new ClickTrack instance.");
+        NativeClickTrack.loadLibray();
+
+        // Configure the drum machine
+        NativeClickTrack.DrumMachine.setVoice("/sdcard/ClickTrack/roland808/");
+        Log.i(TAG, "Drum machine loaded");
+
+        // Begin sound
+        NativeClickTrack.start();
+        NativeClickTrack.play();
     }
 
     @Override
@@ -149,7 +167,7 @@ public class MainActivity extends Activity {
                 fragment = new KnobDemoFragment();
                 break;
             default:
-                fragment = new PianoRollFragment();
+                fragment = new TestClickTrack();
         }
 
 
@@ -160,7 +178,7 @@ public class MainActivity extends Activity {
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mMenuOptions[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -191,6 +209,13 @@ public class MainActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         super.onResume();
+        NativeClickTrack.addReference();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NativeClickTrack.removeReference();
     }
 
     @Override

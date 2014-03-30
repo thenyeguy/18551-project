@@ -16,6 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+import edu.cmu.ece.ece551.synth.R;
 
 /**
  * Created by michaelryan on 2/23/14.
@@ -40,8 +41,6 @@ public class PianoRollFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.roll_fragment, container, false);
-        ((PianoRollView) rootView).setInstrument(instrument);
-
 
         Button clearButton = (Button) rootView.findViewById(R.id.clearButton);
 
@@ -51,6 +50,7 @@ public class PianoRollFragment extends Fragment {
 
 
         final PianoRollView prv = (PianoRollView) rootView.findViewById(R.id.pianoRoll);
+        prv.setInstrument(instrument);
 
         Spinner scaleSpinner = (Spinner) rootView.findViewById(R.id.scaleSpinner);
         ArrayAdapter<ScaleType> adapter = new ArrayAdapter<ScaleType>(rootView.getContext(),
