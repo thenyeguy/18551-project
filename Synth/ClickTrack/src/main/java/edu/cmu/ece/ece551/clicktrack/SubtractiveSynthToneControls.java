@@ -67,7 +67,7 @@ public class SubtractiveSynthToneControls extends Activity {
 
         final Spinner osc1Spinner = (Spinner) findViewById(R.id.osc1mode);
         osc1Spinner.setAdapter(oscModes);
-        osc1Spinner.setSelection(controller.getOsc1mode().value);
+        osc1Spinner.setSelection(oscModeToIndex(controller.getOsc1mode()));
         osc1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,7 +83,7 @@ public class SubtractiveSynthToneControls extends Activity {
 
         final Spinner osc2Spinner = (Spinner) findViewById(R.id.osc2mode);
         osc2Spinner.setAdapter(oscModes);
-        osc2Spinner.setSelection(controller.getOsc2mode().value);
+        osc2Spinner.setSelection(oscModeToIndex(controller.getOsc2mode()));
         osc2Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -257,6 +257,7 @@ public class SubtractiveSynthToneControls extends Activity {
 
         final Spinner filterModeSpinner = (Spinner) findViewById(R.id.filterModeSpinner);
         filterModeSpinner.setAdapter(filterModes);
+        filterModeSpinner.setSelection(controller.getFilterMode().value);
         filterModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -391,6 +392,25 @@ public class SubtractiveSynthToneControls extends Activity {
             mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.WHITENOISE;
 
         return mode;
+    }
+
+    private int oscModeToIndex(NativeClickTrack.SubtractiveSynth.OscillatorMode mode) {
+        switch(mode) {
+            case SINE:
+                return 0;
+            case SAW:
+            case BLEPSAW:
+                return 1;
+            case SQUARE:
+            case BLEPSQUARE:
+                return 2;
+            case TRI:
+            case BLEPTRI:
+                return 3;
+            case WHITENOISE:
+                return 4;
+        }
+        return 0;
     }
 
     private NativeClickTrack.SubtractiveSynth.FilterMode stringToFilterMode(String modeText)

@@ -28,8 +28,8 @@ public class SubtractiveSynthController {
         // Set defaults
         outputGain = 1f;
 
-        osc1mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.SAW;
-        osc2mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.SAW;
+        osc1mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
+        osc2mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
 
         attack = 0.05f;
         decay = 0.1f;
