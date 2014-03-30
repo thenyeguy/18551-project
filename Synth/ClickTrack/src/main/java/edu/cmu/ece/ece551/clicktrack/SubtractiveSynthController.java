@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by michael on 3/25/14.
  */
-public class SubtractiveSynthController {
+public class SubtractiveSynthController implements InstrumentController {
     /*
      * Define all our parameters to track
      */
@@ -167,5 +167,15 @@ public class SubtractiveSynthController {
     public void setFilterQ(float filterQ) {
         this.filterQ = filterQ;
         NativeClickTrack.SubtractiveSynth.setFilterQ(filterQ);
+    }
+
+    @Override
+    public void noteDown(int note, float velocity) {
+        NativeClickTrack.SubtractiveSynth.noteDown(note, velocity);
+    }
+
+    @Override
+    public void noteUp(int note, float velocity) {
+        NativeClickTrack.SubtractiveSynth.noteUp(note, velocity);
     }
 }
