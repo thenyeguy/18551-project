@@ -92,7 +92,7 @@ public class PianoRollView extends View {
         int octStart = currentOctave * scale.getNotesPerOctave();
         int octEnd = octStart + scale.getNotesPerOctave();
 
-        for (int i = octStart; i < octEnd; i++) {
+        for (int i = octEnd - 1; i >= octStart; i--) {
 
             int normPos = i - octStart;
             paint.setColor(Color.GRAY);
@@ -103,7 +103,8 @@ public class PianoRollView extends View {
 
             paint.setTextSize(100);
             paint.setColor(Color.GREEN);
-            canvas.drawText(scaleNotes.get(normPos), 5, (normPos+.9f) * FRAME_HEIGHT, paint);
+            canvas.drawText(scaleNotes.get(scale.getNotesPerOctave() - 1 - normPos), 5,
+                    (normPos + .9f) * FRAME_HEIGHT, paint);
 
             for (int j = 0; j < sequences[i].length; j++) {
 
@@ -115,8 +116,10 @@ public class PianoRollView extends View {
                     paint.setColor(Color.WHITE);
                 }
                 paint.setStyle(Paint.Style.FILL);
-                r.set(KEYSIZE + j * FRAME_WIDTH, normPos * FRAME_HEIGHT,
-                        KEYSIZE + (j + 1) * FRAME_WIDTH, (normPos + 1) * FRAME_HEIGHT);
+
+                r.set(KEYSIZE + j * FRAME_WIDTH, (scale.getNotesPerOctave() - 1 - normPos) * FRAME_HEIGHT,
+                        KEYSIZE + (j + 1) * FRAME_WIDTH, (scale.getNotesPerOctave() - normPos) * FRAME_HEIGHT);
+
                 canvas.drawRect(r, paint);
                 paint.setStrokeWidth(5);
                 paint.setColor(Color.BLACK);
@@ -175,6 +178,7 @@ public class PianoRollView extends View {
 
     public void octaveUp() {
         currentOctave = (currentOctave < 6) ? currentOctave + 1 : currentOctave;
+        Log.d("matrix", convert(sequences));
         post(new Runnable() {
             @Override
             public void run() {
@@ -185,6 +189,7 @@ public class PianoRollView extends View {
 
     public void octaveDown() {
         currentOctave = (currentOctave > 0) ? currentOctave - 1 : currentOctave;
+        Log.d("matrix", convert(sequences));
         post(new Runnable() {
             @Override
             public void run() {
@@ -248,7 +253,8 @@ public class PianoRollView extends View {
 
                         pointerArray.put(id, new PointF(x, y));
                         int j = (int) (x - KEYSIZE) / FRAME_WIDTH;
-                        int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
+                        //int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
+                        int k = (currentOctave + 1) * scale.getNotesPerOctave() - 1 - (int) y / FRAME_HEIGHT;
 
                         Log.d("proll", "touch down with x: " + k + ", y: " + j);
 
@@ -280,8 +286,27 @@ public class PianoRollView extends View {
         }
     }
 
+    public String convert(int[][] M) {
+        String separator = ", ";
+        StringBuffer result = new StringBuffer();
 
-
+        // iterate over the first dimension
+        for (int i = 0; i < M.length; i++) {
+            // iterate over the second dimension
+            if ( i/NUM_OCTAVES == currentOctave) {
+                result.append("!!");
+            }
+            for(int j = 0; j < M[i].length; j++){
+                result.append(M[i][j]);
+                result.append(separator);
+            }
+            // remove the last separator
+            result.setLength(result.length() - separator.length());
+            // add a line break.
+            result.append("\n");
+        }
+        return result.toString();
+    }
 
 
 }
