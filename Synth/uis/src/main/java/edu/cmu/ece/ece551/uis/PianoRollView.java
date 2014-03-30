@@ -18,10 +18,14 @@ import android.view.WindowManager;
 
 import java.util.List;
 
+import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+
 /**
  * Created by michaelryan on 2/23/14.
  */
 public class PianoRollView extends View {
+
+    InstrumentController instrument;
 
     private int[][] sequences = new int[7*7][16];
 
@@ -57,9 +61,15 @@ public class PianoRollView extends View {
 
         display.getSize(size);
 
+        instrument = null;
         // This is the constructor that actually gets used.
 
     }
+
+    public void setInstrument(InstrumentController instrument) {
+        this.instrument = instrument;
+    }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

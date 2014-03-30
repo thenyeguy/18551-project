@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+
 /**
  * Created by michaelryan on 2/23/14.
  */
@@ -24,14 +26,21 @@ public class PianoRollFragment extends Fragment {
     String startingNote = "C";
     ScaleType scaleType = ScaleType.DIATONIC_MAJOR;
 
+    InstrumentController instrument;
+
     public PianoRollFragment() {
-        // Empty constructor required for fragment subclasses
+        instrument = null;
+    }
+
+    public PianoRollFragment(InstrumentController controller) {
+        instrument = controller;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.roll_fragment, container, false);
+        ((PianoRollView) rootView).setInstrument(instrument);
 
 
         Button clearButton = (Button) rootView.findViewById(R.id.clearButton);

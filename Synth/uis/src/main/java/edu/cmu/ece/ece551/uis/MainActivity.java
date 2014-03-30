@@ -25,19 +25,16 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Locale;
+import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -146,7 +143,7 @@ public class MainActivity extends Activity {
 
         switch (position) {
             case 0:
-                fragment = new PianoRollFragment();
+                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
                 break;
             case 1:
                 fragment = new KnobDemoFragment();
