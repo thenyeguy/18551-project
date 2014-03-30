@@ -158,7 +158,7 @@ public class PianoRollView extends View {
 
         if (rectX == 0) {
             for (int i = 0; i < sequences.length; i++) {
-                for (int k = 0; k < sequences.length; k++) {
+                for (int k = 0; k < sequences[i].length; k++) {
                     if (sequences[i][k] == 2) {
                         sequences[i][k] = 1;
                         // Stop note for the rest. We should be able to just loop through the last column anyway
@@ -252,7 +252,7 @@ public class PianoRollView extends View {
 
                         Log.d("proll", "touch down with x: " + k + ", y: " + j);
 
-                        if (k < sequences.length && j < sequences[k].length) {
+                        if (0 <= k && k < sequences.length && 0 <= j && j < sequences[k].length) {
                             if (sequences[k][j] == 1) {
                                 sequences[k][j] = 0;
                             } else {
