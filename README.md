@@ -46,3 +46,6 @@ capstone, versus what code was already written. So far, that list is:
 
 1. Numerous code refactors
 2. PolyBLEP oscillators
+3. Moorer reverberator
+4. First and second order filters
+5. Drum machine
