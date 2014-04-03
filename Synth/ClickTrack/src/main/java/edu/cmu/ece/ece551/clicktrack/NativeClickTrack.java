@@ -174,6 +174,19 @@ public class NativeClickTrack {
         public static native void setFilterGain(float gain);
         public static native void setFilterQ(float q);
 
+        /* LFO settings
+         *
+         * The mode is the same set of mode available to oscillators.
+         *
+         * Vibrato is measured in the number of steps to waver (can be fractional)
+         *
+         * Tremelo is measured in the maximum +/- gain in decibels
+         */
+        public static native void setLfoMode(int mode);
+        public static native void setLfoFreq(float freq);
+        public static native void setLfoVibrato(float steps);
+        public static native void setLfoTremelo(float db);
+
         /* Output gain of the synth
          */
         public static native void setGain(float gain);

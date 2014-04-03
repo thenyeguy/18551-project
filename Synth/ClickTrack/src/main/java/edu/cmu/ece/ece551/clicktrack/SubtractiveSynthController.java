@@ -19,6 +19,10 @@ public class SubtractiveSynthController implements InstrumentController {
     protected NativeClickTrack.SubtractiveSynth.FilterMode filterMode;
     protected float filterCutoff, filterGain, filterQ;
 
+    protected NativeClickTrack.SubtractiveSynth.OscillatorMode lfoMode;
+    protected float lfoFreq;
+    protected float lfoVibratoSteps, lfoTremeloDb;
+
     /*
      * Constructor and getter for the singleton
      */
@@ -177,5 +181,41 @@ public class SubtractiveSynthController implements InstrumentController {
     @Override
     public void noteUp(int note, float velocity) {
         NativeClickTrack.SubtractiveSynth.noteUp(note, velocity);
+    }
+
+    public NativeClickTrack.SubtractiveSynth.OscillatorMode getLfoMode() {
+        return lfoMode;
+    }
+
+    public void setLfoMode(NativeClickTrack.SubtractiveSynth.OscillatorMode lfoMode) {
+        this.lfoMode = lfoMode;
+        NativeClickTrack.SubtractiveSynth.setLfoMode(lfoMode.value);
+    }
+
+    public float getLfoFreq() {
+        return lfoFreq;
+    }
+
+    public void setLfoFreq(float lfoFreq) {
+        this.lfoFreq = lfoFreq;
+        NativeClickTrack.SubtractiveSynth.setLfoFreq(lfoFreq);
+    }
+
+    public float getLfoVibratoSteps() {
+        return lfoVibratoSteps;
+    }
+
+    public void setLfoVibratoSteps(float lfoVibratoSteps) {
+        this.lfoVibratoSteps = lfoVibratoSteps;
+        NativeClickTrack.SubtractiveSynth.setLfoVibrato(lfoVibratoSteps);
+    }
+
+    public float getLfoTremeloDb() {
+        return lfoTremeloDb;
+    }
+
+    public void setLfoTremeloDb(float lfoTremeloDb) {
+        this.lfoTremeloDb = lfoTremeloDb;
+        NativeClickTrack.SubtractiveSynth.setLfoTremelo(lfoTremeloDb);
     }
 }
