@@ -10,17 +10,26 @@
         android:orientation="horizontal"
         android:id="@+id/RollLayout">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/clearButton"
-                android:text="Clear"/>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:id="@+id/clearButton"
+            android:background="@drawable/clear"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stopButton"
-                android:text="Stop"/>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/play"
+            android:id="@+id/playButton"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/pause"
+            android:id="@+id/stopButton" />
 
         <Spinner
             android:id="@+id/scaleSpinner"
@@ -31,7 +40,6 @@
             android:id="@+id/tonicSpinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -57,17 +65,25 @@
 
             <Button
                 android:id="@+id/octaveUp"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/uparrow"/>
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="145dp"
-                android:layout_marginBottom="5dp"
-                android:text="Up octave"/>
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="30sp"
+                android:textAlignment="center"
+                android:id="@+id/octaveText"
+                />
 
             <Button
                 android:id="@+id/octaveDown"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
                 android:rotation="180"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Down Octave"/>
+                android:background="@drawable/uparrow"/>
 
         </LinearLayout>
 

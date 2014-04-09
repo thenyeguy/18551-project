@@ -10,12 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
+import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.synth.R;
 
 /**
@@ -30,7 +33,7 @@ public class PianoRollFragment extends Fragment {
     InstrumentController instrument;
 
     public PianoRollFragment() {
-        instrument = null;
+        instrument = SubtractiveSynthController.getInstance();
     }
 
     public PianoRollFragment(InstrumentController controller) {
@@ -44,9 +47,13 @@ public class PianoRollFragment extends Fragment {
 
         Button clearButton = (Button) rootView.findViewById(R.id.clearButton);
 
+        Button playButton = (Button) rootView.findViewById(R.id.playButton);
+
         Button stopButton = (Button) rootView.findViewById(R.id.stopButton);
         Button octUpButton = (Button) rootView.findViewById(R.id.octaveUp);
         Button octDownButton = (Button) rootView.findViewById(R.id.octaveDown);
+
+        final TextView octaveText = (TextView) rootView.findViewById(R.id.octaveText);
 
 
         final PianoRollView prv = (PianoRollView) rootView.findViewById(R.id.pianoRoll);
@@ -110,7 +117,7 @@ public class PianoRollFragment extends Fragment {
             }
         });
 
-        clearButton.setOnClickListener(new View.OnClickListener() {
+        playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final PianoRollView prv = (PianoRollView) rootView.findViewById(R.id.pianoRoll);
@@ -121,7 +128,7 @@ public class PianoRollFragment extends Fragment {
                     @Override
                     public void run() {
                         x += 5;
-                        if (x < 1600) {
+                        if (x < 1500    ) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -147,17 +154,25 @@ public class PianoRollFragment extends Fragment {
             }
         });
 
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prv.clearGrid();
+            }
+        });
+
         octDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prv.octaveDown();
+                octaveText.setText(Integer.toString(prv.octaveDown()));
+
             }
         });
 
         octUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prv.octaveUp();
+                octaveText.setText(Integer.toString(prv.octaveUp()));
             }
         });
 

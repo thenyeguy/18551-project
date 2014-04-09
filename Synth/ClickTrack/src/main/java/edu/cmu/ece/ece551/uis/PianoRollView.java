@@ -31,7 +31,7 @@ public class PianoRollView extends View {
 
     private static final int KEYSIZE = 150;
     private static final int NUM_OCTAVES = 7;
-    private static final int FRAME_WIDTH = 130;
+    private static final int FRAME_WIDTH = 100;
     private static final int FRAME_HEIGHT = 105;
 
     private String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
@@ -146,9 +146,8 @@ public class PianoRollView extends View {
         invalidate();
     }
 
+
     public void moveRect(final int rectX) {
-
-
 
         if (rectX == 0) {
             for (int i = 0; i < sequences.length; i++) {
@@ -171,7 +170,9 @@ public class PianoRollView extends View {
                         Log.d("note", "tried to play: " + idx);
                         int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
                         Log.d("note", "Playing note: " + note);
-                        instrument.noteUp(note, 1.0f);
+                        if ( j == 15 || (j < 15 && sequences[i][j] != 1)) {
+                            instrument.noteUp(note, 1.0f);
+                        }
                     }
                 }
             }
@@ -182,7 +183,9 @@ public class PianoRollView extends View {
                     //Log.d("note", "tried to play: " + idx);
                     int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
                     //Log.d("note", "Playing note: " + note);
-                    instrument.noteDown(note, 1.0f);
+                    if ( j == 0 || (j > 0 && sequences[i][j-1] != 1)) {
+                        instrument.noteDown(note, 1.0f);
+                    }
                 }
             }
         }
@@ -192,7 +195,7 @@ public class PianoRollView extends View {
     }
 
 
-    public void octaveUp() {
+    public int octaveUp() {
         currentOctave = (currentOctave < 6) ? currentOctave + 1 : currentOctave;
         Log.d("matrix", convert(sequences));
         post(new Runnable() {
@@ -201,9 +204,11 @@ public class PianoRollView extends View {
                 invalidate();
             }
         });
+
+        return currentOctave;
     }
 
-    public void octaveDown() {
+    public int octaveDown() {
         currentOctave = (currentOctave > 0) ? currentOctave - 1 : currentOctave;
         Log.d("matrix", convert(sequences));
         post(new Runnable() {
@@ -212,6 +217,8 @@ public class PianoRollView extends View {
                 invalidate();
             }
         });
+
+        return currentOctave;
     }
 
 
@@ -243,6 +250,16 @@ public class PianoRollView extends View {
         Log.d("note", scale.getNoteNames().toString());
         sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][16];
         this.scale = scale;
+    }
+
+    public void clearGrid() {
+        sequences = new int[sequences.length][sequences[0].length];
+        post(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        });
     }
 
 
