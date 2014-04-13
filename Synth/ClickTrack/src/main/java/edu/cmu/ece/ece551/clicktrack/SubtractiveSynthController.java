@@ -28,7 +28,8 @@ public class SubtractiveSynthController implements InstrumentController {
      */
     private static SubtractiveSynthController instance = null;
     protected SubtractiveSynthController() {
-        Log.i("ClickTrack", "Creating a new controller");
+        Log.i("ClickTrack", "Creating a new SubtractiveSynthController");
+
         // Set defaults
         outputGain = 1f;
 
@@ -45,6 +46,10 @@ public class SubtractiveSynthController implements InstrumentController {
         filterGain = 0.0f;
         filterQ = 5f;
 
+        lfoMode = NativeClickTrack.SubtractiveSynth.OscillatorMode.SINE;
+        lfoFreq = 5f;
+        lfoVibratoSteps = 0.2f;
+        lfoTremeloDb = 0.0f;
     }
 
     public static SubtractiveSynthController getInstance() {
