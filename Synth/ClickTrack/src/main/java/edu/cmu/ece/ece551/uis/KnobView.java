@@ -23,18 +23,15 @@ import java.text.DecimalFormat;
  * Created by michaelryan on 3/28/14.
  */
 public class KnobView extends View {
-
-
-    private SparseArray pointerArray = new SparseArray();
     private Paint paint = new Paint();
 
-    float knobVal = 82f;
+    float knobVal = 0.5f;
 
     private Point size = new Point();
 
-    DecimalFormat dfor = new DecimalFormat("0");
-
     RectF rekt = new RectF();
+
+    private KnobReceiver receiver;
 
     private GestureDetector gestures;
 
@@ -42,12 +39,13 @@ public class KnobView extends View {
         super(context, attrs);
         //setOnTouchListener(new MyTouchListener());
 
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-        display.getSize(size);
-
         gestures = new GestureDetector(getRootView().getContext(), new MyGestures());
+
+        receiver = new DefaultReceiver();
+    }
+
+    public void registerKnobReceiver(KnobReceiver receiver) {
+        this.receiver = receiver;
     }
 
     @Override
@@ -58,6 +56,7 @@ public class KnobView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
+        size.set(getLayoutParams().width, getLayoutParams().height);
 
         paint.setColor(Color.DKGRAY);
         paint.setStyle(Paint.Style.FILL);
@@ -68,13 +67,13 @@ public class KnobView extends View {
 
         paint.setTextSize(120f);
 
-        canvas.drawText(dfor.format(knobVal / 165 * 100), size.x * 8 /17, size.y  / 2, paint);
+        canvas.drawText(receiver.formatValue(knobVal), size.x * 8 /17, size.y  / 2, paint);
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(50);
 
         rekt.set(size.x / 2 - size.y / 4, size.y / 2 - size.y / 4, size.x / 2 + size.y / 4, size.y / 2 + size.y / 4);
-        canvas.drawArc(rekt, 110f, 1 + knobVal * 2, false, paint);
+        canvas.drawArc(rekt, 110f, knobVal * 165 * 2, false, paint);
 
         // First angle is start
         // Second is clockwise relative to it
@@ -86,8 +85,9 @@ public class KnobView extends View {
 
         private Float moveKnob(Float delta) {
             float result;
+            delta /= 165f;
             if (delta > 0f) {
-                result = knobVal + delta > 165f ? 165f : knobVal + delta;
+                result = knobVal + delta > 1f ? 1f : knobVal + delta;
             } else {
                 result = knobVal + delta < 0f ? 0f : knobVal + delta;
             }
@@ -113,12 +113,12 @@ public class KnobView extends View {
         public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float distY) {
 
             float newVal = moveKnob(distY/5);
-            int intVal = Math.round(knobVal * 100 / 165);
+            int intVal = Math.round(knobVal * 100);
             knobVal = newVal;
 
-            Log.d("knob", "knobVal is now " + knobVal);
+            receiver.onKnobChange(knobVal);
 
-            if (Math.round(newVal) != intVal) {
+            if (Math.round(newVal * 100) != intVal) {
                 invalidate();
                 return true;
             }
@@ -137,7 +137,15 @@ public class KnobView extends View {
         }
     }
 
+    private class DefaultReceiver implements KnobReceiver {
+        private DecimalFormat dfor = new DecimalFormat("0");
 
+        @Override
+        public void onKnobChange(float value) {}
 
-
+        @Override
+        public String formatValue(float value) {
+            return dfor.format(value*100);
+        }
+    }
 }

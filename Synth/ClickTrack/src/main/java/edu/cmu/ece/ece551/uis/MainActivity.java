@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import edu.cmu.ece.ece551.clicktrack.MasterControls;
 import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.clicktrack.TestClickTrack;
@@ -166,8 +167,16 @@ public class MainActivity extends Activity {
             case 1:
                 fragment = new KnobDemoFragment();
                 break;
-            default:
+            case 2:
                 fragment = new TestClickTrack();
+                break;
+            case 3:
+                fragment = new MasterControls();
+                break;
+            default:
+                // arbitrary default
+                fragment = new KnobDemoFragment();
+                break;
         }
 
 
