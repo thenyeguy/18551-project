@@ -31,6 +31,12 @@
             android:background="@drawable/pause"
             android:id="@+id/stopButton" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveButton"
+            android:text="Save"/>
+
         <Spinner
             android:id="@+id/scaleSpinner"
             android:layout_width="wrap_content"
@@ -74,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="30sp"
-                android:textAlignment="center"
+                android:layout_marginLeft="17dp"
                 android:id="@+id/octaveText"
                 />
 

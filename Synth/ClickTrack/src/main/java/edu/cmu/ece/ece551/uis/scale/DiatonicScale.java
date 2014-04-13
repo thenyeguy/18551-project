@@ -1,6 +1,6 @@
-package edu.cmu.ece.ece551.uis;
+package edu.cmu.ece.ece551.uis.scale;
 
-import java.util.List;
+import edu.cmu.ece.ece551.uis.Notation.Interval;
 
 /**
  * Created by michaelryan on 3/25/14.

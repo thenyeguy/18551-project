@@ -2,7 +2,6 @@ package edu.cmu.ece.ece551.uis;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
-import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.synth.R;
+import edu.cmu.ece.ece551.uis.scale.ScaleType;
 
 /**
  * Created by michaelryan on 2/23/14.
@@ -128,7 +126,7 @@ public class PianoRollFragment extends Fragment {
                     @Override
                     public void run() {
                         x += 5;
-                        if (x < 1500    ) {
+                        if (x < 1589    ) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -154,6 +152,7 @@ public class PianoRollFragment extends Fragment {
             }
         });
 
+
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,7 +175,17 @@ public class PianoRollFragment extends Fragment {
             }
         });
 
+        stopButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                // Need something that controls playback, sets timer.
+            }
+
+        });
+
+
+        octaveText.setText(Integer.toString(prv.getOctave()));
         return rootView;
     }
 }

@@ -1,10 +1,12 @@
-package edu.cmu.ece.ece551.uis;
+package edu.cmu.ece.ece551.uis.scale;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import edu.cmu.ece.ece551.uis.Notation.Interval;
+import edu.cmu.ece.ece551.uis.Notation.MusicNote;
 
 /**
  * Created by michaelryan on 3/25/14.

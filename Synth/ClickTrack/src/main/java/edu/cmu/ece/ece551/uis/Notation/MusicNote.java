@@ -1,4 +1,4 @@
-package edu.cmu.ece.ece551.uis;
+package edu.cmu.ece.ece551.uis.Notation;
 
 /**
  * Created by michaelryan on 3/30/14.
@@ -19,8 +19,8 @@ public enum MusicNote {
     G_SHARP(32, "G#");
 
 
-    int midi;
-    String english;
+    public int midi;
+    public String english;
 
     private MusicNote(int midi, String english) {
         this.midi = midi;

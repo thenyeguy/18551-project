@@ -19,31 +19,34 @@ import android.view.WindowManager;
 import java.util.List;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+import edu.cmu.ece.ece551.uis.Notation.MusicNote;
+import edu.cmu.ece.ece551.uis.scale.BluesScale;
+import edu.cmu.ece.ece551.uis.scale.DiatonicScale;
+import edu.cmu.ece.ece551.uis.scale.PentatonicScale;
+import edu.cmu.ece.ece551.uis.scale.Scale;
+import edu.cmu.ece.ece551.uis.scale.ScaleType;
+import edu.cmu.ece.ece551.uis.scale.Tonality;
 
 /**
  * Created by michaelryan on 2/23/14.
  */
 public class PianoRollView extends View {
 
-    InstrumentController instrument;
-
-    private int[][] sequences = new int[7*7][16];
+    private InstrumentController instrument;
 
     private static final int KEYSIZE = 150;
     private static final int NUM_OCTAVES = 7;
     private static final int FRAME_WIDTH = 100;
     private static final int FRAME_HEIGHT = 105;
 
-    private String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-
-    private int currentOctave = 2;
     private Point size = new Point();
     private SparseArray pointerArray = new SparseArray();
-    private Scale scale = new DiatonicScale("C", Tonality.MAJOR);
     private Rect r = new Rect();
     private Paint paint = new Paint();
 
     private int rectX = 0;
+
+    private SequencerState state;
 
     public PianoRollView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -56,6 +59,7 @@ public class PianoRollView extends View {
 
         instrument = null;
         // This is the constructor that actually gets used.
+        state = new SequencerState();
 
     }
 
@@ -68,7 +72,7 @@ public class PianoRollView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // Compute the height required to render the view
         // Assume Width will always be MATCH_PARENT.
-        int width = MeasureSpec.getSize(widthMeasureSpec) - 200;
+        int width = MeasureSpec.getSize(widthMeasureSpec) - 20;
         int height = 1080 - 180;
         setMeasuredDimension(width, height);
     }
@@ -88,12 +92,18 @@ public class PianoRollView extends View {
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
 
-        List<MusicNote> scaleNotes = scale.getNoteNames();
+
+        List<MusicNote> scaleNotes = state.getScale().getNoteNames();
 
         // Math here to determine how big to make things?
 
-        int octStart = currentOctave * scale.getNotesPerOctave();
-        int octEnd = octStart + scale.getNotesPerOctave();
+
+        int notesPerOctave = state.getScale().getNotesPerOctave();
+        int octStart = state.getCurrentOctave() * notesPerOctave;
+        int octEnd = octStart + notesPerOctave;
+
+        int[][] sequences = state.getSequences();
+
 
         for (int i = octEnd - 1; i >= octStart; i--) {
 
@@ -106,7 +116,7 @@ public class PianoRollView extends View {
 
             paint.setTextSize(100);
             paint.setColor(Color.GREEN);
-            canvas.drawText(scaleNotes.get(scale.getNotesPerOctave() - 1 - normPos).toString(), 5,
+            canvas.drawText(scaleNotes.get(notesPerOctave - 1 - normPos).toString(), 5,
                     (normPos + .9f) * FRAME_HEIGHT, paint);
 
             for (int j = 0; j < sequences[i].length; j++) {
@@ -120,8 +130,8 @@ public class PianoRollView extends View {
                 }
                 paint.setStyle(Paint.Style.FILL);
 
-                r.set(KEYSIZE + j * FRAME_WIDTH, (scale.getNotesPerOctave() - 1 - normPos) * FRAME_HEIGHT,
-                        KEYSIZE + (j + 1) * FRAME_WIDTH, (scale.getNotesPerOctave() - normPos) * FRAME_HEIGHT);
+                r.set(KEYSIZE + j * FRAME_WIDTH, (notesPerOctave - 1 - normPos) * FRAME_HEIGHT,
+                        KEYSIZE + (j + 1) * FRAME_WIDTH, (notesPerOctave - normPos) * FRAME_HEIGHT);
 
                 canvas.drawRect(r, paint);
                 paint.setStrokeWidth(5);
@@ -142,12 +152,15 @@ public class PianoRollView extends View {
 
     public void setRectX(int x) {
         rectX = x;
-        Log.d("proll", "moved rectX to " + x);
+        Log.d("piano", "moved rectX to " + x);
         invalidate();
     }
 
 
     public void moveRect(final int rectX) {
+
+        int[][] sequences = state.getSequences();
+        int notesPerOctave = state.getScale().getNotesPerOctave();
 
         if (rectX == 0) {
             for (int i = 0; i < sequences.length; i++) {
@@ -162,13 +175,14 @@ public class PianoRollView extends View {
         }
         else {
             int j = (rectX / FRAME_WIDTH);
+            Log.d("piano roll", "j is " + j + ", rectX is " + rectX);
             for (int i = 0; i < sequences.length; i++) {
                 if (j > 0) {
                     if (sequences[i][j - 1] == 2) {
                         sequences[i][j - 1] = 1;
-                        int idx = i % scale.getNotesPerOctave();
+                        int idx = i % notesPerOctave;
                         Log.d("note", "tried to play: " + idx);
-                        int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
+                        int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
                         Log.d("note", "Playing note: " + note);
                         if ( j == 15 || (j < 15 && sequences[i][j] != 1)) {
                             instrument.noteUp(note, 1.0f);
@@ -179,9 +193,9 @@ public class PianoRollView extends View {
             for (int i = 0; i < sequences.length; i++) {
                 if (sequences[i][j] == 1) {
                     sequences[i][j] = 2;
-                    int idx = i % scale.getNotesPerOctave();
+                    int idx = i % notesPerOctave;
                     //Log.d("note", "tried to play: " + idx);
-                    int note = scale.getNoteNames().get(idx).midi + i / scale.getNotesPerOctave() * 12; // TODO: get this note number for MIDI
+                    int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
                     //Log.d("note", "Playing note: " + note);
                     if ( j == 0 || (j > 0 && sequences[i][j-1] != 1)) {
                         instrument.noteDown(note, 1.0f);
@@ -196,8 +210,9 @@ public class PianoRollView extends View {
 
 
     public int octaveUp() {
-        currentOctave = (currentOctave < 6) ? currentOctave + 1 : currentOctave;
-        Log.d("matrix", convert(sequences));
+        int oct = state.getCurrentOctave();
+        state.setCurrentOctave((oct < 6) ? oct + 1 : oct);
+        // Log.d("matrix", convert(state.getSequences()));
         post(new Runnable() {
             @Override
             public void run() {
@@ -205,12 +220,13 @@ public class PianoRollView extends View {
             }
         });
 
-        return currentOctave;
+        return state.getCurrentOctave();
     }
 
     public int octaveDown() {
-        currentOctave = (currentOctave > 0) ? currentOctave - 1 : currentOctave;
-        Log.d("matrix", convert(sequences));
+        int oct = state.getCurrentOctave();
+        state.setCurrentOctave((oct > 0) ? oct - 1 : oct);
+        // Log.d("matrix", convert(state.getSequences()));
         post(new Runnable() {
             @Override
             public void run() {
@@ -218,7 +234,7 @@ public class PianoRollView extends View {
             }
         });
 
-        return currentOctave;
+        return state.getCurrentOctave();
     }
 
 
@@ -248,18 +264,22 @@ public class PianoRollView extends View {
         }
 
         Log.d("note", scale.getNoteNames().toString());
-        sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][16];
-        this.scale = scale;
+        state.setScale(scale);
+
     }
 
     public void clearGrid() {
-        sequences = new int[sequences.length][sequences[0].length];
+        state.clearGrid();
         post(new Runnable() {
             @Override
             public void run() {
                 invalidate();
             }
         });
+    }
+
+    public int getOctave() {
+        return state.getCurrentOctave();
     }
 
 
@@ -288,9 +308,11 @@ public class PianoRollView extends View {
                         pointerArray.put(id, new PointF(x, y));
                         int j = (int) (x - KEYSIZE) / FRAME_WIDTH;
                         //int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
-                        int k = (currentOctave + 1) * scale.getNotesPerOctave() - 1 - (int) y / FRAME_HEIGHT;
+                        int k = (state.getCurrentOctave() + 1) * state.getScale().getNotesPerOctave() - 1 - (int) y / FRAME_HEIGHT;
 
                         Log.d("proll", "touch down with x: " + k + ", y: " + j);
+
+                        int[][] sequences = state.getSequences();
 
                         if (0 <= k && k < sequences.length && 0 <= j && j < sequences[k].length) {
                             if (sequences[k][j] == 1) {
@@ -327,7 +349,7 @@ public class PianoRollView extends View {
         // iterate over the first dimension
         for (int i = 0; i < M.length; i++) {
             // iterate over the second dimension
-            if ( i/NUM_OCTAVES == currentOctave) {
+            if ( i/NUM_OCTAVES == state.getCurrentOctave()) {
                 result.append("!!");
             }
             for(int j = 0; j < M[i].length; j++){
@@ -341,6 +363,5 @@ public class PianoRollView extends View {
         }
         return result.toString();
     }
-
 
 }

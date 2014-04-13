@@ -1,4 +1,4 @@
-package edu.cmu.ece.ece551.uis;
+package edu.cmu.ece.ece551.uis.scale;
 
 /**
  * Created by michaelryan on 3/26/14.
