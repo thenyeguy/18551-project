@@ -27,8 +27,6 @@ public class KnobView extends View {
 
     float knobVal = 0.5f;
 
-    private Point size = new Point();
-
     RectF rekt = new RectF();
 
     private KnobReceiver receiver;
@@ -56,28 +54,28 @@ public class KnobView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        size.set(getLayoutParams().width, getLayoutParams().height);
+        RectF bounds = new RectF(0, 0, getWidth(), getHeight());
 
-        paint.setColor(Color.DKGRAY);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(paint);
-
-        paint.setStrokeWidth(1);
+        // Draw the arc
+        float strokeWidth = 25;
         paint.setColor(Color.CYAN);
-
-        paint.setTextSize(120f);
-
-        canvas.drawText(receiver.formatValue(knobVal), size.x * 8 /17, size.y  / 2, paint);
-
+        paint.setStrokeWidth(strokeWidth);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(50);
 
-        rekt.set(size.x / 2 - size.y / 4, size.y / 2 - size.y / 4, size.x / 2 + size.y / 4, size.y / 2 + size.y / 4);
+        rekt.set(0+strokeWidth, 0+strokeWidth, bounds.width()-strokeWidth, bounds.height()-strokeWidth);
         canvas.drawArc(rekt, 110f, knobVal * 165 * 2, false, paint);
-
         // First angle is start
         // Second is clockwise relative to it
 
+        // Draw the text
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(50f);
+        paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.FILL);
+
+        String text = receiver.formatValue(knobVal);
+        float textOffset = (paint.descent() + paint.ascent())/2;
+        canvas.drawText(text, bounds.centerX(), bounds.centerY() - textOffset, paint);
     }
 
     private class MyGestures implements GestureDetector.OnGestureListener{
