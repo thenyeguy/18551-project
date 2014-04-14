@@ -46,7 +46,7 @@ public class SubtractiveSynthToneControls extends Activity {
                 float db = (1f * i - 100) * 20 / 100;
                 String text = "Output gain (" + floatToString(db) + "dB):";
                 gainText.setText(text.toCharArray(), 0, text.length());
-                controller.setOutputGain(NativeClickTrack.dbToAmplitude(db));
+                controller.setOutputGain(db);
             }
 
             @Override
