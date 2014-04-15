@@ -15,9 +15,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="REVERB"
+                android:text="@string/reverbColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
         <edu.cmu.ece.ece551.uis.KnobView
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/reverbGainKnob"

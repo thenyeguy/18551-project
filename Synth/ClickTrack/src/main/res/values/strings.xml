@@ -67,5 +67,15 @@
     <string name="osc2label">Oscillator 2</string>
     <string name="osc2transposeLabel">Transpose</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reverbColumn">REVERB</string>
+    <string name="masterColumn">MASTER</string>
+    <string name="testNotes">Test notes</string>
+    <string name="lfoColumn">LFO</string>
+    <string name="oscillatorsColumn">OSCILLATORS</string>
+    <string name="adsrColumn">ADSR</string>
+    <string name="filterColumn">FILTER</string>
+    <string name="modeLabel">Mode</string>
+    <string name="saveSubSynthTone">Save</string>
+    <string name="loadSubSynthTone">Load</string>
 
 </resources>

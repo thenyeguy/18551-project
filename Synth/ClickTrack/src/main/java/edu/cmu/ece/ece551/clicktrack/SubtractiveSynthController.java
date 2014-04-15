@@ -2,10 +2,19 @@ package edu.cmu.ece.ece551.clicktrack;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by michael on 3/25/14.
  */
 public class SubtractiveSynthController implements InstrumentController {
+    protected final String TAG = "ClickTrack_SubSynthController";
+
     /*
      * Define all our parameters to track
      */
@@ -56,6 +65,19 @@ public class SubtractiveSynthController implements InstrumentController {
         if(instance == null)
             instance = new SubtractiveSynthController();
         return instance;
+    }
+
+    /*
+     * Implement the instrument controller interface
+     */
+    @Override
+    public void noteDown(int note, float velocity) {
+        NativeClickTrack.SubtractiveSynth.noteDown(note, velocity);
+    }
+
+    @Override
+    public void noteUp(int note, float velocity) {
+        NativeClickTrack.SubtractiveSynth.noteUp(note, velocity);
     }
 
     /*
@@ -178,16 +200,6 @@ public class SubtractiveSynthController implements InstrumentController {
         NativeClickTrack.SubtractiveSynth.setFilterQ(filterQ);
     }
 
-    @Override
-    public void noteDown(int note, float velocity) {
-        NativeClickTrack.SubtractiveSynth.noteDown(note, velocity);
-    }
-
-    @Override
-    public void noteUp(int note, float velocity) {
-        NativeClickTrack.SubtractiveSynth.noteUp(note, velocity);
-    }
-
     public NativeClickTrack.SubtractiveSynth.OscillatorMode getLfoMode() {
         return lfoMode;
     }
@@ -222,5 +234,62 @@ public class SubtractiveSynthController implements InstrumentController {
     public void setLfoTremeloDb(float lfoTremeloDb) {
         this.lfoTremeloDb = lfoTremeloDb;
         NativeClickTrack.SubtractiveSynth.setLfoTremelo(lfoTremeloDb);
+    }
+
+    /*
+     * Code for serialization. To serialize the object, we convert it to JSON
+     */
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public void fromString(String s) {
+        Gson gson = new Gson();
+        Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String,String> map = gson.fromJson(s,stringStringMap);
+
+        for (Map.Entry<String,String> entry : map.entrySet())
+        {
+            String k = entry.getKey();
+            String v = entry.getValue();
+
+            if(k.equals("outputGain"))
+                setOutputGain(Float.valueOf(v));
+            else if(k.equals("osc1mode"))
+                setOsc1mode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+            else if(k.equals("osc2mode"))
+                setOsc2mode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+            else if(k.equals("osc1transposition"))
+                setOsc1transposition(Float.valueOf(v));
+            else if(k.equals("osc2transposition"))
+                setOsc1transposition(Float.valueOf(v));
+            else if(k.equals("attack"))
+                setAttack(Float.valueOf(v));
+            else if(k.equals("decay"))
+                setDecay(Float.valueOf(v));
+            else if(k.equals("sustain"))
+                setSustain(Float.valueOf(v));
+            else if(k.equals("release"))
+                setRelease(Float.valueOf(v));
+            else if(k.equals("filterMode"))
+                setFilterMode(NativeClickTrack.SubtractiveSynth.FilterMode.valueOf(v));
+            else if(k.equals("filterCutoff"))
+                setFilterCutoff(Float.valueOf(v));
+            else if(k.equals("filterGain"))
+                setFilterGain(Float.valueOf(v));
+            else if(k.equals("filterQ"))
+                setFilterQ(Float.valueOf(v));
+            else if(k.equals("lfoMode"))
+                setLfoMode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+            else if(k.equals("lfoFreq"))
+                setLfoFreq(Float.valueOf(v));
+            else if(k.equals("lfoVibratoSteps"))
+                setLfoVibratoSteps(Float.valueOf(v));
+            else if(k.equals("lfoTremeloDb"))
+                setLfoTremeloDb(Float.valueOf(v));
+            else
+                Log.d(TAG, "fromString(): ignoring invalid parameter");
+        }
     }
 }

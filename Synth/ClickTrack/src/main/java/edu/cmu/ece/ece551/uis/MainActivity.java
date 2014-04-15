@@ -35,6 +35,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import edu.cmu.ece.ece551.clicktrack.MasterControls;
 import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
@@ -99,6 +101,15 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
+        // Create our directories
+        File root = new File("/sdcard/ClickTrack/");
+        if(!root.exists())
+            root.mkdir();
+
+        File subsynthTones = new File("/sdcard/ClickTrack/SubtractiveSynthTones/");
+        if(!subsynthTones.exists())
+            subsynthTones.mkdir();
 
         // Load the library
         Log.i(TAG, "Creating a new ClickTrack instance.");

@@ -1,18 +1,33 @@
 package edu.cmu.ece.ece551.clicktrack;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
 
 import edu.cmu.ece.ece551.synth.R;
@@ -20,7 +35,30 @@ import edu.cmu.ece.ece551.uis.KnobReceiver;
 import edu.cmu.ece.ece551.uis.KnobView;
 
 public class SubtractiveSynthToneControls extends Fragment {
+    private static final int PICKFILE_RESULT_CODE = 1;
     protected final String TAG = "ClickTrack_SubSynthToneControl";
+    protected final String TONEPATH = "/sdcard/ClickTrack/SubtractiveSynthTones/";
+
+    final SubtractiveSynthController controller = SubtractiveSynthController.getInstance();
+
+    // Master controls
+    KnobView gainKnob;
+    Button saveButton, loadButton;
+    ToggleButton c, e, g;
+
+    // LFO
+    KnobView lfoFreqKnob, tremeloKnob, vibratoKnob;
+
+    // Oscillators
+    Spinner osc1Spinner, osc2Spinner;
+    KnobView osc1Transpose, osc2Transpose;
+
+    // ADSR
+    KnobView attackKnob, decayKnob, sustainKnob, releaseKnob;
+
+    // Filter
+    Spinner filterModeSpinner;
+    KnobView filterCutoffKnob, filterGainKnob, filterQKnob;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,16 +66,14 @@ public class SubtractiveSynthToneControls extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_subtractive_synth_tone_control,
                 container, false);
 
-        // Get our controller
-        final SubtractiveSynthController controller = SubtractiveSynthController.getInstance();
-
         // Configure our gain
-        final KnobView gainKnob = (KnobView) rootView.findViewById(R.id.ssGainKnob);
+        gainKnob = (KnobView) rootView.findViewById(R.id.ssGainKnob);
         gainKnob.setName("Gain");
         gainKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
+
             private float adjustValue(float value) {
-                return (value-1) * 20;
+                return (value - 1) * 20;
             }
 
             @Override
@@ -52,13 +88,80 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/20 + 1;
+                return value / 20 + 1;
             }
         });
-        gainKnob.setValue(controller.getOutputGain());
+
+        // Configure our save/load code
+        saveButton = (Button) rootView.findViewById(R.id.saveSubSynthButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ask for a name in a dialog box
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("Enter a tone name");
+
+                final EditText input = new EditText(getActivity());
+                alert.setView(input);
+                alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Get the file to save to
+                        String name = input.getText().toString();
+                        File f = new File(TONEPATH + name + ".json");
+
+                        Log.i(TAG, "Saving subtractive synth tone: " + f.toString());
+
+                        // Write out the tone file
+                        try {
+                            Files.write(controller.toString(), f, Charsets.UTF_8);
+                        } catch(IOException e1) {
+                            Log.e(TAG, e1.toString());
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Failed to save tone with name: " + name,
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Tone saved with name: " + name,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Save aborted.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                alert.show();
+            }
+        });
+
+        loadButton = (Button) rootView.findViewById(R.id.loadSubSynthButton);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Loading subtractive synth tone");
+
+                // Launch file picker intent
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setDataAndType(Uri.parse(TONEPATH), "file/*");
+                try {
+                    startActivityForResult(intent, PICKFILE_RESULT_CODE);
+                } catch (ActivityNotFoundException e) {
+                    Log.e(TAG, "No file picker available");
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "No file picker available.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         // Place a test button
-        ToggleButton c = (ToggleButton) rootView.findViewById(R.id.ssCButton);
+        c = (ToggleButton) rootView.findViewById(R.id.ssCButton);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,7 +173,7 @@ public class SubtractiveSynthToneControls extends Fragment {
             }
         });
 
-        ToggleButton e = (ToggleButton) rootView.findViewById(R.id.ssEButton);
+        e = (ToggleButton) rootView.findViewById(R.id.ssEButton);
         e.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +185,7 @@ public class SubtractiveSynthToneControls extends Fragment {
             }
         });
 
-        ToggleButton g = (ToggleButton) rootView.findViewById(R.id.ssGButton);
+        g = (ToggleButton) rootView.findViewById(R.id.ssGButton);
         g.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +199,7 @@ public class SubtractiveSynthToneControls extends Fragment {
 
 
         // Configure LFO
-        final KnobView lfoFreqKnob = (KnobView) rootView.findViewById(R.id.ssLfoFreqKnob);
+        lfoFreqKnob = (KnobView) rootView.findViewById(R.id.ssLfoFreqKnob);
         lfoFreqKnob.setName("Frequency");
         lfoFreqKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0");
@@ -117,15 +220,15 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/20;
+                return value / 20;
             }
         });
-        lfoFreqKnob.setValue(controller.getLfoFreq());
 
-        final KnobView tremeloKnob = (KnobView) rootView.findViewById(R.id.ssTremeloKnob);
+        tremeloKnob = (KnobView) rootView.findViewById(R.id.ssTremeloKnob);
         tremeloKnob.setName("Tremelo");
         tremeloKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
+
             private float adjustValue(float value) {
                 return value * 10;
             }
@@ -142,15 +245,15 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/10;
+                return value / 10;
             }
         });
-        tremeloKnob.setValue(controller.getLfoTremeloDb());
 
-        final KnobView vibratoKnob = (KnobView) rootView.findViewById(R.id.ssVibratoKnob);
+        vibratoKnob = (KnobView) rootView.findViewById(R.id.ssVibratoKnob);
         vibratoKnob.setName("Vibrato");
         vibratoKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
+
             private float adjustValue(float value) {
                 return value * 2;
             }
@@ -167,10 +270,9 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2;
+                return value / 2;
             }
         });
-        vibratoKnob.setValue(controller.getLfoVibratoSteps());
 
 
         // Set up our oscillator modes
@@ -178,9 +280,8 @@ public class SubtractiveSynthToneControls extends Fragment {
                 R.array.oscillator_modes, android.R.layout.simple_spinner_item);
         oscModes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        final Spinner osc1Spinner = (Spinner) rootView.findViewById(R.id.ssOsc1mode);
+        osc1Spinner = (Spinner) rootView.findViewById(R.id.ssOsc1mode);
         osc1Spinner.setAdapter(oscModes);
-        osc1Spinner.setSelection(oscModeToIndex(controller.getOsc1mode()));
         osc1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -194,9 +295,8 @@ public class SubtractiveSynthToneControls extends Fragment {
             }
         });
 
-        final Spinner osc2Spinner = (Spinner) rootView.findViewById(R.id.ssOsc2mode);
+        osc2Spinner = (Spinner) rootView.findViewById(R.id.ssOsc2mode);
         osc2Spinner.setAdapter(oscModes);
-        osc2Spinner.setSelection(oscModeToIndex(controller.getOsc2mode()));
         osc2Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -213,10 +313,11 @@ public class SubtractiveSynthToneControls extends Fragment {
 
 
         // Set up oscillator transpositions
-        final KnobView osc1Transpose = (KnobView) rootView.findViewById(R.id.ssOsc1TransposeKnob);
+        osc1Transpose = (KnobView) rootView.findViewById(R.id.ssOsc1TransposeKnob);
         osc1Transpose.setName("Transpose");
         osc1Transpose.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0");
+
             private float adjustValue(float value) {
                 return Math.round((value - 0.5f) * 2 * 24);
             }
@@ -233,15 +334,15 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2/24 + 0.5f;
+                return value / 2 / 24 + 0.5f;
             }
         });
-        osc1Transpose.setValue(controller.getOsc1transposition());
 
-        final KnobView osc2Transpose = (KnobView) rootView.findViewById(R.id.ssOsc2TransposeKnob);
+        osc2Transpose = (KnobView) rootView.findViewById(R.id.ssOsc2TransposeKnob);
         osc2Transpose.setName("Transpose");
         osc2Transpose.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0");
+
             private float adjustValue(float value) {
                 return Math.round((value - 0.5f) * 2 * 24);
             }
@@ -258,18 +359,18 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2/24 + 0.5f;
+                return value / 2 / 24 + 0.5f;
             }
         });
-        osc2Transpose.setValue(controller.getOsc2transposition());
 
 
 
         // Set up our ADSR envelope
-        final KnobView attackKnob = (KnobView) rootView.findViewById(R.id.ssAttackKnob);
+        attackKnob = (KnobView) rootView.findViewById(R.id.ssAttackKnob);
         attackKnob.setName("Attack");
         attackKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
+
             private float adjustValue(float value) {
                 return value * 2;
             }
@@ -286,12 +387,11 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2;
+                return value / 2;
             }
         });
-        attackKnob.setValue(controller.getAttack());
 
-        final KnobView decayKnob = (KnobView) rootView.findViewById(R.id.ssDecayKnob);
+        decayKnob = (KnobView) rootView.findViewById(R.id.ssDecayKnob);
         decayKnob.setName("Decay");
         decayKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
@@ -312,12 +412,11 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2;
+                return value / 2;
             }
         });
-        decayKnob.setValue(controller.getDecay());
 
-        final KnobView sustainKnob = (KnobView) rootView.findViewById(R.id.ssSustainKnob);
+        sustainKnob = (KnobView) rootView.findViewById(R.id.ssSustainKnob);
         sustainKnob.setName("Sustain");
         sustainKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
@@ -341,12 +440,12 @@ public class SubtractiveSynthToneControls extends Fragment {
                 return value;
             }
         });
-        sustainKnob.setValue(controller.getSustain());
 
-        final KnobView releaseKnob = (KnobView) rootView.findViewById(R.id.ssReleaseKnob);
+        releaseKnob = (KnobView) rootView.findViewById(R.id.ssReleaseKnob);
         releaseKnob.setName("Release");
         releaseKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
+
             private float adjustValue(float value) {
                 return value * 2;
             }
@@ -363,10 +462,9 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value/2;
+                return value / 2;
             }
         });
-        releaseKnob.setValue(controller.getRelease());
 
 
 
@@ -375,9 +473,8 @@ public class SubtractiveSynthToneControls extends Fragment {
                 R.array.filter_modes, android.R.layout.simple_spinner_item);
         filterModes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        final Spinner filterModeSpinner = (Spinner) rootView.findViewById(R.id.ssFilterModeSpinner);
+        filterModeSpinner = (Spinner) rootView.findViewById(R.id.ssFilterModeSpinner);
         filterModeSpinner.setAdapter(filterModes);
-        filterModeSpinner.setSelection(controller.getFilterMode().value);
         filterModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -393,13 +490,13 @@ public class SubtractiveSynthToneControls extends Fragment {
 
 
         // Set filter sliders
-        final KnobView filterCutoffKnob = (KnobView) rootView.findViewById(R.id.ssFilterCutoffKnob);
+        filterCutoffKnob = (KnobView) rootView.findViewById(R.id.ssFilterCutoffKnob);
         filterCutoffKnob.setName("Cutoff");
         filterCutoffKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0");
 
             private float adjustValue(float value) {
-                return ((float) Math.pow(10, value) - 1)/9 * 19980 + 20;
+                return ((float) Math.pow(10, value) - 1) / 9 * 19980 + 20;
             }
 
             @Override
@@ -414,12 +511,11 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return (float) Math.log10((value-20)/19980*9 + 1);
+                return (float) Math.log10((value - 20) / 19980 * 9 + 1);
             }
         });
-        filterCutoffKnob.setValue(controller.getFilterCutoff());
 
-        final KnobView filterGainKnob = (KnobView) rootView.findViewById(R.id.ssFilterGainKnob);
+        filterGainKnob = (KnobView) rootView.findViewById(R.id.ssFilterGainKnob);
         filterGainKnob.setName("Gain");
         filterGainKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
@@ -440,12 +536,11 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return (value/20 + 1)/2;
+                return (value / 20 + 1) / 2;
             }
         });
-        filterGainKnob.setValue(controller.getFilterGain());
 
-        final KnobView filterQKnob = (KnobView) rootView.findViewById(R.id.ssFilterQKnob);
+        filterQKnob = (KnobView) rootView.findViewById(R.id.ssFilterQKnob);
         filterQKnob.setName("Q");
         filterQKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
@@ -466,10 +561,9 @@ public class SubtractiveSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return (value - 0.5f)/9.5f;
+                return (value - 0.5f) / 9.5f;
             }
         });
-        filterQKnob.setValue(controller.getFilterQ());
 
 
         // Unfocus the spinner on launch
@@ -477,6 +571,70 @@ public class SubtractiveSynthToneControls extends Fragment {
                 .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setControlValues();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null)
+            return;
+
+        switch(requestCode) {
+            case PICKFILE_RESULT_CODE:
+                if(resultCode == Activity.RESULT_OK) {
+                    String filePath = data.getData().getPath();
+                    Log.i(TAG, "Loading from path: " + filePath);
+
+                    try {
+                        String file = Files.toString(new File(filePath), Charsets.UTF_8);
+                        controller.fromString(file);
+                        setControlValues();
+                    } catch(IOException e1) {
+                        Log.e(TAG, "Failed to read file");
+                        return;
+                    }
+                }
+                else {
+                    Log.e(TAG, "Failed to get file for loading");
+                }
+                break;
+            default:
+        }
+    }
+
+
+    private void setControlValues()
+    {
+        // MASTER
+        gainKnob.setValue(controller.getOutputGain());
+
+        // LFO
+        lfoFreqKnob.setValue(controller.getLfoFreq());
+        tremeloKnob.setValue(controller.getLfoTremeloDb());
+        vibratoKnob.setValue(controller.getLfoVibratoSteps());
+
+        // Oscillators
+        osc1Spinner.setSelection(oscModeToIndex(controller.getOsc1mode()));
+        osc2Spinner.setSelection(oscModeToIndex(controller.getOsc2mode()));
+        osc1Transpose.setValue(controller.getOsc1transposition());
+        osc2Transpose.setValue(controller.getOsc2transposition());
+
+        // ADSR
+        attackKnob.setValue(controller.getAttack());
+        decayKnob.setValue(controller.getDecay());
+        sustainKnob.setValue(controller.getSustain());
+        releaseKnob.setValue(controller.getRelease());
+
+        // Filter
+        filterModeSpinner.setSelection(controller.getFilterMode().value);
+        filterCutoffKnob.setValue(controller.getFilterCutoff());
+        filterGainKnob.setValue(controller.getFilterGain());
+        filterQKnob.setValue(controller.getFilterQ());
     }
 
 

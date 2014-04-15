@@ -18,9 +18,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="MASTER"
+                android:text="@string/masterColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         <edu.cmu.ece.ece551.uis.KnobView
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,11 +34,28 @@
                 android:layout_width="1dp"
                 android:layout_height="25dp"/>
 
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/saveSubSynthButton"
+                android:text="@string/saveSubSynthTone"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/loadSubSynthButton"
+                android:text="@string/loadSubSynthTone"/>
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Test notes"/>
+                android:text="@string/testNotes"/>
         <ToggleButton
                 android:id="@+id/ssCButton"
                 android:textOff="@string/C"
@@ -73,9 +90,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="LFO"
+                android:text="@string/lfoColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         <edu.cmu.ece.ece551.uis.KnobView
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -112,9 +129,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="OSCILLATORS"
+                android:text="@string/oscillatorsColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -173,9 +190,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="ADSR"
+                android:text="@string/adsrColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         <edu.cmu.ece.ece551.uis.KnobView
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -217,14 +234,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="FILTER"
+                android:text="@string/filterColumn"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mode"
+                android:text="@string/modeLabel"
                 android:layout_gravity="center_horizontal"/>
         <Spinner
                 android:layout_width="wrap_content"
