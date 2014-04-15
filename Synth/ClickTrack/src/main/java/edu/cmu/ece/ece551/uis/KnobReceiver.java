@@ -15,4 +15,8 @@ public interface KnobReceiver {
      * formatValue should convert the value to a string representation
      */
     public String formatValue(float value);
+
+    /* Given the value your knob is displaying, convert it back to range 0.0 to 1.0
+     */
+    public float getValue(float value);
 }

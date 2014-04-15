@@ -31,7 +31,7 @@ public class SubtractiveSynthController implements InstrumentController {
         Log.i("ClickTrack", "Creating a new SubtractiveSynthController");
 
         // Set defaults
-        outputGain = 1f;
+        outputGain = 0f;
 
         osc1mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
         osc2mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
@@ -48,7 +48,7 @@ public class SubtractiveSynthController implements InstrumentController {
 
         lfoMode = NativeClickTrack.SubtractiveSynth.OscillatorMode.SINE;
         lfoFreq = 5f;
-        lfoVibratoSteps = 0.2f;
+        lfoVibratoSteps = 0.0f;
         lfoTremeloDb = 0.0f;
     }
 

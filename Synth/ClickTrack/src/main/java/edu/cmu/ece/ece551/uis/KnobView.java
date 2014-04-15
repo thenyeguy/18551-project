@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 public class KnobView extends View {
     private Paint paint = new Paint();
 
+    int knobSteps = 500;
     float knobVal = 0.5f;
 
     RectF rekt = new RectF();
@@ -52,6 +53,11 @@ public class KnobView extends View {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setValue(float value) {
+        knobVal = receiver.getValue(value);
+        invalidate();
     }
 
     @Override
@@ -136,14 +142,13 @@ public class KnobView extends View {
 
         @Override
         public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float distY) {
-
             float newVal = moveKnob(distY/5);
-            int intVal = Math.round(knobVal * 100);
+            int intVal = Math.round(knobVal * knobSteps);
             knobVal = newVal;
 
             receiver.onKnobChange(knobVal);
 
-            if (Math.round(newVal * 100) != intVal) {
+            if (Math.round(newVal * knobSteps) != intVal) {
                 invalidate();
                 return true;
             }
@@ -171,6 +176,11 @@ public class KnobView extends View {
         @Override
         public String formatValue(float value) {
             return dfor.format(value*100);
+        }
+
+        @Override
+        public float getValue(float value) {
+            return value/100;
         }
     }
 }

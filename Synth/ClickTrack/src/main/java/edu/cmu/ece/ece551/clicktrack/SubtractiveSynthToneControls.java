@@ -49,7 +49,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "dB";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/20 + 1;
+            }
         });
+        gainKnob.setValue(controller.getOutputGain());
 
         // Place a test button
         ToggleButton c = (ToggleButton) rootView.findViewById(R.id.ssCButton);
@@ -108,7 +114,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "Hz";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/20;
+            }
         });
+        lfoFreqKnob.setValue(controller.getLfoFreq());
 
         final KnobView tremeloKnob = (KnobView) rootView.findViewById(R.id.ssTremeloKnob);
         tremeloKnob.setName("Tremelo");
@@ -127,7 +139,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "dB";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/10;
+            }
         });
+        tremeloKnob.setValue(controller.getLfoTremeloDb());
 
         final KnobView vibratoKnob = (KnobView) rootView.findViewById(R.id.ssVibratoKnob);
         vibratoKnob.setName("Vibrato");
@@ -146,7 +164,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value));
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2;
+            }
         });
+        vibratoKnob.setValue(controller.getLfoVibratoSteps());
 
 
         // Set up our oscillator modes
@@ -206,7 +230,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value));
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2/24 + 0.5f;
+            }
         });
+        osc1Transpose.setValue(controller.getOsc1transposition());
 
         final KnobView osc2Transpose = (KnobView) rootView.findViewById(R.id.ssOsc2TransposeKnob);
         osc2Transpose.setName("Transpose");
@@ -225,7 +255,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value));
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2/24 + 0.5f;
+            }
         });
+        osc2Transpose.setValue(controller.getOsc2transposition());
 
 
 
@@ -235,7 +271,7 @@ public class SubtractiveSynthToneControls extends Fragment {
         attackKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
             private float adjustValue(float value) {
-                return value * 5;
+                return value * 2;
             }
 
             @Override
@@ -247,7 +283,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "s";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2;
+            }
         });
+        attackKnob.setValue(controller.getAttack());
 
         final KnobView decayKnob = (KnobView) rootView.findViewById(R.id.ssDecayKnob);
         decayKnob.setName("Decay");
@@ -255,7 +297,7 @@ public class SubtractiveSynthToneControls extends Fragment {
             private DecimalFormat dfor = new DecimalFormat("0.00");
 
             private float adjustValue(float value) {
-                return value * 5;
+                return value * 2;
             }
 
             @Override
@@ -267,7 +309,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "s";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2;
+            }
         });
+        decayKnob.setValue(controller.getDecay());
 
         final KnobView sustainKnob = (KnobView) rootView.findViewById(R.id.ssSustainKnob);
         sustainKnob.setName("Sustain");
@@ -287,14 +335,20 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value));
             }
+
+            @Override
+            public float getValue(float value) {
+                return value;
+            }
         });
+        sustainKnob.setValue(controller.getSustain());
 
         final KnobView releaseKnob = (KnobView) rootView.findViewById(R.id.ssReleaseKnob);
         releaseKnob.setName("Release");
         releaseKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
             private float adjustValue(float value) {
-                return value * 5;
+                return value * 2;
             }
 
             @Override
@@ -306,7 +360,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "s";
             }
+
+            @Override
+            public float getValue(float value) {
+                return value/2;
+            }
         });
+        releaseKnob.setValue(controller.getRelease());
 
 
 
@@ -338,16 +398,26 @@ public class SubtractiveSynthToneControls extends Fragment {
         filterCutoffKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0");
 
+            private float adjustValue(float value) {
+                return ((float) Math.pow(10, value) - 1)/9 * 19980 + 20;
+            }
+
             @Override
             public void onKnobChange(float value) {
-                controller.setFilterCutoff(valueToLogFreq(value));
+                controller.setFilterCutoff(adjustValue(value));
             }
 
             @Override
             public String formatValue(float value) {
-                return dfor.format(valueToLogFreq(value)) + "Hz";
+                return dfor.format(adjustValue(value)) + "Hz";
+            }
+
+            @Override
+            public float getValue(float value) {
+                return (float) Math.log10((value-20)/19980*9 + 1);
             }
         });
+        filterCutoffKnob.setValue(controller.getFilterCutoff());
 
         final KnobView filterGainKnob = (KnobView) rootView.findViewById(R.id.ssFilterGainKnob);
         filterGainKnob.setName("Gain");
@@ -367,7 +437,13 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value)) + "dB";
             }
+
+            @Override
+            public float getValue(float value) {
+                return (value/20 + 1)/2;
+            }
         });
+        filterGainKnob.setValue(controller.getFilterGain());
 
         final KnobView filterQKnob = (KnobView) rootView.findViewById(R.id.ssFilterQKnob);
         filterQKnob.setName("Q");
@@ -387,7 +463,14 @@ public class SubtractiveSynthToneControls extends Fragment {
             public String formatValue(float value) {
                 return dfor.format(adjustValue(value));
             }
+
+            @Override
+            public float getValue(float value) {
+                return (value - 0.5f)/9.5f;
+            }
         });
+        filterQKnob.setValue(controller.getFilterQ());
+
 
         // Unfocus the spinner on launch
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams
@@ -448,9 +531,5 @@ public class SubtractiveSynthToneControls extends Fragment {
             mode = NativeClickTrack.SubtractiveSynth.FilterMode.PEAK;
 
         return mode;
-    }
-
-    private float valueToLogFreq(float value) {
-        return ((float) Math.pow(10, value) - 1)/9 * 19980 + 20;
     }
 }
