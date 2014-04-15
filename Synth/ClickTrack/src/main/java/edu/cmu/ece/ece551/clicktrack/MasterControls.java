@@ -20,6 +20,7 @@ public class MasterControls extends Fragment {
 
         // Configure reverb knobs
         KnobView reverbGain = (KnobView) rootView.findViewById(R.id.reverbGainKnob);
+        reverbGain.setName("Gain");
         reverbGain.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
             private float adjustValue(float value) {
@@ -33,11 +34,12 @@ public class MasterControls extends Fragment {
 
             @Override
             public String formatValue(float value) {
-                return dfor.format(adjustValue(value));
+                return dfor.format(adjustValue(value)) + "dB";
             }
         });
 
         KnobView reverbWetness = (KnobView) rootView.findViewById(R.id.reverbWetnessKnob);
+        reverbWetness.setName("Wetness");
         reverbWetness.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.00");
 
@@ -53,6 +55,7 @@ public class MasterControls extends Fragment {
         });
 
         KnobView reverbTime = (KnobView) rootView.findViewById(R.id.reverbTimeKnob);
+        reverbTime.setName("Decay");
         reverbTime.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
             private float adjustValue(float value) {
@@ -66,7 +69,7 @@ public class MasterControls extends Fragment {
 
             @Override
             public String formatValue(float value) {
-                return dfor.format(adjustValue(value));
+                return dfor.format(adjustValue(value)) + "s";
             }
         });
 

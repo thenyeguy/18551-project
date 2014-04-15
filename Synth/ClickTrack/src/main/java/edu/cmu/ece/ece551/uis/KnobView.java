@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -30,6 +31,7 @@ public class KnobView extends View {
     RectF rekt = new RectF();
 
     private KnobReceiver receiver;
+    String name;
 
     private GestureDetector gestures;
 
@@ -40,42 +42,67 @@ public class KnobView extends View {
         gestures = new GestureDetector(getRootView().getContext(), new MyGestures());
 
         receiver = new DefaultReceiver();
+
+        name = "";
     }
 
     public void registerKnobReceiver(KnobReceiver receiver) {
         this.receiver = receiver;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return gestures.onTouchEvent(event);
+    }
 
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(1, Paint.ANTI_ALIAS_FLAG));
+        super.dispatchDraw(canvas);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         RectF bounds = new RectF(0, 0, getWidth(), getHeight());
 
-        // Draw the arc
-        float strokeWidth = 25;
-        paint.setColor(Color.CYAN);
+        // Draw the arc -  a cyan arc for the foreground and a dark gray for the background
+        float strokeWidth = bounds.width() / 12f;
         paint.setStrokeWidth(strokeWidth);
         paint.setStyle(Paint.Style.STROKE);
 
         rekt.set(0+strokeWidth, 0+strokeWidth, bounds.width()-strokeWidth, bounds.height()-strokeWidth);
-        canvas.drawArc(rekt, 110f, knobVal * 165 * 2, false, paint);
+
+        paint.setColor(Color.DKGRAY);
+        canvas.drawArc(rekt, 105, 165 * 2, false, paint);
+
+        paint.setColor(Color.CYAN);
+        canvas.drawArc(rekt, 105, knobVal * 165 * 2, false, paint);
         // First angle is start
         // Second is clockwise relative to it
 
         // Draw the text
+        paint.setColor(Color.CYAN);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(50f);
+        paint.setTextSize(1.6f * strokeWidth);
         paint.setStrokeWidth(1);
         paint.setStyle(Paint.Style.FILL);
 
         String text = receiver.formatValue(knobVal);
-        float textOffset = (paint.descent() + paint.ascent())/2;
-        canvas.drawText(text, bounds.centerX(), bounds.centerY() - textOffset, paint);
+        float textOffset = (paint.descent() + paint.ascent()) / 2;
+
+        // Draw in different locations if the dial is labeled
+        if(name.equals("")) {
+            canvas.drawText(text, bounds.centerX(), bounds.centerY() - textOffset, paint);
+        } else {
+            float lineOffset = textOffset * 1.6f;
+            canvas.drawText(text, bounds.centerX(), bounds.centerY()-textOffset-lineOffset,  paint);
+            paint.setColor(Color.LTGRAY);
+            canvas.drawText(name, bounds.centerX(), bounds.centerY()-textOffset+lineOffset,  paint);
+        }
     }
 
     private class MyGestures implements GestureDetector.OnGestureListener{

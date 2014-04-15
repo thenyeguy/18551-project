@@ -38,6 +38,7 @@ import android.widget.Toast;
 import edu.cmu.ece.ece551.clicktrack.MasterControls;
 import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
+import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControls;
 import edu.cmu.ece.ece551.clicktrack.TestClickTrack;
 import edu.cmu.ece.ece551.synth.R;
 
@@ -161,21 +162,21 @@ public class MainActivity extends Activity {
         Fragment fragment;
 
         switch (position) {
+            default:
             case 0:
-                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
-                break;
-            case 1:
-                fragment = new KnobDemoFragment();
-                break;
-            case 2:
-                fragment = new TestClickTrack();
-                break;
-            case 3:
                 fragment = new MasterControls();
                 break;
-            default:
-                // arbitrary default
+            case 1:
+                fragment = new SubtractiveSynthToneControls();
+                break;
+            case 2:
+                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
+                break;
+            case 3:
                 fragment = new KnobDemoFragment();
+                break;
+            case 4:
+                fragment = new TestClickTrack();
                 break;
         }
 

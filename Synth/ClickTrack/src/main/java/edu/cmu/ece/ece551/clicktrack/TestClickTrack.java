@@ -18,21 +18,10 @@ public class TestClickTrack extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.test_click_track, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_test_click_track, container, false);
 
 
         // Set up buttons
-        Button tone = (Button) rootView.findViewById(R.id.toneButton);
-        tone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(rootView.getContext(),
-                        SubtractiveSynthToneControls
-                        .class);
-                startActivity(intent);
-            }
-        });
-
         ToggleButton c = (ToggleButton) rootView.findViewById(R.id.cButton);
         c.setOnClickListener(new View.OnClickListener() {
             @Override

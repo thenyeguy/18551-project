@@ -21,10 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-                android:name="edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControls"
-                android:label="@string/title_activity_subtractive_synth_tone_control" >
-        </activity>
     </application>
 
 </manifest>

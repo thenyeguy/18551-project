@@ -13,13 +13,6 @@
             android:layout_height="wrap_content"
             android:text="@string/SynthNotes"/>
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/configureTone"
-            android:id="@+id/toneButton"
-            android:layout_gravity="center_horizontal"/>
-
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

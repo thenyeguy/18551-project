@@ -1,0 +1,259 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    tools:context="edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControls"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="MASTER"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssGainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Test notes"/>
+        <ToggleButton
+                android:id="@+id/ssCButton"
+                android:textOff="@string/C"
+                android:textOn="@string/C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        <ToggleButton
+                android:id="@+id/ssEButton"
+                android:textOff="@string/E"
+                android:textOn="@string/E"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        <ToggleButton
+                android:id="@+id/ssGButton"
+                android:textOff="@string/G"
+                android:textOn="@string/G"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="LFO"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssLfoFreqKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssTremeloKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssVibratoKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="OSCILLATORS"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/osc1label"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ssOsc1mode"
+                android:spinnerMode="dropdown"/>
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssOsc1TransposeKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="20dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/osc2label"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ssOsc2mode"
+                android:spinnerMode="dropdown"/>
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssOsc2TransposeKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="ADSR"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssAttackKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssDecayKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssSustainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssReleaseKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="FILTER"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ssFilterModeSpinner"
+                android:spinnerMode="dropdown"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssFilterCutoffKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssFilterGainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ssFilterQKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+</LinearLayout>

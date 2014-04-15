@@ -4,10 +4,11 @@
     <string name="app_name">ClickTrack Demo</string>
 
     <string-array name="menu_options">
+        <item>Mastering</item>
+        <item>Subtractive Synth Tone Control</item>
         <item>Piano Roll</item>
         <item>Knob Demo</item>
         <item>Test ClickTrack</item>
-        <item>Mastering</item>
     </string-array>
     <string-array name="scales">
         <item>Diatonic Major</item>
