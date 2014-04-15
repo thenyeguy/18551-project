@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ClickTrack Demo</string>
+    <string name="app_name">Synthotron</string>
 
     <string-array name="menu_options">
         <item>Mastering</item>
@@ -38,7 +38,6 @@
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="action_settings">Settings</string>
-    <string name="dummy_message">The device should currently by mirroring the microphone to the speaker</string>
     <string name="playButton">Sound On</string>
     <string name="pauseButton">Sound Off</string>
     <string name="oscOn">Oscillator On</string>
@@ -67,7 +66,6 @@
     <string name="osc1transposeLabel">Transpose</string>
     <string name="osc2label">Oscillator 2</string>
     <string name="osc2transposeLabel">Transpose</string>
-    <string name="title_activity_test_clicktrack">Test ClickTrack</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
