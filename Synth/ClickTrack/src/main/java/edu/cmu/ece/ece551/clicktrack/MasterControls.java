@@ -91,6 +91,58 @@ public class MasterControls extends Fragment {
         });
         reverbTime.setValue(1.0f);
 
+
+        // Configure limiter knobs
+        KnobView limiterGain = (KnobView) rootView.findViewById(R.id.limiterGainKnob);
+        limiterGain.setName("Gain");
+        limiterGain.registerKnobReceiver(new KnobReceiver() {
+            private DecimalFormat dfor = new DecimalFormat("0.0");
+            private float adjustValue(float value) {
+                return (value - 1.0f) * 20f;
+            }
+
+            @Override
+            public void onKnobChange(float value) {
+                NativeClickTrack.Limiter.setGain(adjustValue(value));
+            }
+
+            @Override
+            public String formatValue(float value) {
+                return dfor.format(adjustValue(value)) + "dB";
+            }
+
+            @Override
+            public float getValue(float value) {
+                return value/20 + 1;
+            }
+        });
+        limiterGain.setValue(0.0f);
+
+        KnobView limiterThreshold = (KnobView) rootView.findViewById(R.id.limiterThresholdKnob);
+        limiterThreshold.setName("Threshold");
+        limiterThreshold.registerKnobReceiver(new KnobReceiver() {
+            private DecimalFormat dfor = new DecimalFormat("0.0");
+            private float adjustValue(float value) {
+                return (value - 1.0f) * 20f;
+            }
+
+            @Override
+            public void onKnobChange(float value) {
+                NativeClickTrack.Limiter.setThreshold(adjustValue(value));
+            }
+
+            @Override
+            public String formatValue(float value) {
+                return dfor.format(adjustValue(value)) + "dB";
+            }
+
+            @Override
+            public float getValue(float value) {
+                return value/20 + 1;
+            }
+        });
+        limiterThreshold.setValue(-3.0f);
+
         return rootView;
     }
 }

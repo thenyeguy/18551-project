@@ -117,6 +117,15 @@ public class NativeClickTrack {
 
 
     /*
+     * This class provides a clean Java interface for the master channel limiter
+     */
+    public static class Limiter {
+        public static native void setGain(float gain);
+        public static native void setThreshold(float threshold);
+    }
+
+
+    /*
      * This class provides a clean Java interface for the NativeClickTrack subtractive synthesizer
      */
     public static class SubtractiveSynth {

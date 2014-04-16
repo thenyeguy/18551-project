@@ -49,3 +49,5 @@ capstone, versus what code was already written. So far, that list is:
 3. Moorer reverberator
 4. First and second order filters
 5. Drum machine
+6. LFOs
+7. Limiter, compressor, and noise gate

@@ -77,5 +77,6 @@
     <string name="modeLabel">Mode</string>
     <string name="saveSubSynthTone">Save</string>
     <string name="loadSubSynthTone">Load</string>
+    <string name="limiterColumn">LIMITER</string>
 
 </resources>
