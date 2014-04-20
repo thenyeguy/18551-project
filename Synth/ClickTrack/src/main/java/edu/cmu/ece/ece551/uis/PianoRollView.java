@@ -36,15 +36,15 @@ public class PianoRollView extends View {
 
     private static final int KEYSIZE = 150;
     private static final int NUM_OCTAVES = 7;
-    private static final int FRAME_WIDTH = 100;
-    private static final int FRAME_HEIGHT = 105;
+    public static final int FRAME_WIDTH = 100;
+    public static final int FRAME_HEIGHT = 105;
 
     private Point size = new Point();
     private SparseArray pointerArray = new SparseArray();
     private Rect r = new Rect();
     private Paint paint = new Paint();
 
-    private int rectX = 0;
+    private float rectX = -100;
 
     private SequencerState state;
 
@@ -90,7 +90,7 @@ public class PianoRollView extends View {
 
         paint.setColor(Color.GRAY);
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(paint);
+        //canvas.drawPaint(paint);
 
 
         List<MusicNote> scaleNotes = state.getScale().getNoteNames();
@@ -150,14 +150,14 @@ public class PianoRollView extends View {
     }
 
 
-    public void setRectX(int x) {
+    public void setRectX(float x) {
         rectX = x;
-        Log.d("piano", "moved rectX to " + x);
+        //Log.d("piano", "moved rectX to " + x);
         invalidate();
     }
 
 
-    public void moveRect(final int rectX) {
+    public void moveRect(final float rectX) {
 
         int[][] sequences = state.getSequences();
         int notesPerOctave = state.getScale().getNotesPerOctave();
@@ -174,7 +174,8 @@ public class PianoRollView extends View {
             }
         }
         else {
-            int j = (rectX / FRAME_WIDTH);
+            int j = ((int) rectX / FRAME_WIDTH);
+            if (j >= sequences[0].length || j < 0) return;
             Log.d("piano roll", "j is " + j + ", rectX is " + rectX);
             for (int i = 0; i < sequences.length; i++) {
                 if (j > 0) {
@@ -282,6 +283,29 @@ public class PianoRollView extends View {
         return state.getCurrentOctave();
     }
 
+    public void setTempo(int tempo) {
+        state.setTempo(tempo);
+    }
+
+    public int getTempo() {
+        return state.getTempo();
+    }
+
+    public float getRectX() {
+        return rectX;
+    }
+
+    public void resetBoard() {
+        int[][] seqs = state.getSequences();
+        for (int i = 0; i < seqs.length; i++) {
+            for (int j = 0; j < seqs[i].length; j++) {
+                if (seqs[i][j] == 2) {
+                    seqs[i][j] = 1;
+                }
+            }
+        }
+
+    }
 
     private class myTouchListener implements OnTouchListener {
 
@@ -362,6 +386,15 @@ public class PianoRollView extends View {
             result.append("\n");
         }
         return result.toString();
+    }
+
+
+    public SequencerState getState() {
+        return state;
+    }
+
+    public void setState(SequencerState state) {
+        this.state = state;
     }
 
 }

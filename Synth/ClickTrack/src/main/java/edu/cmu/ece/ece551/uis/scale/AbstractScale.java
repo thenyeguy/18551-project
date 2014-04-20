@@ -1,9 +1,16 @@
 package edu.cmu.ece.ece551.uis.scale;
 
-import com.google.common.collect.Lists;
+import android.util.Log;
 
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import edu.cmu.ece.ece551.uis.Notation.Interval;
 import edu.cmu.ece.ece551.uis.Notation.MusicNote;
@@ -68,4 +75,34 @@ public abstract class AbstractScale implements Scale {
         return getNotes(tonic, intervals);
     }
 
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
+
+
+    public void fromString(String s) {
+        Gson gson = new Gson();
+        Type stringStringMap = new TypeToken<Map<String, String>>() {
+        }.getType();
+        Map<String, String> map = gson.fromJson(s, stringStringMap);
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String k = entry.getKey();
+            String v = entry.getValue();
+
+            if (k.equals("intervals")) {
+                intervals = gson.fromJson(v, Interval[].class);
+            } else if (k.equals("tonality")) {
+                tonality = Tonality.valueOf(v);
+            } else if (k.equals("tonic")) {
+                tonic = v;
+            } else if (k.equals("notes")) {
+                notes = gson.fromJson(v, ArrayList.class);
+            } else {
+                Log.d("scale", "Ignoring invalid parameter" + k);
+            }
+
+        }
+    }
 }

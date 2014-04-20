@@ -14,7 +14,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="5dp"
-            android:id="@+id/clearButton"
+            android:id="@+id/clearPianoButton"
             android:background="@drawable/clear"/>
 
         <Button
@@ -22,20 +22,40 @@
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:background="@drawable/play"
-            android:id="@+id/playButton"/>
+            android:id="@+id/playPianoButton"/>
 
         <Button
-            android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_width="30dp"
             android:layout_margin="5dp"
             android:background="@drawable/pause"
-            android:id="@+id/stopButton" />
+            android:id="@+id/stopPianoButton" />
 
         <Button
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_margin="5dp"
+            android:id="@+id/savePianoButton"
+            android:background="@drawable/tapereel"/>
+
+        <Button
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_margin="5dp"
+            android:id="@+id/loadPianoButton"
+            android:text="LOAD"/>
+
+
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/saveButton"
-            android:text="Save"/>
+            android:id="@+id/tempoBox"
+            android:inputType="numberDecimal"
+            android:text="100"
+            android:background="@android:color/background_dark"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
 
         <Spinner
             android:id="@+id/scaleSpinner"
