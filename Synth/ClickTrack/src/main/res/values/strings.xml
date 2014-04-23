@@ -6,6 +6,7 @@
     <string-array name="menu_options">
         <item>Mastering</item>
         <item>Subtractive Synth Tone Control</item>
+        <item>FM Synth Tone Control</item>
         <item>Piano Roll</item>
         <item>Knob Demo</item>
         <item>Test ClickTrack</item>
@@ -78,5 +79,9 @@
     <string name="saveSubSynthTone">Save</string>
     <string name="loadSubSynthTone">Load</string>
     <string name="limiterColumn">LIMITER</string>
+    <string name="saveFMSynthTone">Save</string>
+    <string name="loadFMSynthTone">Load</string>
+    <string name="carrierLabel">Carrier</string>
+    <string name="modulatorLabel">Modulator</string>
 
 </resources>

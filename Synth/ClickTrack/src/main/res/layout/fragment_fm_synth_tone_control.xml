@@ -1,0 +1,283 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    tools:context="edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControls"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/masterColumn"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmGainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/saveFMSynthButton"
+                android:text="@string/saveFMSynthTone"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/loadFMSynthButton"
+                android:text="@string/loadFMSynthTone"/>
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/testNotes"/>
+        <ToggleButton
+                android:id="@+id/fmCButton"
+                android:textOff="@string/C"
+                android:textOn="@string/C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        <ToggleButton
+                android:id="@+id/fmEButton"
+                android:textOff="@string/E"
+                android:textOn="@string/E"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        <ToggleButton
+                android:id="@+id/fmGButton"
+                android:textOff="@string/G"
+                android:textOn="@string/G"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/lfoColumn"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmLfoFreqKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmTremeloKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmVibratoKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/oscillatorsColumn"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/carrierLabel"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fmCarrierode"
+                android:spinnerMode="dropdown"/>
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmCarrierTransposeKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+
+        <Space
+                android:layout_width="1dp"
+                android:layout_height="20dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/modulatorLabel"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fmModulatorMode"
+                android:spinnerMode="dropdown"/>
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmModulatorTransposeKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmModulatorIntensityKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/adsrColumn"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmAttackKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmDecayKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmSustainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmReleaseKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/filterColumn"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/modeLabel"
+                android:layout_gravity="center_horizontal"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fmFilterModeSpinner"
+                android:spinnerMode="dropdown"/>
+
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmFilterCutoffKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmFilterGainKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+        <edu.cmu.ece.ece551.uis.KnobView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fmFilterQKnob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center" />
+    </LinearLayout>
+</LinearLayout>

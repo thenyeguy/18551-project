@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import edu.cmu.ece.ece551.clicktrack.FMSynthToneControls;
 import edu.cmu.ece.ece551.clicktrack.MasterControls;
 import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
@@ -181,12 +182,15 @@ public class MainActivity extends Activity {
                 fragment = new SubtractiveSynthToneControls();
                 break;
             case 2:
-                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
+                fragment = new FMSynthToneControls();
                 break;
             case 3:
-                fragment = new KnobDemoFragment();
+                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
                 break;
             case 4:
+                fragment = new KnobDemoFragment();
+                break;
+            case 5:
                 fragment = new TestClickTrack();
                 break;
         }

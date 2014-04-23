@@ -205,6 +205,87 @@ public class NativeClickTrack {
     /*
      * This class provides a clean Java interface for the NativeClickTrack subtractive synthesizer
      */
+    public static class FMSynth {
+        /* Note events
+         */
+        public static native void noteDown(int note, float velocity);
+        public static native void noteUp(int note, float velocity);
+
+        /* Oscillator modes. Please use the provided enum constants
+         */
+        public enum OscillatorMode {
+            SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
+
+            public int value;
+            private OscillatorMode(int value) {
+                this.value = value;
+            }
+        }
+        public static native void setCarrierMode(int mode);
+        public static native void setModulatorMode(int mode);
+
+        /* Oscillator transpositions. Takes a number of steps; these can be fractional
+         */
+        public static native void setCarrierTransposition(float steps);
+        public static native void setModulatorTransposition(float steps);
+
+        /* Modulation intensity.
+         */
+        public static native void setModulatorIntensity(float intensity);
+
+        /* ADSR envelope
+         */
+        public static native void setAttackTime(float attack_time);
+        public static native void setDecayTime(float decay_time);
+        public static native void setSustainLevel(float sustain_level);
+        public static native void setReleaseTime(float release_time);
+
+        /* Change the filter's mode and coefficients. Please use the provided enum contants.
+         *
+         * Low/high pass filters use only the cutoff
+         *
+         * Shelf filters ignore the Q factor
+         *
+         * Peak filters place a peak with a gain at the cutoff, and no change everywhere else.
+         * Q determines how sharp the peak is
+         *
+         * Cutoff is in Hz, gain is in dB
+         */
+        public enum FilterMode {
+            LOWPASS(0), LOWSHELF(1), HIGHPASS(2), HIGHSHELF(3), PEAK(4);
+
+            public int value;
+            private FilterMode(int value) {
+                this.value = value;
+            }
+        }
+        public static native void setFilterMode(int mode);
+        public static native void setFilterCutoff(float cutoff);
+        public static native void setFilterGain(float gain);
+        public static native void setFilterQ(float q);
+
+        /* LFO settings
+         *
+         * The mode is the same set of mode available to oscillators.
+         *
+         * Vibrato is measured in the number of steps to waver (can be fractional)
+         *
+         * Tremelo is measured in the maximum +/- gain in decibels
+         */
+        public static native void setLfoMode(int mode);
+        public static native void setLfoFreq(float freq);
+        public static native void setLfoVibrato(float steps);
+        public static native void setLfoTremelo(float db);
+
+        /* Output gain of the synth
+         */
+        public static native void setGain(float gain);
+    }
+
+
+    /*
+     * This class provides a clean Java interface for the NativeClickTrack subtractive synthesizer
+     */
     public static class DrumMachine {
         /* Note down to trigger. The drum machine follows the standard MIDI numbering for drums.
          * Note that a voice may not contain all drum types
