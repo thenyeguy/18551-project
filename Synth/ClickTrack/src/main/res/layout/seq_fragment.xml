@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/RollSeqLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/clearSeqButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/clear" />
+
+        <Button
+            android:id="@+id/playSeqButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/play" />
+
+        <Button
+            android:id="@+id/stopSeqButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/pause" />
+
+        <Button
+            android:id="@+id/saveSeqButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/tapereel" />
+
+        <Button
+            android:id="@+id/loadSequencerRollButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/background_dark"
+            android:text="LOAD"
+            android:textColor="@android:color/holo_blue_light" />
+
+
+        <EditText
+            android:id="@+id/sequencerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/background_dark"
+            android:inputType="numberDecimal"
+            android:text="100"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RollSeqLayout"
+        android:id="@+id/InnerRoll"
+        android:orientation="horizontal">
+
+        <edu.cmu.ece.ece551.uis.SequencerView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:tag="test1"
+            android:id="@+id/asdf"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/octaveUp"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/uparrow"/>
+
+            <Button
+                android:id="@+id/octaveDown"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/uparrow"
+                android:rotation="180"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+

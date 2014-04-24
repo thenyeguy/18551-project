@@ -88,7 +88,7 @@ public class PianoRollView extends View {
         params.height = size.y - 40;
         setLayoutParams(params);
 
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.DKGRAY);
         paint.setStyle(Paint.Style.FILL);
         //canvas.drawPaint(paint);
 

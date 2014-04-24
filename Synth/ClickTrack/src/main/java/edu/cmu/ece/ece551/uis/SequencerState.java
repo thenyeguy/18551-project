@@ -34,7 +34,7 @@ public class SequencerState implements Serializable{
     private int tempo = 100;
 
     private Scale scale;
-    private InstrumentController instrument = SubtractiveSynthController.getInstance();
+    private static InstrumentController instrument = SubtractiveSynthController.getInstance();
 
     public SequencerState() {
         scale = new DiatonicScale("C", Tonality.MAJOR);

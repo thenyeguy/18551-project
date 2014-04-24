@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,10 +49,10 @@ public class PianoRollFragment extends Fragment {
 
     String startingNote = "C";
     ScaleType scaleType = ScaleType.DIATONIC_MAJOR;
-    public static String TAG = "piano";
+    private static String TAG = "piano";
     private PianoRollView prv;
 
-    protected final String ROLLPATH = "/sdcard/ClickTrack/PianoMeasures/";
+    public static final String ROLLPATH = Environment.getExternalStorageDirectory() + "/ClickTrack/PianoRoll/";
 
     InstrumentController instrument;
 
@@ -118,6 +119,12 @@ public class PianoRollFragment extends Fragment {
                         // Get the file to save to
                         String name = input.getText().toString();
                         File f = new File(ROLLPATH + name + ".json");
+
+                        File folder = new File(ROLLPATH);
+                        if (!folder.exists()) {
+                            folder.mkdir();
+                        }
+
 
                         ObjectOutputStream oos = null;
                         try {
