@@ -18,6 +18,55 @@ public class MasterControls extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_master_controls, container, false);
 
+        // Configure ring modulator
+        KnobView ringmodFreq = (KnobView) rootView.findViewById(R.id.ringmodFreqKnob);
+        ringmodFreq.setName("Freq");
+        ringmodFreq.registerKnobReceiver(new KnobReceiver() {
+            private DecimalFormat dfor = new DecimalFormat("0");
+
+            private float adjustValue(float value) {
+                return ((float) Math.pow(10, value) - 1) / 9 * 999 + 1;
+            }
+
+            @Override
+            public void onKnobChange(float value) {
+                NativeClickTrack.RingModulator.setFreq(adjustValue(value));
+            }
+
+            @Override
+            public String formatValue(float value) {
+                return dfor.format(adjustValue(value)) + "Hz";
+            }
+
+            @Override
+            public float getValue(float value) {
+                return (float) Math.log10((value - 1) / 999 * 9 + 1);
+            }
+        });
+        ringmodFreq.setValue(1);
+
+        KnobView ringmodWetness = (KnobView) rootView.findViewById(R.id.ringmodWetnessKnob);
+        ringmodWetness.setName("Wetness");
+        ringmodWetness.registerKnobReceiver(new KnobReceiver() {
+            private DecimalFormat dfor = new DecimalFormat("0.00");
+
+            @Override
+            public void onKnobChange(float value) {
+                NativeClickTrack.RingModulator.setWetness(value);
+            }
+
+            @Override
+            public String formatValue(float value) {
+                return dfor.format(value);
+            }
+
+            @Override
+            public float getValue(float value) {
+                return value;
+            }
+        });
+        ringmodWetness.setValue(0.0f);
+
         // Configure reverb knobs
         KnobView reverbGain = (KnobView) rootView.findViewById(R.id.reverbGainKnob);
         reverbGain.setName("Gain");

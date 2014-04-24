@@ -315,10 +315,10 @@ public class FMSynthToneControls extends Fragment {
         carrierTranspose = (KnobView) rootView.findViewById(R.id.fmCarrierTransposeKnob);
         carrierTranspose.setName("Transpose");
         carrierTranspose.registerKnobReceiver(new KnobReceiver() {
-            private DecimalFormat dfor = new DecimalFormat("0");
+            private DecimalFormat dfor = new DecimalFormat("0.0");
 
-            private float adjustValue(float value) {
-                return Math.round((value - 0.5f) * 2 * 24);
+            private float adjustValue(float value){
+                return (value - 0.5f) * 2 * 12;
             }
 
             @Override
@@ -333,17 +333,17 @@ public class FMSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value / 2 / 24 + 0.5f;
+                return value / 2 / 12 + 0.5f;
             }
         });
 
         modulatorTranspose = (KnobView) rootView.findViewById(R.id.fmModulatorTransposeKnob);
         modulatorTranspose.setName("Transpose");
         modulatorTranspose.registerKnobReceiver(new KnobReceiver() {
-            private DecimalFormat dfor = new DecimalFormat("0");
+            private DecimalFormat dfor = new DecimalFormat("0.0");
 
             private float adjustValue(float value) {
-                return Math.round((value - 0.5f) * 2 * 24);
+                return (value - 0.5f) * 2 * 12;
             }
 
             @Override
@@ -358,7 +358,7 @@ public class FMSynthToneControls extends Fragment {
 
             @Override
             public float getValue(float value) {
-                return value / 2 / 24 + 0.5f;
+                return value / 2 / 12 + 0.5f;
             }
         });
 
@@ -369,7 +369,7 @@ public class FMSynthToneControls extends Fragment {
             private DecimalFormat dfor = new DecimalFormat("0.0");
 
             private float adjustValue(float value) {
-                return Math.round(value * 10);
+                return value * 10;
             }
 
             @Override
@@ -664,24 +664,23 @@ public class FMSynthToneControls extends Fragment {
     }
 
 
-    private NativeClickTrack.FMSynth.OscillatorMode stringToOscMode(String modeText)
+    private NativeClickTrack.OscillatorMode stringToOscMode(String modeText)
     {
-        NativeClickTrack.FMSynth.OscillatorMode mode = NativeClickTrack.FMSynth
-                .OscillatorMode.SINE;
+        NativeClickTrack.OscillatorMode mode = NativeClickTrack.OscillatorMode.SINE;
 
         if(modeText.equals("Saw"))
-            mode = NativeClickTrack.FMSynth.OscillatorMode.BLEPSAW;
+            mode = NativeClickTrack.OscillatorMode.BLEPSAW;
         else if(modeText.equals("Square"))
-            mode = NativeClickTrack.FMSynth.OscillatorMode.BLEPSQUARE;
+            mode = NativeClickTrack.OscillatorMode.BLEPSQUARE;
         else if(modeText.equals("Triangle"))
-            mode = NativeClickTrack.FMSynth.OscillatorMode.BLEPTRI;
+            mode = NativeClickTrack.OscillatorMode.BLEPTRI;
         else if(modeText.equals("White Noise"))
-            mode = NativeClickTrack.FMSynth.OscillatorMode.WHITENOISE;
+            mode = NativeClickTrack.OscillatorMode.WHITENOISE;
 
         return mode;
     }
 
-    private int oscModeToIndex(NativeClickTrack.FMSynth.OscillatorMode mode) {
+    private int oscModeToIndex(NativeClickTrack.OscillatorMode mode) {
         switch(mode) {
             case SINE:
                 return 0;
@@ -700,19 +699,18 @@ public class FMSynthToneControls extends Fragment {
         return 0;
     }
 
-    private NativeClickTrack.FMSynth.FilterMode stringToFilterMode(String modeText)
+    private NativeClickTrack.FilterMode stringToFilterMode(String modeText)
     {
-        NativeClickTrack.FMSynth.FilterMode mode = NativeClickTrack.FMSynth
-                .FilterMode.LOWPASS;
+        NativeClickTrack.FilterMode mode = NativeClickTrack.FilterMode.LOWPASS;
 
         if(modeText.equals("Low shelf"))
-            mode = NativeClickTrack.FMSynth.FilterMode.LOWSHELF;
+            mode = NativeClickTrack.FilterMode.LOWSHELF;
         else if(modeText.equals("High pass"))
-            mode = NativeClickTrack.FMSynth.FilterMode.HIGHPASS;
+            mode = NativeClickTrack.FilterMode.HIGHPASS;
         else if(modeText.equals("High shelf"))
-            mode = NativeClickTrack.FMSynth.FilterMode.HIGHSHELF;
+            mode = NativeClickTrack.FilterMode.HIGHSHELF;
         else if(modeText.equals("Peak"))
-            mode = NativeClickTrack.FMSynth.FilterMode.PEAK;
+            mode = NativeClickTrack.FilterMode.PEAK;
 
         return mode;
     }

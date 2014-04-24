@@ -112,6 +112,10 @@ public class MainActivity extends Activity {
         if(!subsynthTones.exists())
             subsynthTones.mkdir();
 
+        File fmTones = new File("/sdcard/ClickTrack/FMSynthTones/");
+        if(!fmTones.exists())
+            fmTones.mkdir();
+
         // Load the library
         Log.i(TAG, "Creating a new ClickTrack instance.");
         NativeClickTrack.loadLibray();

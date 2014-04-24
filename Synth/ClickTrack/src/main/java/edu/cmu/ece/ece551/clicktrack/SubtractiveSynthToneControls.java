@@ -638,24 +638,23 @@ public class SubtractiveSynthToneControls extends Fragment {
     }
 
 
-    private NativeClickTrack.SubtractiveSynth.OscillatorMode stringToOscMode(String modeText)
+    private NativeClickTrack.OscillatorMode stringToOscMode(String modeText)
     {
-        NativeClickTrack.SubtractiveSynth.OscillatorMode mode = NativeClickTrack.SubtractiveSynth
-                .OscillatorMode.SINE;
+        NativeClickTrack.OscillatorMode mode = NativeClickTrack.OscillatorMode.SINE;
 
         if(modeText.equals("Saw"))
-            mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
+            mode = NativeClickTrack.OscillatorMode.BLEPSAW;
         else if(modeText.equals("Square"))
-            mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSQUARE;
+            mode = NativeClickTrack.OscillatorMode.BLEPSQUARE;
         else if(modeText.equals("Triangle"))
-            mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPTRI;
+            mode = NativeClickTrack.OscillatorMode.BLEPTRI;
         else if(modeText.equals("White Noise"))
-            mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.WHITENOISE;
+            mode = NativeClickTrack.OscillatorMode.WHITENOISE;
 
         return mode;
     }
 
-    private int oscModeToIndex(NativeClickTrack.SubtractiveSynth.OscillatorMode mode) {
+    private int oscModeToIndex(NativeClickTrack.OscillatorMode mode) {
         switch(mode) {
             case SINE:
                 return 0;
@@ -674,19 +673,18 @@ public class SubtractiveSynthToneControls extends Fragment {
         return 0;
     }
 
-    private NativeClickTrack.SubtractiveSynth.FilterMode stringToFilterMode(String modeText)
+    private NativeClickTrack.FilterMode stringToFilterMode(String modeText)
     {
-        NativeClickTrack.SubtractiveSynth.FilterMode mode = NativeClickTrack.SubtractiveSynth
-                .FilterMode.LOWPASS;
+        NativeClickTrack.FilterMode mode = NativeClickTrack.FilterMode.LOWPASS;
 
         if(modeText.equals("Low shelf"))
-            mode = NativeClickTrack.SubtractiveSynth.FilterMode.LOWSHELF;
+            mode = NativeClickTrack.FilterMode.LOWSHELF;
         else if(modeText.equals("High pass"))
-            mode = NativeClickTrack.SubtractiveSynth.FilterMode.HIGHPASS;
+            mode = NativeClickTrack.FilterMode.HIGHPASS;
         else if(modeText.equals("High shelf"))
-            mode = NativeClickTrack.SubtractiveSynth.FilterMode.HIGHSHELF;
+            mode = NativeClickTrack.FilterMode.HIGHSHELF;
         else if(modeText.equals("Peak"))
-            mode = NativeClickTrack.SubtractiveSynth.FilterMode.PEAK;
+            mode = NativeClickTrack.FilterMode.PEAK;
 
         return mode;
     }

@@ -20,16 +20,16 @@ public class FMSynthController implements InstrumentController {
      */
     protected float outputGain;
 
-    protected NativeClickTrack.FMSynth.OscillatorMode carrierMode, modulatorMode;
+    protected NativeClickTrack.OscillatorMode carrierMode, modulatorMode;
     protected float carrierTransposition, modulatorTransposition;
     protected float modulatorIntensity;
 
     protected float attack, decay, sustain, release;
 
-    protected NativeClickTrack.FMSynth.FilterMode filterMode;
+    protected NativeClickTrack.FilterMode filterMode;
     protected float filterCutoff, filterGain, filterQ;
 
-    protected NativeClickTrack.FMSynth.OscillatorMode lfoMode;
+    protected NativeClickTrack.OscillatorMode lfoMode;
     protected float lfoFreq;
     protected float lfoVibratoSteps, lfoTremeloDb;
 
@@ -43,20 +43,20 @@ public class FMSynthController implements InstrumentController {
         // Set defaults
         outputGain = 0f;
 
-        carrierMode = NativeClickTrack.FMSynth.OscillatorMode.SINE;
-        modulatorMode = NativeClickTrack.FMSynth.OscillatorMode.SINE;
+        carrierMode = NativeClickTrack.OscillatorMode.SINE;
+        modulatorMode = NativeClickTrack.OscillatorMode.SINE;
 
         attack = 0.05f;
         decay = 0.1f;
         sustain = 0.5f;
         release = 0.3f;
 
-        filterMode = NativeClickTrack.FMSynth.FilterMode.LOWPASS;
+        filterMode = NativeClickTrack.FilterMode.LOWPASS;
         filterCutoff = 20000f;
         filterGain = 0.0f;
         filterQ = 5f;
 
-        lfoMode = NativeClickTrack.FMSynth.OscillatorMode.SINE;
+        lfoMode = NativeClickTrack.OscillatorMode.SINE;
         lfoFreq = 5f;
         lfoVibratoSteps = 0.0f;
         lfoTremeloDb = 0.0f;
@@ -93,20 +93,20 @@ public class FMSynthController implements InstrumentController {
         NativeClickTrack.FMSynth.setGain(outputGain);
     }
 
-    public NativeClickTrack.FMSynth.OscillatorMode getCarrierMode() {
+    public NativeClickTrack.OscillatorMode getCarrierMode() {
         return carrierMode;
     }
 
-    public void setCarrierMode(NativeClickTrack.FMSynth.OscillatorMode carrierMode) {
+    public void setCarrierMode(NativeClickTrack.OscillatorMode carrierMode) {
         this.carrierMode = carrierMode;
         NativeClickTrack.FMSynth.setCarrierMode(carrierMode.value);
     }
 
-    public NativeClickTrack.FMSynth.OscillatorMode getModulatorMode() {
+    public NativeClickTrack.OscillatorMode getModulatorMode() {
         return modulatorMode;
     }
 
-    public void setModulatorMode(NativeClickTrack.FMSynth.OscillatorMode modulatorMode) {
+    public void setModulatorMode(NativeClickTrack.OscillatorMode modulatorMode) {
         this.modulatorMode = modulatorMode;
         NativeClickTrack.FMSynth.setModulatorMode(modulatorMode.value);
     }
@@ -174,11 +174,11 @@ public class FMSynthController implements InstrumentController {
         NativeClickTrack.FMSynth.setReleaseTime(release);
     }
 
-    public NativeClickTrack.FMSynth.FilterMode getFilterMode() {
+    public NativeClickTrack.FilterMode getFilterMode() {
         return filterMode;
     }
 
-    public void setFilterMode(NativeClickTrack.FMSynth.FilterMode filterMode) {
+    public void setFilterMode(NativeClickTrack.FilterMode filterMode) {
         this.filterMode = filterMode;
         NativeClickTrack.FMSynth.setFilterMode(filterMode.value);
     }
@@ -210,11 +210,11 @@ public class FMSynthController implements InstrumentController {
         NativeClickTrack.FMSynth.setFilterQ(filterQ);
     }
 
-    public NativeClickTrack.FMSynth.OscillatorMode getLfoMode() {
+    public NativeClickTrack.OscillatorMode getLfoMode() {
         return lfoMode;
     }
 
-    public void setLfoMode(NativeClickTrack.FMSynth.OscillatorMode lfoMode) {
+    public void setLfoMode(NativeClickTrack.OscillatorMode lfoMode) {
         this.lfoMode = lfoMode;
         NativeClickTrack.FMSynth.setLfoMode(lfoMode.value);
     }
@@ -267,9 +267,9 @@ public class FMSynthController implements InstrumentController {
             if(k.equals("outputGain"))
                 setOutputGain(Float.valueOf(v));
             else if(k.equals("carrierMode"))
-                setCarrierMode(NativeClickTrack.FMSynth.OscillatorMode.valueOf(v));
+                setCarrierMode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("modulatorMode"))
-                setModulatorMode(NativeClickTrack.FMSynth.OscillatorMode.valueOf(v));
+                setModulatorMode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("carrierTransposition"))
                 setCarrierTransposition(Float.valueOf(v));
             else if(k.equals("modulatorTransposition"))
@@ -285,7 +285,7 @@ public class FMSynthController implements InstrumentController {
             else if(k.equals("release"))
                 setRelease(Float.valueOf(v));
             else if(k.equals("filterMode"))
-                setFilterMode(NativeClickTrack.FMSynth.FilterMode.valueOf(v));
+                setFilterMode(NativeClickTrack.FilterMode.valueOf(v));
             else if(k.equals("filterCutoff"))
                 setFilterCutoff(Float.valueOf(v));
             else if(k.equals("filterGain"))
@@ -293,7 +293,7 @@ public class FMSynthController implements InstrumentController {
             else if(k.equals("filterQ"))
                 setFilterQ(Float.valueOf(v));
             else if(k.equals("lfoMode"))
-                setLfoMode(NativeClickTrack.FMSynth.OscillatorMode.valueOf(v));
+                setLfoMode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("lfoFreq"))
                 setLfoFreq(Float.valueOf(v));
             else if(k.equals("lfoVibratoSteps"))

@@ -20,15 +20,15 @@ public class SubtractiveSynthController implements InstrumentController {
      */
     protected float outputGain;
 
-    protected NativeClickTrack.SubtractiveSynth.OscillatorMode osc1mode, osc2mode;
+    protected NativeClickTrack.OscillatorMode osc1mode, osc2mode;
     protected float osc1transposition, osc2transposition;
 
     protected float attack, decay, sustain, release;
 
-    protected NativeClickTrack.SubtractiveSynth.FilterMode filterMode;
+    protected NativeClickTrack.FilterMode filterMode;
     protected float filterCutoff, filterGain, filterQ;
 
-    protected NativeClickTrack.SubtractiveSynth.OscillatorMode lfoMode;
+    protected NativeClickTrack.OscillatorMode lfoMode;
     protected float lfoFreq;
     protected float lfoVibratoSteps, lfoTremeloDb;
 
@@ -42,20 +42,20 @@ public class SubtractiveSynthController implements InstrumentController {
         // Set defaults
         outputGain = 0f;
 
-        osc1mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
-        osc2mode = NativeClickTrack.SubtractiveSynth.OscillatorMode.BLEPSAW;
+        osc1mode = NativeClickTrack.OscillatorMode.BLEPSAW;
+        osc2mode = NativeClickTrack.OscillatorMode.BLEPSAW;
 
         attack = 0.05f;
         decay = 0.1f;
         sustain = 0.5f;
         release = 0.3f;
 
-        filterMode = NativeClickTrack.SubtractiveSynth.FilterMode.LOWPASS;
+        filterMode = NativeClickTrack.FilterMode.LOWPASS;
         filterCutoff = 20000f;
         filterGain = 0.0f;
         filterQ = 5f;
 
-        lfoMode = NativeClickTrack.SubtractiveSynth.OscillatorMode.SINE;
+        lfoMode = NativeClickTrack.OscillatorMode.SINE;
         lfoFreq = 5f;
         lfoVibratoSteps = 0.0f;
         lfoTremeloDb = 0.0f;
@@ -92,20 +92,20 @@ public class SubtractiveSynthController implements InstrumentController {
         NativeClickTrack.SubtractiveSynth.setGain(outputGain);
     }
 
-    public NativeClickTrack.SubtractiveSynth.OscillatorMode getOsc1mode() {
+    public NativeClickTrack.OscillatorMode getOsc1mode() {
         return osc1mode;
     }
 
-    public void setOsc1mode(NativeClickTrack.SubtractiveSynth.OscillatorMode osc1mode) {
+    public void setOsc1mode(NativeClickTrack.OscillatorMode osc1mode) {
         this.osc1mode = osc1mode;
         NativeClickTrack.SubtractiveSynth.setOsc1Mode(osc1mode.value);
     }
 
-    public NativeClickTrack.SubtractiveSynth.OscillatorMode getOsc2mode() {
+    public NativeClickTrack.OscillatorMode getOsc2mode() {
         return osc2mode;
     }
 
-    public void setOsc2mode(NativeClickTrack.SubtractiveSynth.OscillatorMode osc2mode) {
+    public void setOsc2mode(NativeClickTrack.OscillatorMode osc2mode) {
         this.osc2mode = osc2mode;
         NativeClickTrack.SubtractiveSynth.setOsc2Mode(osc2mode.value);
     }
@@ -164,11 +164,11 @@ public class SubtractiveSynthController implements InstrumentController {
         NativeClickTrack.SubtractiveSynth.setReleaseTime(release);
     }
 
-    public NativeClickTrack.SubtractiveSynth.FilterMode getFilterMode() {
+    public NativeClickTrack.FilterMode getFilterMode() {
         return filterMode;
     }
 
-    public void setFilterMode(NativeClickTrack.SubtractiveSynth.FilterMode filterMode) {
+    public void setFilterMode(NativeClickTrack.FilterMode filterMode) {
         this.filterMode = filterMode;
         NativeClickTrack.SubtractiveSynth.setFilterMode(filterMode.value);
     }
@@ -200,11 +200,11 @@ public class SubtractiveSynthController implements InstrumentController {
         NativeClickTrack.SubtractiveSynth.setFilterQ(filterQ);
     }
 
-    public NativeClickTrack.SubtractiveSynth.OscillatorMode getLfoMode() {
+    public NativeClickTrack.OscillatorMode getLfoMode() {
         return lfoMode;
     }
 
-    public void setLfoMode(NativeClickTrack.SubtractiveSynth.OscillatorMode lfoMode) {
+    public void setLfoMode(NativeClickTrack.OscillatorMode lfoMode) {
         this.lfoMode = lfoMode;
         NativeClickTrack.SubtractiveSynth.setLfoMode(lfoMode.value);
     }
@@ -257,9 +257,9 @@ public class SubtractiveSynthController implements InstrumentController {
             if(k.equals("outputGain"))
                 setOutputGain(Float.valueOf(v));
             else if(k.equals("osc1mode"))
-                setOsc1mode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+                setOsc1mode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("osc2mode"))
-                setOsc2mode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+                setOsc2mode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("osc1transposition"))
                 setOsc1transposition(Float.valueOf(v));
             else if(k.equals("osc2transposition"))
@@ -273,7 +273,7 @@ public class SubtractiveSynthController implements InstrumentController {
             else if(k.equals("release"))
                 setRelease(Float.valueOf(v));
             else if(k.equals("filterMode"))
-                setFilterMode(NativeClickTrack.SubtractiveSynth.FilterMode.valueOf(v));
+                setFilterMode(NativeClickTrack.FilterMode.valueOf(v));
             else if(k.equals("filterCutoff"))
                 setFilterCutoff(Float.valueOf(v));
             else if(k.equals("filterGain"))
@@ -281,7 +281,7 @@ public class SubtractiveSynthController implements InstrumentController {
             else if(k.equals("filterQ"))
                 setFilterQ(Float.valueOf(v));
             else if(k.equals("lfoMode"))
-                setLfoMode(NativeClickTrack.SubtractiveSynth.OscillatorMode.valueOf(v));
+                setLfoMode(NativeClickTrack.OscillatorMode.valueOf(v));
             else if(k.equals("lfoFreq"))
                 setLfoFreq(Float.valueOf(v));
             else if(k.equals("lfoVibratoSteps"))

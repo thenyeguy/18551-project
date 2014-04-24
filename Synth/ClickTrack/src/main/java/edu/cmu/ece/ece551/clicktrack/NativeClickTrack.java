@@ -86,6 +86,27 @@ public class NativeClickTrack {
     }
 
     /*
+     * Enums used to set values for different types of paramaters
+     */
+    public enum OscillatorMode {
+        SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
+
+        public int value;
+        private OscillatorMode(int value) {
+            this.value = value;
+        }
+    }
+
+    public enum FilterMode {
+        LOWPASS(0), LOWSHELF(1), HIGHPASS(2), HIGHSHELF(3), PEAK(4);
+
+        public int value;
+        private FilterMode(int value) {
+            this.value = value;
+        }
+    }
+
+    /*
      * This function will trigger audio playback in a separate thread. It gracefully handles
      * redundant play commands.
      */
@@ -104,6 +125,15 @@ public class NativeClickTrack {
      */
     public static native void start();
     public static native void stop();
+
+
+    /*
+     * This class provides a clean Java interface for the master channel ring modulator
+     */
+    public static class RingModulator {
+        public static native void setFreq(float freq);
+        public static native void setWetness(float wetness);
+    }
 
 
     /*
@@ -136,14 +166,6 @@ public class NativeClickTrack {
 
         /* Oscillator modes. Please use the provided enum constants
          */
-        public enum OscillatorMode {
-            SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
-
-            public int value;
-            private OscillatorMode(int value) {
-                this.value = value;
-            }
-        }
         public static native void setOsc1Mode(int mode);
         public static native void setOsc2Mode(int mode);
 
@@ -170,14 +192,6 @@ public class NativeClickTrack {
          *
          * Cutoff is in Hz, gain is in dB
          */
-        public enum FilterMode {
-            LOWPASS(0), LOWSHELF(1), HIGHPASS(2), HIGHSHELF(3), PEAK(4);
-
-            public int value;
-            private FilterMode(int value) {
-                this.value = value;
-            }
-        }
         public static native void setFilterMode(int mode);
         public static native void setFilterCutoff(float cutoff);
         public static native void setFilterGain(float gain);
@@ -213,14 +227,6 @@ public class NativeClickTrack {
 
         /* Oscillator modes. Please use the provided enum constants
          */
-        public enum OscillatorMode {
-            SINE(0), SAW(1), SQUARE(2), TRI(3), WHITENOISE(4), BLEPSAW(5), BLEPSQUARE(6), BLEPTRI(7);
-
-            public int value;
-            private OscillatorMode(int value) {
-                this.value = value;
-            }
-        }
         public static native void setCarrierMode(int mode);
         public static native void setModulatorMode(int mode);
 
@@ -251,14 +257,6 @@ public class NativeClickTrack {
          *
          * Cutoff is in Hz, gain is in dB
          */
-        public enum FilterMode {
-            LOWPASS(0), LOWSHELF(1), HIGHPASS(2), HIGHSHELF(3), PEAK(4);
-
-            public int value;
-            private FilterMode(int value) {
-                this.value = value;
-            }
-        }
         public static native void setFilterMode(int mode);
         public static native void setFilterCutoff(float cutoff);
         public static native void setFilterGain(float gain);

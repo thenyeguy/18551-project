@@ -83,5 +83,6 @@
     <string name="loadFMSynthTone">Load</string>
     <string name="carrierLabel">Carrier</string>
     <string name="modulatorLabel">Modulator</string>
+    <string name="ringmodColumn">RING MOD</string>
 
 </resources>
