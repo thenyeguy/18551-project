@@ -224,7 +224,7 @@ public class FMSynthToneControls extends Fragment {
         });
 
         tremeloKnob = (KnobView) rootView.findViewById(R.id.fmTremeloKnob);
-        tremeloKnob.setName("Tremelo");
+        tremeloKnob.setName("Tremolo");
         tremeloKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
 

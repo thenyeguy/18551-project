@@ -225,7 +225,7 @@ public class SubtractiveSynthToneControls extends Fragment {
         });
 
         tremeloKnob = (KnobView) rootView.findViewById(R.id.ssTremeloKnob);
-        tremeloKnob.setName("Tremelo");
+        tremeloKnob.setName("Tremolo");
         tremeloKnob.registerKnobReceiver(new KnobReceiver() {
             private DecimalFormat dfor = new DecimalFormat("0.0");
 

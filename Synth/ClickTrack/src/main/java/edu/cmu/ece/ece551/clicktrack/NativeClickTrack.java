@@ -128,11 +128,18 @@ public class NativeClickTrack {
 
 
     /*
-     * This class provides a clean Java interface for the master channel ring modulator
+     * This class provides a clean Java interface for the master channel EQ
+     *
+     * The EQ consists of three points: a highpass, a peak filters, and a lowpass
      */
-    public static class RingModulator {
-        public static native void setFreq(float freq);
-        public static native void setWetness(float wetness);
+    public static class Equalizer {
+        public static native void setLowCutoff(float cutoff);
+
+        public static native void setMidCutoff(float cutoff);
+        public static native void setMidGain(float gain);
+        public static native void setMidQ(float q);
+
+        public static native void setHighCutoff(float cutoff);
     }
 
 
@@ -317,5 +324,15 @@ public class NativeClickTrack {
          * documentation for further details
          */
         public static native void setVoice(String path);
+
+        /* These functions controls the ring modulator on the output
+         */
+        public static native void setRingFreq(float freq);
+        public static native void setRingWetness(float wetness);
+
+        /* These functions controls the compressor
+         */
+        public static native void setCompressionThreshold(float threshold);
+        public static native void setCompressionRatio(float ratio);
     }
 }
