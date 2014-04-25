@@ -51,3 +51,5 @@ capstone, versus what code was already written. So far, that list is:
 5. Drum machine
 6. LFOs
 7. Limiter, compressor, and noise gate
+8. FM synthesizer
+9. Ring modulator
