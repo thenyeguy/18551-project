@@ -36,7 +36,7 @@ public class DrumMachineController implements InstrumentController {
         ringWetness = 0;
 
         compressionThreshold = 0;
-        compressionRatio = 1;
+        compressionRatio = 0;
     }
 
     public static DrumMachineController getInstance() {

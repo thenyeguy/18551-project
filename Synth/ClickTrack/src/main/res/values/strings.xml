@@ -88,5 +88,9 @@
     <string name="compressorColumn">COMPRESSOR</string>
     <string name="saveDrumMachineTone">Save</string>
     <string name="loadDrumMachineTone">Load</string>
+    <string name="equalizerColumn">EQUALIZER</string>
+    <string name="highpass">High Pass</string>
+    <string name="lowpass">Low Pass</string>
+    <string name="peak">Peak</string>
 
 </resources>
