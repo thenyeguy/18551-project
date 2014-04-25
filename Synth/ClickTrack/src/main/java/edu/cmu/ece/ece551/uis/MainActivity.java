@@ -43,7 +43,6 @@ import edu.cmu.ece.ece551.clicktrack.MasterControls;
 import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthToneControls;
-import edu.cmu.ece.ece551.clicktrack.TestClickTrack;
 import edu.cmu.ece.ece551.synth.R;
 
 /**
@@ -116,6 +115,10 @@ public class MainActivity extends Activity {
         File fmTones = new File("/sdcard/ClickTrack/FMSynthTones/");
         if(!fmTones.exists())
             fmTones.mkdir();
+
+        File drumMachineTones = new File("/sdcard/ClickTrack/DrumMachineTones/");
+        if(!drumMachineTones.exists())
+            drumMachineTones.mkdir();
 
         // Load the library
         Log.i(TAG, "Creating a new ClickTrack instance.");
@@ -194,12 +197,6 @@ public class MainActivity extends Activity {
                 break;
             case 4:
                 fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
-                break;
-            case 5:
-                fragment = new KnobDemoFragment();
-                break;
-            case 6:
-                fragment = new TestClickTrack();
                 break;
         }
 

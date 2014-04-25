@@ -9,8 +9,6 @@
         <item>FM Synth Tone Control</item>
         <item>Drum Machine Tone Control</item>
         <item>Piano Roll</item>
-        <item>Knob Demo</item>
-        <item>Test ClickTrack</item>
     </string-array>
     <string-array name="scales">
         <item>Diatonic Major</item>

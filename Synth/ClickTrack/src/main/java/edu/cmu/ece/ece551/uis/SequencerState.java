@@ -1,24 +1,12 @@
 package edu.cmu.ece.ece551.uis;
 
-import android.util.JsonToken;
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Map;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
-import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.uis.scale.DiatonicScale;
 import edu.cmu.ece.ece551.uis.scale.Scale;

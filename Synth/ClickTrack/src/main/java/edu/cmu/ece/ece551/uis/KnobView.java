@@ -5,18 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
-import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import java.text.DecimalFormat;
 

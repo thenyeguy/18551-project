@@ -32,8 +32,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
