@@ -16,8 +16,19 @@ public enum MusicNote {
     F(29, "F"),
     F_SHARP(30, "F#"),
     G(31, "G"),
-    G_SHARP(32, "G#");
+    G_SHARP(32, "G#"),
 
+    BassDrum(36, "BassDrum"),
+    SnareDrum(38, "SnareDrum"),
+    ClsdHihat(42, "ClsdHihat"),
+    LowTom(45, "LowTom"),
+    OpenHihat(46, "OpenHihat"),
+    MidTom(47, "MidTom"),
+    CYmbal(49, "CYmbal"),
+    HiTom(50, "HiTom");
+
+
+    private static MusicNote[] goodVals = {A, A_SHARP, B, C, C_SHARP, D, D_SHARP, E, F, F_SHARP, G, G_SHARP};
 
     public int midi;
     public String english;
@@ -61,4 +72,7 @@ public enum MusicNote {
         return C;
     }
 
+    public static MusicNote[] myValues() {
+        return goodVals;
+    }
 }

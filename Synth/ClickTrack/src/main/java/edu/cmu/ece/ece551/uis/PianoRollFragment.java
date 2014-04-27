@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import edu.cmu.ece.ece551.clicktrack.DrumMachineController;
+import edu.cmu.ece.ece551.clicktrack.FMSynthController;
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.synth.R;
@@ -58,9 +60,6 @@ public class PianoRollFragment extends Fragment {
         instrument = SubtractiveSynthController.getInstance();
     }
 
-    public PianoRollFragment(InstrumentController controller) {
-        instrument = controller;
-    }
     private TimingManager tm;
 
     @Override
@@ -82,9 +81,9 @@ public class PianoRollFragment extends Fragment {
         final TextView tempoNum = (TextView) rootView.findViewById(R.id.tempoBox);
         prv = (PianoRollView) rootView.findViewById(R.id.pianoRoll);
 
+        // TODO: Instrument spinner
 
         prv.setInstrument(instrument);
-        prv.setTempo(Integer.parseInt(tempoNum.getText().toString()));
 
         Spinner scaleSpinner = (Spinner) rootView.findViewById(R.id.scaleSpinner);
         ArrayAdapter<ScaleType> adapter = new ArrayAdapter<ScaleType>(rootView.getContext(),
@@ -98,8 +97,18 @@ public class PianoRollFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tonicSpinner.setAdapter(adapter2);
 
+        final Spinner instrumentSpinner = (Spinner) rootView.findViewById(R.id.instrumentSpinner);
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(rootView.getContext(),
+                R.array.instruments, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        instrumentSpinner.setAdapter(adapter3);
+
 
         tm = new TimingManager(prv.getState(), prv);
+        tm.setInst(SubtractiveSynthController.getInstance());
+
+
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +195,37 @@ public class PianoRollFragment extends Fragment {
 
 
 
+        instrumentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                Log.d(TAG, "switch inst with position " + pos);
+                switch(pos) {
+                    case 0:
+                        tm.setInst(SubtractiveSynthController.getInstance());
+                        break;
+                    case 1:
+                        tm.setInst(FMSynthController.getInstance());
+                        break;
+                    case 2:
+                        tm.setInst(DrumMachineController.getInstance());
+                        // Do drum stuff.
+
+                        // Drums need their own kind of SequencerState?
+
+                        prv.prepForDrums();
+                        octaveText.setText("0");
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -236,6 +276,7 @@ public class PianoRollFragment extends Fragment {
             public void onClick(View view) {
 
                 if(!tm.isPlaying()) {
+                    tm.setTempo(Integer.parseInt(tempoNum.getText().toString()));
                     tm.playMeasure();
                 }
 
@@ -263,23 +304,6 @@ public class PianoRollFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 octaveText.setText(Integer.toString(prv.octaveUp()));
-            }
-        });
-
-        tempoNum.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                prv.setTempo(Integer.parseInt(s.toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 

@@ -22,6 +22,7 @@ import edu.cmu.ece.ece551.clicktrack.InstrumentController;
 import edu.cmu.ece.ece551.uis.Notation.MusicNote;
 import edu.cmu.ece.ece551.uis.scale.BluesScale;
 import edu.cmu.ece.ece551.uis.scale.DiatonicScale;
+import edu.cmu.ece.ece551.uis.scale.DrumScale;
 import edu.cmu.ece.ece551.uis.scale.PentatonicScale;
 import edu.cmu.ece.ece551.uis.scale.Scale;
 import edu.cmu.ece.ece551.uis.scale.ScaleType;
@@ -186,7 +187,7 @@ public class PianoRollView extends View {
                         int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
                         Log.d("note", "Playing note: " + note);
                         if ( j == 15 || (j < 15 && sequences[i][j] != 1)) {
-                            instrument.noteUp(note, 1.0f);
+                            //instrument.noteUp(note, 1.0f);
                         }
                     }
                 }
@@ -199,7 +200,7 @@ public class PianoRollView extends View {
                     int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
                     //Log.d("note", "Playing note: " + note);
                     if ( j == 0 || (j > 0 && sequences[i][j-1] != 1)) {
-                        instrument.noteDown(note, 1.0f);
+                        //instrument.noteDown(note, 1.0f);
                     }
                 }
             }
@@ -283,14 +284,6 @@ public class PianoRollView extends View {
         return state.getCurrentOctave();
     }
 
-    public void setTempo(int tempo) {
-        state.setTempo(tempo);
-    }
-
-    public int getTempo() {
-        return state.getTempo();
-    }
-
     public float getRectX() {
         return rectX;
     }
@@ -305,6 +298,12 @@ public class PianoRollView extends View {
             }
         }
 
+    }
+
+    public void prepForDrums() {
+        // Drums are limited to octave 0.
+        state.setScale(new DrumScale());
+        state.setCurrentOctave(0);
     }
 
     private class myTouchListener implements OnTouchListener {

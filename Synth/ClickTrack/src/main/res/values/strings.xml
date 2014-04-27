@@ -9,6 +9,7 @@
         <item>FM Synth Tone Control</item>
         <item>Drum Machine Tone Control</item>
         <item>Piano Roll</item>
+        <item>Sequencer</item>
     </string-array>
     <string-array name="scales">
         <item>Diatonic Major</item>
@@ -17,6 +18,11 @@
         <item>Pentatonic Minor</item>
         <item>Major Blues</item>
         <item>Minor Blues</item>
+    </string-array>
+    <string-array name="instruments">
+        <item>Subtractive Synthesizer</item>
+        <item>FM Synthesizer</item>
+        <item>Drum Machine</item>
     </string-array>
     <string-array name="tonics">
         <item>C</item>

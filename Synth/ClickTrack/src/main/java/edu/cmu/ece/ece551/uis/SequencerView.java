@@ -28,16 +28,15 @@ public class SequencerView extends View {
 
     private boolean hasNext = false;
 
-    public static final int FRAME_WIDTH = 130;
-    public static final int FRAME_HEIGHT = 200;
+    public static final int FRAME_WIDTH = 200;
+    public static final int FRAME_HEIGHT = 300;
+    public static final int NAME_WIDTH = 300;
 
-    private SequencerState[][] measures = new SequencerState[4][16];
+    private SequencerState[][] measures = new SequencerState[3][8];
     private SequencerState nextMeasure;
 
     public SequencerView(Context context, AttributeSet attrs) {
         super(context);
-
-        measures[2][5] = new SequencerState();
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -75,6 +74,13 @@ public class SequencerView extends View {
         canvas.drawPaint(paint);
 
         for (int i = 0; i < measures.length; i++) {
+
+            paint.setColor(Color.CYAN);
+            paint.setTextSize(45);
+            r.set(0, i * FRAME_HEIGHT + FRAME_HEIGHT / 2, NAME_WIDTH, (i + 1) * FRAME_HEIGHT);
+
+            canvas.drawText(getStringFromRowIndex(i), r.left, r.top, paint);
+
             for (int j = 0; j < measures[i].length; j++) {
                 if (measures[i][j] == null) {
                     paint.setColor(Color.DKGRAY);
@@ -84,8 +90,8 @@ public class SequencerView extends View {
 
                 paint.setStyle(Paint.Style.FILL);
 
-                r.set(j * FRAME_WIDTH, i * FRAME_HEIGHT,
-                        (j + 1) * FRAME_WIDTH, (i + 1) * FRAME_HEIGHT);
+                r.set(j * FRAME_WIDTH + NAME_WIDTH, i * FRAME_HEIGHT,
+                        (j + 1) * FRAME_WIDTH + NAME_WIDTH, (i + 1) * FRAME_HEIGHT);
 
                 canvas.drawRect(r, paint);
 
@@ -117,6 +123,7 @@ public class SequencerView extends View {
     public void setNextThing(SequencerState ss) {
         hasNext = true;
         nextMeasure = ss;
+        Log.d(TAG, "measures: " + ss.getSequences());
     }
 
 
@@ -140,7 +147,7 @@ public class SequencerView extends View {
                 case MotionEvent.ACTION_POINTER_DOWN: // Multitouch
                 case MotionEvent.ACTION_DOWN:
 
-                    int j = (int) (x) / FRAME_WIDTH;
+                    int j = (int) (x) / FRAME_WIDTH - 1;
                     //int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
                     int k = (int) y / FRAME_HEIGHT;
 
@@ -176,6 +183,19 @@ public class SequencerView extends View {
 
     public SequencerState[][] getMeasures() {
         return measures;
+    }
+
+
+    private String getStringFromRowIndex(int i) {
+        switch(i) {
+            case 0:
+                return "Subtractive \nSynth";
+            case 1:
+                return "FM \n Synth";
+            case 2:
+                return "Drum \n Machine";
+        }
+        return "";
     }
 
 }

@@ -66,6 +66,12 @@
             android:id="@+id/tonicSpinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/instrumentSpinner"/>
+
     </LinearLayout>
 
     <LinearLayout

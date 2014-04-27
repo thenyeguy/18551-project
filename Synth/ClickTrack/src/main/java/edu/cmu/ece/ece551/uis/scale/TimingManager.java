@@ -9,20 +9,24 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.uis.PianoRollView;
 import edu.cmu.ece.ece551.uis.SequencerState;
 
-/**
- * Created by michaelryan on 4/13/14.
- */
 public class TimingManager {
 
+
+    private String TAG = "Timing Manager";
 
     private SequencerState state;
     private PianoRollView prv;
 
     private boolean playing;
     private Timer timer;
+    private InstrumentController inst;
+
+    private int tempo = 100;
 
     private float rectIncrement = 10;
     final private HashSet<Integer> notesPlaying;
@@ -33,11 +37,19 @@ public class TimingManager {
         notesPlaying = Sets.newHashSet();
     }
 
+    public TimingManager(SequencerState state, int tempo, InstrumentController inst) {
+        this.state = state;
+        this.tempo = tempo;
+        this.inst = inst;
+        notesPlaying = Sets.newHashSet();
+        prv = null;
+    }
 
     public void playMeasure() {
+
         playing = true;
         // minutes / beats * ms / minute
-        final float msPerMeasure = 4.25f / state.getTempo() * 60000f;
+        final float msPerMeasure = 4.25f / tempo * 60000f;
         final float msPerSixteenth = msPerMeasure / 16f;
         rectIncrement = PianoRollView.FRAME_WIDTH / msPerSixteenth * 10;
         Log.d("timing", "rectInc: " + rectIncrement);
@@ -57,20 +69,22 @@ public class TimingManager {
 
                 int[][] sequences = state.getSequences();
 
-                if (diff - msPerSixteenth >= msPerMeasure || j >= sequences[0].length) {
+                if (diff >= msPerMeasure || j >= sequences[0].length) {
 
                     stopPlaying();
                     cancel();
                     return;
                 }
 
-                prv.post(new Runnable() {
+                if (prv != null) {
+                    prv.post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        prv.moveRect(prv.getRectX() + rectIncrement);
-                    }
-                });
+                        @Override
+                        public void run() {
+                            prv.moveRect(prv.getRectX() + rectIncrement);
+                        }
+                    });
+                }
 
                 if (j < 0) return;
 
@@ -84,7 +98,7 @@ public class TimingManager {
                             if (notesPlaying.contains(note)) {
                                 if (j == 15 || sequences[i][j] == 0) {
                                     Log.d("timing", "ending " + state.getScale().getNoteNames().get(idx).toString());
-                                    state.getInstrument().noteUp(note, 1.0f);
+                                    inst.noteUp(note, 1.0f);
                                     notesPlaying.remove(note);
                                 }
                             }
@@ -102,7 +116,7 @@ public class TimingManager {
                         if (!notesPlaying.contains(note)) {
                             if (j == 0 || sequences[i][j - 1] == 0) {
                                 Log.d("timing", "starting " + state.getScale().getNoteNames().get(idx).toString());
-                                state.getInstrument().noteDown(note, 1.0f);
+                                inst.noteDown(note, 1.0f);
                                 notesPlaying.add(note);
                             }
 
@@ -116,6 +130,11 @@ public class TimingManager {
 
         timer.schedule(tt, 0, 10);
 
+    }
+
+
+    public void setInst(InstrumentController inst) {
+        this.inst = inst;
     }
 
     public void stopPlaying() {
@@ -133,18 +152,20 @@ public class TimingManager {
 
         Log.d("timing", "STOPPING!");
         while (iter.hasNext()) {
-            state.getInstrument().noteUp(iter.next(), 1.0f);
+            inst.noteUp(iter.next(), 1.0f);
         }
 
-        prv.post(new Runnable() {
+        if (prv != null) {
+            prv.post(new Runnable() {
 
-            @Override
-        public void run() {
-                prv.setRectX(-100);
-                prv.resetBoard();
-                prv.invalidate();
-                 }
-        });
+                @Override
+                public void run() {
+                    prv.setRectX(-100);
+                    prv.resetBoard();
+                    prv.invalidate();
+                }
+            });
+        }
 
         playing = false;
     }
@@ -154,4 +175,7 @@ public class TimingManager {
         return playing;
     }
 
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
 }

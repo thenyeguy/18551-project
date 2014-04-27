@@ -196,7 +196,10 @@ public class MainActivity extends Activity {
                 fragment = new DrumMachineToneControls();
                 break;
             case 4:
-                fragment = new PianoRollFragment(SubtractiveSynthController.getInstance());
+                fragment = new PianoRollFragment();
+                break;
+            case 5:
+                fragment = new SequencerFragment();
                 break;
         }
 

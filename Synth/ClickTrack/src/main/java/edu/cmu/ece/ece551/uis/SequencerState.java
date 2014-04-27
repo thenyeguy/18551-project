@@ -19,10 +19,8 @@ public class SequencerState implements Serializable{
 
     private int[][] sequences;
     private int currentOctave = 2;
-    private int tempo = 100;
 
     private Scale scale;
-    private static InstrumentController instrument = SubtractiveSynthController.getInstance();
 
     public SequencerState() {
         scale = new DiatonicScale("C", Tonality.MAJOR);
@@ -45,14 +43,6 @@ public class SequencerState implements Serializable{
         return scale;
     }
 
-    public InstrumentController getInstrument() {
-        return instrument;
-    }
-
-    public void setInstrument(InstrumentController instrument) {
-        this.instrument = instrument;
-    }
-
     public void setScale(Scale scale) {
         this.scale = scale;
         clearGrid();
@@ -60,14 +50,6 @@ public class SequencerState implements Serializable{
 
     public void clearGrid() {
         sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][NUM_BEATS];
-    }
-
-    public int getTempo() {
-        return tempo;
-    }
-
-    public void setTempo(int tempo) {
-        this.tempo = tempo;
     }
 
     @Override

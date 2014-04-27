@@ -388,6 +388,8 @@ public class FMSynthToneControls extends Fragment {
             }
         });
 
+        modulatorIntensity.setValue(5f);
+
 
 
         // Set up our ADSR envelope

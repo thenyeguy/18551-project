@@ -20,7 +20,7 @@ import edu.cmu.ece.ece551.uis.Notation.MusicNote;
  */
 public abstract class AbstractScale implements Scale {
 
-    private static final MusicNote[] noteNames = MusicNote.values();
+    private static final MusicNote[] noteNames = MusicNote.myValues();
     protected Interval[] intervals;
     protected Tonality tonality;
     protected String tonic;
@@ -33,7 +33,6 @@ public abstract class AbstractScale implements Scale {
         if (notes == null) {
 
             int idx = Arrays.binarySearch(noteNames, MusicNote.getFromString(tonic));
-
 
             result.add(noteNames[idx]);
 

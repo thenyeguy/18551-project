@@ -50,6 +50,7 @@ public class KnobView extends View {
 
     public void setValue(float value) {
         knobVal = receiver.getValue(value);
+        receiver.onKnobChange(knobVal);
         invalidate();
     }
 

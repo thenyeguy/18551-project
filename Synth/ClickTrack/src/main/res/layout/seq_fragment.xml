@@ -48,12 +48,12 @@
 
 
         <EditText
-            android:id="@+id/sequencerView"
+            android:id="@+id/tempoSeq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@android:color/background_dark"
-            android:inputType="numberDecimal"
+            android:inputType="phone"
             android:text="100"
             android:textColor="@android:color/holo_blue_light"
             android:textSize="20sp" />
@@ -75,7 +75,7 @@
             android:id="@+id/asdf"/>
 
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:orientation="vertical">
@@ -93,7 +93,7 @@
                 android:background="@drawable/uparrow"
                 android:rotation="180"/>
 
-        </LinearLayout>
+        </LinearLayout-->
 
     </LinearLayout>
 
