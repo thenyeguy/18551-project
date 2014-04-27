@@ -1,0 +1,73 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{url}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.5em}
+\doublespacing
+
+\begin{document}
+
+\begin{center}
+    \par{\bf \LARGE Synthotron}
+    \par{\bf \large Live Music Performance with Android}
+    \par{\large 18-551 Spring 2014 Capstone Project}
+    \par{\large Michael Nye (mnye), Michael Ryan (mer1)}
+\end{center}
+
+
+\section*{The Problem}
+
+Music performance applications on Android are virtually non-existent. Part of
+this problem is that historically, Android has not had good audio or touch
+latency, and music applications require very low latency to feel responsive.
+Modern Android versions have latency on the order of 100-150 ms. While this
+isn't yet low enough for a traditional keyboard-like interface, it is low enough
+to allow for performance aspects with an appropriate interface, with CD-quality
+audio (44.1kHz, 16-bit samples) in real-time.
+
+
+
+\begin{thebibliography}{9}
+    \singlespacing
+    \bibitem{caustic}
+    \url{https://play.google.com/store/apps/details?id=com.singlecellsoftware.caustic}
+
+    \bibitem{clicktrack}
+    \url{https://github.com/thenyeguy/ClickTrack}
+
+    \bibitem{opensles}
+    \url{http://www.khronos.org/opensles/}
+
+\end{thebibliography}
+
+
+\section*{Final Work Breakdown}
+
+\begin{tabular}{| c || l |}
+  \hline 
+  Week 1 (Feb 16 - Feb 22) & Initial proposal and presentation Feb 18 \\ 
+                           & Experiment with Android audio latency Feb 22 \\ \hline
+  Week 2 (Feb 23 - Mar 2)  & Nye - Begin porting ClickTrack to Android \\
+                           & Ryan -  Develop barebones sequencer, piano roll, or keyboard \\ &interface on Android \\ \hline
+  Week 3 (Mar 9 - Mar 15)  & Spring break!  \\ \hline
+  Week 4 (Mar 16 - Mar 22) & Nye - ClickTrack functionality on Android \\ 
+                           & Ryan - Combine interface with ported audio production \\ \hline
+  Week 5 (Mar 23 - Mar 29) & Nye - Finish port of ClickTrack with Java interface \\
+                           & Ryan - Refactor and make robust interface \\ \hline
+  Week 6 (Mar 30 - Apr 5)  & \textbf{Updates} \\
+                           & Begin expanding functionality for additional instruments \\ & and effects\\ \hline
+  Week 7 (Apr 6 - Apr 12)  &  Continue expanding functionality \\ \hline
+  Week 8 (Apr 13 - Apr 19) & Continue expanding functionality. \\
+                           & Spectrum and envelope visualization tools \\ \hline
+  Week 9 (Apr 20 - Apr 26) & Nye - Additional effects and cleanup of audio engine \\
+                           & Ryan - Additional effects and cleanup of interface \\ \hline
+  Week 10 (Apr 27 - May 3) & Completed project and working demo  \\ \hline
+  Week 11 (May 4 - May 11) & Final report  \\ \hline
+\end{tabular}
+
+
+\end{document}
