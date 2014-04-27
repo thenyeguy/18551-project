@@ -308,6 +308,7 @@ public class PianoRollFragment extends Fragment {
         });
 
         octaveText.setText(Integer.toString(prv.getOctave()));
+
         return rootView;
     }
 

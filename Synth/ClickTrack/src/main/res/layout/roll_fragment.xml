@@ -13,38 +13,68 @@
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/clearPianoButton"
             android:background="@drawable/clear"/>
 
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/play"
             android:id="@+id/playPianoButton"/>
 
         <Button
             android:layout_height="30dp"
             android:layout_width="30dp"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/pause"
             android:id="@+id/stopPianoButton" />
 
         <Button
             android:layout_height="30dp"
             android:layout_width="30dp"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/savePianoButton"
             android:background="@drawable/tapereel"/>
 
-        <Button
-            android:layout_height="30dp"
-            android:layout_width="30dp"
-            android:layout_margin="5dp"
-            android:id="@+id/loadPianoButton"
-            android:text="LOAD"/>
 
+        <Button
+            android:id="@+id/loadPianoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/background_dark"
+            android:textSize="20dp"
+            android:text="LOAD"
+            android:textColor="@android:color/holo_blue_light" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:text="Tempo:"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -55,7 +85,9 @@
             android:background="@android:color/background_dark"
             android:textColor="@android:color/holo_blue_light"
             android:textSize="20sp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" />
 
         <Spinner
             android:id="@+id/scaleSpinner"

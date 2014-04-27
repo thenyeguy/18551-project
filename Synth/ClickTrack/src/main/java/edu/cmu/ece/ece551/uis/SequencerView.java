@@ -77,6 +77,7 @@ public class SequencerView extends View {
 
             paint.setColor(Color.CYAN);
             paint.setTextSize(45);
+            paint.setStyle(Paint.Style.FILL);
             r.set(0, i * FRAME_HEIGHT + FRAME_HEIGHT / 2, NAME_WIDTH, (i + 1) * FRAME_HEIGHT);
 
             canvas.drawText(getStringFromRowIndex(i), r.left, r.top, paint);
@@ -143,12 +144,16 @@ public class SequencerView extends View {
 
             Log.d("proll", "looking at pointer " + actionIndex + " of " + pointerCount + "with action " + action);
 
+            if (x < NAME_WIDTH) {
+                Log.d(TAG, "Tiny X! " + x);
+                return false;
+            }
+
             switch (action) {
                 case MotionEvent.ACTION_POINTER_DOWN: // Multitouch
                 case MotionEvent.ACTION_DOWN:
 
-                    int j = (int) (x) / FRAME_WIDTH - 1;
-                    //int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
+                    int j = ((int) (x - NAME_WIDTH) / FRAME_WIDTH);
                     int k = (int) y / FRAME_HEIGHT;
 
                     Log.d("proll", "touch down with x: " + k + ", y: " + j);
@@ -189,11 +194,11 @@ public class SequencerView extends View {
     private String getStringFromRowIndex(int i) {
         switch(i) {
             case 0:
-                return "Subtractive \nSynth";
+                return "Sub Synth";
             case 1:
-                return "FM \n Synth";
+                return "FM Synth";
             case 2:
-                return "Drum \n Machine";
+                return "Drums";
         }
         return "";
     }
