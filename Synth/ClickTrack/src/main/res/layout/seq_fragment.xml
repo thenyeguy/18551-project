@@ -73,7 +73,8 @@
             android:textOn=""
             android:textOff=""
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:id="@+id/loopButton"/>
 
         <TextView
             android:layout_width="wrap_content"

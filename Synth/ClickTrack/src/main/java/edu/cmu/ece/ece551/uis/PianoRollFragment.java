@@ -108,8 +108,6 @@ public class PianoRollFragment extends Fragment {
         tm.setInst(SubtractiveSynthController.getInstance());
 
 
-
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,7 +263,7 @@ public class PianoRollFragment extends Fragment {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tm != null) {
+                if (tm != null && !SequencerTask.isLooping()) {
                     tm.stopPlaying();
                 }
             }
@@ -275,7 +273,7 @@ public class PianoRollFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(!tm.isPlaying()) {
+                if(!tm.isPlaying() && !SequencerTask.isLooping()) {
                     tm.setTempo(Integer.parseInt(tempoNum.getText().toString()));
                     tm.playMeasure();
                 }
@@ -308,6 +306,8 @@ public class PianoRollFragment extends Fragment {
         });
 
         octaveText.setText(Integer.toString(prv.getOctave()));
+
+        SequencerTask.registerPianoRoll(this);
 
         return rootView;
     }
@@ -347,8 +347,6 @@ public class PianoRollFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onResume() {
         Log.e("DEBUG", "onResume of Piano");
@@ -361,4 +359,12 @@ public class PianoRollFragment extends Fragment {
         super.onPause();
     }
 
+    public void playMeasure(int tempo) {
+
+        if( tm != null && !tm.isPlaying()) {
+            tm.setTempo(tempo);
+            tm.playMeasure();
+        }
+
+    }
 }
