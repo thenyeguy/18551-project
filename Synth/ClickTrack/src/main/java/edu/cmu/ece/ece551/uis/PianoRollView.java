@@ -106,18 +106,12 @@ public class PianoRollView extends View {
 
 
         for (int i = octEnd - 1; i >= octStart; i--) {
-
             int normPos = i - octStart;
             paint.setColor(Color.GRAY);
             paint.setStyle(Paint.Style.FILL);
             r.set(0, normPos * FRAME_HEIGHT,
                     KEYSIZE, (normPos + 1) * FRAME_HEIGHT);
             canvas.drawRect(r, paint);
-
-            paint.setTextSize(100);
-            paint.setColor(Color.GREEN);
-            canvas.drawText(scaleNotes.get(notesPerOctave - 1 - normPos).toString(), 5,
-                    (normPos + .9f) * FRAME_HEIGHT, paint);
 
             for (int j = 0; j < sequences[i].length; j++) {
 
@@ -141,6 +135,13 @@ public class PianoRollView extends View {
             }
         }
 
+        for (int i = octEnd - 1; i >= octStart; i--) {
+            int normPos = i - octStart;
+            paint.setTextSize(100);
+            paint.setColor(Color.GREEN);
+            canvas.drawText(scaleNotes.get(notesPerOctave - 1 - normPos).toString(), 5,
+                    (normPos + .9f) * FRAME_HEIGHT, paint);
+        }
         // draw a blue line
 
         paint.setColor(Color.BLUE);
