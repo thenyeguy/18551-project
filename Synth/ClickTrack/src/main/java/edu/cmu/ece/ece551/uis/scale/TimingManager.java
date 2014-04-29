@@ -9,7 +9,9 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.cmu.ece.ece551.clicktrack.DrumMachineController;
 import edu.cmu.ece.ece551.clicktrack.InstrumentController;
+import edu.cmu.ece.ece551.clicktrack.NativeClickTrack;
 import edu.cmu.ece.ece551.clicktrack.SubtractiveSynthController;
 import edu.cmu.ece.ece551.uis.PianoRollView;
 import edu.cmu.ece.ece551.uis.SequencerState;
@@ -54,6 +56,7 @@ public class TimingManager {
         rectIncrement = PianoRollView.FRAME_WIDTH / msPerSixteenth * 10;
 
         TimerTask tt = new TimerTask() {
+            int lastj = -1;
             long startTime = System.currentTimeMillis();
 
             @Override
@@ -92,7 +95,7 @@ public class TimingManager {
                             int note = state.getScale().getNoteNames().get(idx).midi + i / state.getScale().getNotesPerOctave() * 12;
 
                             if (notesPlaying.contains(note)) {
-                                if (j == 15 || sequences[i][j] == 0) {
+                                if (j != lastj && (j == 15 || sequences[i][j] == 0)) {
                                     Log.d(TAG, "note up at " + (currentTime-startTime) +": " +
                                             note);
                                     inst.noteUp(note, 0.0f);
@@ -110,8 +113,9 @@ public class TimingManager {
                         int idx = i % state.getScale().getNotesPerOctave();
                         int note = state.getScale().getNoteNames().get(idx).midi + i / state.getScale().getNotesPerOctave() * 12;
 
-                        if (!notesPlaying.contains(note)) {
-                            if (j == 0 || sequences[i][j - 1] == 0) {
+                        boolean isDrumMachine = inst.getClass().equals(DrumMachineController.class);
+                        if (!notesPlaying.contains(note) || (j != lastj && isDrumMachine)) {
+                            if (j == 0 || sequences[i][j - 1] == 0 || isDrumMachine) {
                                 Log.d(TAG, "note down at " + (currentTime-startTime) + ": " + note);
                                 inst.noteDown(note, 1.0f);
                                 notesPlaying.add(note);
@@ -120,14 +124,12 @@ public class TimingManager {
                         }
                     }
                 }
-
+                lastj = j;
             }
-
         };
 
         timer = new Timer();
         timer.schedule(tt, 0, 10);
-
     }
 
 
