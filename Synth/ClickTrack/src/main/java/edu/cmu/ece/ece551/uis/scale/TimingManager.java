@@ -52,10 +52,6 @@ public class TimingManager {
         final float msPerMeasure = 4.25f / tempo * 60000f;
         final float msPerSixteenth = msPerMeasure / 16f;
         rectIncrement = PianoRollView.FRAME_WIDTH / msPerSixteenth * 10;
-        Log.d("timing", "rectInc: " + rectIncrement);
-        Log.d("timing", "msPerM: " + msPerMeasure + "; msPerS:" + msPerSixteenth);
-
-        timer = new Timer();
 
         TimerTask tt = new TimerTask() {
             long startTime = System.currentTimeMillis();
@@ -65,7 +61,7 @@ public class TimingManager {
                 long currentTime = System.currentTimeMillis();
                 long diff = currentTime - startTime;
 
-                int j = (int) ((diff - msPerSixteenth) / (long) msPerSixteenth);
+                int j = (int) (diff / (long) msPerSixteenth);
 
                 int[][] sequences = state.getSequences();
 
@@ -97,8 +93,9 @@ public class TimingManager {
 
                             if (notesPlaying.contains(note)) {
                                 if (j == 15 || sequences[i][j] == 0) {
-                                    Log.d("timing", "ending " + state.getScale().getNoteNames().get(idx).toString());
-                                    inst.noteUp(note, 1.0f);
+                                    Log.d(TAG, "note up at " + (currentTime-startTime) +": " +
+                                            note);
+                                    inst.noteUp(note, 0.0f);
                                     notesPlaying.remove(note);
                                 }
                             }
@@ -115,7 +112,7 @@ public class TimingManager {
 
                         if (!notesPlaying.contains(note)) {
                             if (j == 0 || sequences[i][j - 1] == 0) {
-                                Log.d("timing", "starting " + state.getScale().getNoteNames().get(idx).toString());
+                                Log.d(TAG, "note down at " + (currentTime-startTime) + ": " + note);
                                 inst.noteDown(note, 1.0f);
                                 notesPlaying.add(note);
                             }
@@ -128,6 +125,7 @@ public class TimingManager {
 
         };
 
+        timer = new Timer();
         timer.schedule(tt, 0, 10);
 
     }
@@ -138,29 +136,28 @@ public class TimingManager {
     }
 
     public void stopPlaying() {
-        Log.d("timing", "stopping!");
         stopNotes();
-        timer.cancel();
-        timer.purge();
+        if(timer != null) {
+            timer.cancel();
+            timer.purge();
+        }
     }
 
     /**
      * Clears all notes that are still being played
      */
     private void stopNotes() {
-        Iterator<Integer> iter = notesPlaying.iterator();
-
-        Log.d("timing", "STOPPING!");
-        while (iter.hasNext()) {
-            inst.noteUp(iter.next(), 1.0f);
+        for(Integer note : notesPlaying) {
+            inst.noteUp(note, 0.0f);
         }
+        notesPlaying.clear();
 
         if (prv != null) {
             prv.post(new Runnable() {
 
                 @Override
                 public void run() {
-                    prv.setRectX(-100);
+                    prv.setRectX(0);
                     prv.resetBoard();
                     prv.invalidate();
                 }
@@ -168,6 +165,7 @@ public class TimingManager {
         }
 
         playing = false;
+        timer = null;
     }
 
 

@@ -59,4 +59,9 @@ public class SequencerState implements Serializable{
         return gson.toJson(this, myType);
     }
 
+    public void update(SequencerState source) {
+        sequences = source.sequences;
+        currentOctave = source.currentOctave;
+        scale = source.scale;
+    }
 }

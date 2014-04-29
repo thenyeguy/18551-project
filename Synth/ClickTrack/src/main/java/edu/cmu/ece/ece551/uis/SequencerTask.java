@@ -29,10 +29,11 @@ public class SequencerTask extends TimerTask {
 
     private int index = -1;
 
-    private SequencerTask() {
-    }
+    private TimingManager someTM;
 
-    ;
+    private SequencerTask() {
+        someTM = null;
+    }
 
     public static SequencerTask getInstance() {
         return instance;
@@ -40,10 +41,15 @@ public class SequencerTask extends TimerTask {
 
     @Override
     public void run() {
+        while(someTM != null && someTM.isPlaying()) {
+            try {
+                Thread.sleep(1);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         index++;
-
-        // We get
 
         Log.d(TAG, "Trying to play col " + index);
         for (int j = 0; j < 3; j++) {
@@ -51,6 +57,7 @@ public class SequencerTask extends TimerTask {
             if (measure != null) {
                 TimingManager tm = new TimingManager(measure,
                         tempo, getInstFromIndex(j));
+                someTM = tm;
 
                 tm.playMeasure();
                 // TODO: Register to be canceled
@@ -67,9 +74,9 @@ public class SequencerTask extends TimerTask {
             Log.d(TAG, "loop is " + looping);
             if (!looping) {
                 this.cancel();
+                someTM = null;
             }
         }
-
     }
 
     public static PianoRollFragment getPrf() {
@@ -98,7 +105,6 @@ public class SequencerTask extends TimerTask {
         int secondsPerMeasure = (int) (1f / ((float) tempo / 60f / 4f / 1000f));
 
         Log.d(TAG, "period: " + secondsPerMeasure);
-        Log.d(TAG, "instace: " + instance);
 
         timer.schedule(instance, 0, secondsPerMeasure);
 

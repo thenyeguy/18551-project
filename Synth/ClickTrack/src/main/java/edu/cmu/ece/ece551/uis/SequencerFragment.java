@@ -35,10 +35,6 @@ public class SequencerFragment extends Fragment {
     private static String TAG = "sequencerFragment";
 
     private SequencerView sv;
-    private Timer timer;
-
-    public SequencerFragment() {
-    }
 
 
     @Override
@@ -47,8 +43,6 @@ public class SequencerFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.seq_fragment, container, false);
 
         sv = (SequencerView) ((LinearLayout) rootView.findViewById(R.id.InnerRoll)).getChildAt(0);
-
-        Log.d(TAG, "We have a problem if " + (sv == null));
 
         Button playButton = (Button) rootView.findViewById(R.id.playSeqButton);
 
@@ -70,7 +64,7 @@ public class SequencerFragment extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Loading subtractive synth tone");
+                Log.i(TAG, "Loading sequence");
 
                 // Launch file picker intent
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -123,17 +117,11 @@ public class SequencerFragment extends Fragment {
                     Log.i(TAG, "Loading from path: " + filePath);
 
                     try {
-
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(filePath)));
-                        Log.d(TAG, "I have an input stream");
                         SequencerState ss = (SequencerState) ois.readObject();
 
-                        Log.d(TAG, "got something SS-related");
                         // Do something with the specified sequencer state.
-                        Log.d(TAG, "sv is " + (sv != null));
-                        Log.d(TAG, "ss is " + (ss != null));
                         sv.setNextThing(ss);
-
                     } catch (IOException e1) {
                         Log.e(TAG, "Failed to read file");
                         e1.printStackTrace();
@@ -148,5 +136,4 @@ public class SequencerFragment extends Fragment {
             default:
         }
     }
-
 }

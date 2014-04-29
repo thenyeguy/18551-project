@@ -138,7 +138,7 @@ public class PianoRollFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        Log.i("piano", "Saving subtractive synth tone: " + f.toString());
+                        Log.i("piano", "Saving loop: " + f.toString());
 
                         // Write out the tone file
                         try {
@@ -147,13 +147,13 @@ public class PianoRollFragment extends Fragment {
                         } catch(IOException e1) {
                             Log.e("piano", e1.toString());
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Failed to save tone with name: " + name,
+                                    "Failed to save loop with name: " + name,
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
 
                         Toast.makeText(getActivity().getApplicationContext(),
-                                "Tone saved with name: " + name,
+                                "Loop saved with name: " + name,
                                 Toast.LENGTH_LONG).show();
                     }
                 });
@@ -175,7 +175,7 @@ public class PianoRollFragment extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("piano", "Loading subtractive synth tone");
+                Log.i("piano", "Loading loop");
 
                 // Launch file picker intent
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -325,12 +325,10 @@ public class PianoRollFragment extends Fragment {
                     Log.i(TAG, "Loading from path: " + filePath);
 
                     try {
-                        String file = Files.toString(new File(filePath), Charsets.UTF_8);
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(filePath)));
                         SequencerState ss = (SequencerState) ois.readObject();
 
                         prv.setState(ss);
-
                     } catch(IOException e1) {
                         Log.e(TAG, "Failed to read file");
                         return;
@@ -349,19 +347,18 @@ public class PianoRollFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.e("DEBUG", "onResume of Piano");
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        Log.e("DEBUG", "OnPause of Piano");
         super.onPause();
     }
 
     public void playMeasure(int tempo) {
 
-        if( tm != null && !tm.isPlaying()) {
+        if( tm != null) {
+            tm.stopPlaying();
             tm.setTempo(tempo);
             tm.playMeasure();
         }

@@ -45,7 +45,7 @@ public class PianoRollView extends View {
     private Rect r = new Rect();
     private Paint paint = new Paint();
 
-    private float rectX = -100;
+    private float rectX = 0;
 
     private SequencerState state;
 
@@ -84,7 +84,6 @@ public class PianoRollView extends View {
 
         ViewGroup.LayoutParams params = getLayoutParams();
 
-        //Log.d("piano", "setting height and width");
         params.width = size.x - 150;
         params.height = size.y - 40;
         setLayoutParams(params);
@@ -153,7 +152,6 @@ public class PianoRollView extends View {
 
     public void setRectX(float x) {
         rectX = x;
-        //Log.d("piano", "moved rectX to " + x);
         invalidate();
     }
 
@@ -177,15 +175,12 @@ public class PianoRollView extends View {
         else {
             int j = ((int) rectX / FRAME_WIDTH);
             if (j >= sequences[0].length || j < 0) return;
-            Log.d("piano roll", "j is " + j + ", rectX is " + rectX);
             for (int i = 0; i < sequences.length; i++) {
                 if (j > 0) {
                     if (sequences[i][j - 1] == 2) {
                         sequences[i][j - 1] = 1;
                         int idx = i % notesPerOctave;
-                        Log.d("note", "tried to play: " + idx);
                         int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
-                        Log.d("note", "Playing note: " + note);
                         if ( j == 15 || (j < 15 && sequences[i][j] != 1)) {
                             //instrument.noteUp(note, 1.0f);
                         }
@@ -196,12 +191,7 @@ public class PianoRollView extends View {
                 if (sequences[i][j] == 1) {
                     sequences[i][j] = 2;
                     int idx = i % notesPerOctave;
-                    //Log.d("note", "tried to play: " + idx);
                     int note = state.getScale().getNoteNames().get(idx).midi + i / notesPerOctave * 12; // TODO: get this note number for MIDI
-                    //Log.d("note", "Playing note: " + note);
-                    if ( j == 0 || (j > 0 && sequences[i][j-1] != 1)) {
-                        //instrument.noteDown(note, 1.0f);
-                    }
                 }
             }
         }
@@ -214,7 +204,6 @@ public class PianoRollView extends View {
     public int octaveUp() {
         int oct = state.getCurrentOctave();
         state.setCurrentOctave((oct < 6) ? oct + 1 : oct);
-        // Log.d("matrix", convert(state.getSequences()));
         post(new Runnable() {
             @Override
             public void run() {
@@ -228,7 +217,6 @@ public class PianoRollView extends View {
     public int octaveDown() {
         int oct = state.getCurrentOctave();
         state.setCurrentOctave((oct > 0) ? oct - 1 : oct);
-        // Log.d("matrix", convert(state.getSequences()));
         post(new Runnable() {
             @Override
             public void run() {
@@ -265,7 +253,6 @@ public class PianoRollView extends View {
                 scale = null;
         }
 
-        Log.d("note", scale.getNoteNames().toString());
         state.setScale(scale);
 
     }
@@ -320,8 +307,6 @@ public class PianoRollView extends View {
             float y = m.getY(actionIndex);
             int id = m.getPointerId(actionIndex);
 
-            Log.d("proll", "looking at pointer " + actionIndex + " of " + pointerCount + "with action " + action);
-
             switch (action) {
                 case MotionEvent.ACTION_POINTER_DOWN: // Multitouch
                 case MotionEvent.ACTION_DOWN:
@@ -332,8 +317,6 @@ public class PianoRollView extends View {
                         int j = (int) (x - KEYSIZE) / FRAME_WIDTH;
                         //int k = (int) y / FRAME_HEIGHT + currentOctave * scale.getNotesPerOctave();
                         int k = (state.getCurrentOctave() + 1) * state.getScale().getNotesPerOctave() - 1 - (int) y / FRAME_HEIGHT;
-
-                        Log.d("proll", "touch down with x: " + k + ", y: " + j);
 
                         int[][] sequences = state.getSequences();
 
@@ -393,7 +376,7 @@ public class PianoRollView extends View {
     }
 
     public void setState(SequencerState state) {
-        this.state = state;
+        this.state.update(state);
     }
 
 }
