@@ -207,7 +207,7 @@ public class SequencerView extends View {
         return measures;
     }
 
-    public void startRectMotion(int tempo) {
+    public void startRectMotion(int tempo, final boolean looping) {
 
         final float msPerMeasure = 4.25f / tempo * 60000f;
         final float rectIncrement = PianoRollView.FRAME_WIDTH / msPerMeasure * 21f;
@@ -224,7 +224,8 @@ public class SequencerView extends View {
 
                 if (rectX > size.x) {
                     rectX = NAME_WIDTH;
-                    this.cancel();
+                    if(!looping)
+                        this.cancel();
                 }
 
                 post(new Runnable() {

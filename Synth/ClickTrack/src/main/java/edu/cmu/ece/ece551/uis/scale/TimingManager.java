@@ -165,7 +165,7 @@ public class TimingManager {
         }
 
         playing = false;
-        timer = null;
+
     }
 
 

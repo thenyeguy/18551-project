@@ -50,7 +50,7 @@ public class SequencerFragment extends Fragment {
 
         Button stopButton = (Button) rootView.findViewById(R.id.stopSeqButton);
 
-        ToggleButton loopButton = (ToggleButton) rootView.findViewById(R.id.loopButton);
+        final ToggleButton loopButton = (ToggleButton) rootView.findViewById(R.id.loopButton);
 
         final TextView tempoNum = (TextView) rootView.findViewById(R.id.tempoSeq);
 
@@ -87,7 +87,7 @@ public class SequencerFragment extends Fragment {
                 final SequencerState[][] ss = sv.getMeasures();
 
                 int tempo = Integer.parseInt(tempoNum.getText().toString());
-                sv.startRectMotion(tempo);
+                sv.startRectMotion(tempo, loopButton.isChecked());
                 SequencerTask.startSequencer(ss, tempo);
 
             }
