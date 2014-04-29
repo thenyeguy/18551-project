@@ -1,7 +1,5 @@
 package edu.cmu.ece.ece551.uis;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,8 +17,6 @@ public class SequencerState implements Serializable{
     private static int NUM_BEATS = 16;
     private static int NUM_OCTAVES = 7;
 
-    private static String TAG = "SequencerState";
-
     private int[][] sequences;
     private int currentOctave = 2;
 
@@ -28,7 +24,6 @@ public class SequencerState implements Serializable{
     private String name;
 
     public SequencerState() {
-        Log.d(TAG, "new seqState");
         scale = new DiatonicScale("C", Tonality.MAJOR);
         sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][NUM_BEATS];
     }
@@ -65,16 +60,18 @@ public class SequencerState implements Serializable{
         return gson.toJson(this, myType);
     }
 
+<<<<<<< Updated upstream
     public void update(SequencerState source) {
         sequences = source.sequences;
         currentOctave = source.currentOctave;
         scale = source.scale;
-    }
+=======
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+>>>>>>> Stashed changes
     }
 }

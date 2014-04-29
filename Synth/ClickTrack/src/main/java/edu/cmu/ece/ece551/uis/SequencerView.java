@@ -53,6 +53,10 @@ public class SequencerView extends View {
 
     }
 
+    public void setMeasures(SequencerState[][] measures) {
+        this.measures = measures;
+    }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

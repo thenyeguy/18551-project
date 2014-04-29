@@ -62,6 +62,8 @@ public class PianoRollFragment extends Fragment {
 
     private TimingManager tm;
 
+    private static SequencerState seqSave;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -349,11 +351,27 @@ public class PianoRollFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
+
+        if (seqSave != null) {
+            prv.setState(seqSave);
+        }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause");
+        seqSave = prv.getState();
+
+    }
+
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "OutSTATE");
+        outState.putSerializable("sv", prv.getState());
     }
 
     public void playMeasure(int tempo) {

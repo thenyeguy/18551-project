@@ -47,6 +47,7 @@ public class PianoRollView extends View {
 
     private float rectX = 0;
 
+    private static String TAG = "PianoRollView";
     private SequencerState state;
 
     public PianoRollView(Context context, AttributeSet attrs) {
@@ -138,7 +139,8 @@ public class PianoRollView extends View {
         for (int i = octEnd - 1; i >= octStart; i--) {
             int normPos = i - octStart;
             paint.setTextSize(100);
-            paint.setColor(Color.GREEN);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.CYAN);
             canvas.drawText(scaleNotes.get(notesPerOctave - 1 - normPos).toString(), 5,
                     (normPos + .9f) * FRAME_HEIGHT, paint);
         }
