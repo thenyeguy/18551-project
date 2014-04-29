@@ -28,7 +28,6 @@ public class SequencerState implements Serializable{
     private String name;
 
     public SequencerState() {
-        Log.d(TAG, "new seqState");
         scale = new DiatonicScale("C", Tonality.MAJOR);
         sequences = new int[NUM_OCTAVES * scale.getNotesPerOctave()][NUM_BEATS];
     }

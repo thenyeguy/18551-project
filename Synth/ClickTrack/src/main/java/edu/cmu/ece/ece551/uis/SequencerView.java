@@ -73,12 +73,10 @@ public class SequencerView extends View {
 
         ViewGroup.LayoutParams params = getLayoutParams();
 
-        //Log.d("piano", "setting height and width");
         params.width = size.x;
         params.height = size.y;
         setLayoutParams(params);
 
-        Log.d(TAG, "rectX is " + rectX);
         paint.setColor(Color.DKGRAY);
         canvas.drawPaint(paint);
 
@@ -117,7 +115,6 @@ public class SequencerView extends View {
 
 
                 if (measures[i][j] == null && hasNext) {
-                    Log.d(TAG, "Making a crosshair");
                     // Green crosshair
                     paint.setColor(Color.GREEN);
 
@@ -144,7 +141,6 @@ public class SequencerView extends View {
     public void setNextThing(SequencerState ss) {
         hasNext = true;
         nextMeasure = ss;
-        Log.d(TAG, "measures: " + ss.getSequences());
     }
 
 
@@ -163,10 +159,7 @@ public class SequencerView extends View {
             float y = m.getY(actionIndex);
             int id = m.getPointerId(actionIndex);
 
-            Log.d("proll", "looking at pointer " + actionIndex + " of " + pointerCount + "with action " + action);
-
             if (x < NAME_WIDTH) {
-                Log.d(TAG, "Tiny X! " + x);
                 return false;
             }
 
@@ -176,8 +169,6 @@ public class SequencerView extends View {
 
                     int j = ((int) (x - NAME_WIDTH) / FRAME_WIDTH);
                     int k = (int) y / FRAME_HEIGHT;
-
-                    Log.d("proll", "touch down with x: " + k + ", y: " + j);
 
                     if (hasNext) {
                         measures[k][j] = nextMeasure;
@@ -223,8 +214,6 @@ public class SequencerView extends View {
             public void run() {
 
                 rectX += rectIncrement;
-
-                Log.d(TAG, "rectx should be " + rectX);
 
                 if (rectX > size.x) {
                     rectX = NAME_WIDTH;

@@ -200,7 +200,6 @@ public class PianoRollFragment extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                Log.d(TAG, "switch inst with position " + pos);
                 switch(pos) {
                     case 0:
                         tm.setInst(SubtractiveSynthController.getInstance());
@@ -351,8 +350,6 @@ public class PianoRollFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
-
         if (seqSave != null) {
             prv.setState(seqSave);
         }
@@ -362,7 +359,6 @@ public class PianoRollFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause");
         seqSave = prv.getState();
 
     }
@@ -370,7 +366,6 @@ public class PianoRollFragment extends Fragment {
     @Override
     public void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "OutSTATE");
         outState.putSerializable("sv", prv.getState());
     }
 

@@ -65,7 +65,7 @@ public class SequencerFragment extends Fragment {
                 // Ask for a name in a dialog box
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Enter a name for this measure");
+                alert.setTitle("Enter a name for this song");
 
                 final EditText input = new EditText(getActivity());
 
@@ -90,22 +90,22 @@ public class SequencerFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        Log.i("piano", "Saving loop: " + f.toString());
+                        Log.i("sequencer", "Saving song: " + f.toString());
 
                         // Write out the tone file
                         try {
                             oos.writeObject(sv.getMeasures());
                             //Files.write(prv.getState().toString(), f, Charsets.UTF_8);
                         } catch (IOException e1) {
-                            Log.e("piano", e1.toString());
+                            Log.e("sequencer", e1.toString());
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Failed to save loop with name: " + name,
+                                    "Failed to save song with name: " + name,
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
 
                         Toast.makeText(getActivity().getApplicationContext(),
-                                "Loop saved with name: " + name,
+                                "Song saved with name: " + name,
                                 Toast.LENGTH_LONG).show();
                     }
                 });
@@ -145,7 +145,7 @@ public class SequencerFragment extends Fragment {
 
                         // Launch file picker intent
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setDataAndType(Uri.parse(PianoRollFragment.ROLLPATH), "file/*");
+                        intent.setDataAndType(Uri.parse(SONGPATH), "file/*");
                         try {
                             startActivityForResult(intent, 1);
                         } catch (ActivityNotFoundException e) {
@@ -208,8 +208,6 @@ public class SequencerFragment extends Fragment {
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(filePath)));
 
                         Object newObj = ois.readObject();
-                        Log.d(TAG, "class " + newObj.getClass());
-
                         if (newObj instanceof SequencerState) {
                             SequencerState ss = (SequencerState) newObj;
 

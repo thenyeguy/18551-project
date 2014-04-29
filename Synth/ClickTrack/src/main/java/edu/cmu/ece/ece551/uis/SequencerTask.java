@@ -51,7 +51,6 @@ public class SequencerTask extends TimerTask {
 
         index++;
 
-        Log.d(TAG, "Trying to play col " + index);
         for (int j = 0; j < 3; j++) {
             SequencerState measure = ss[j][index];
             if (measure != null) {
@@ -71,7 +70,6 @@ public class SequencerTask extends TimerTask {
 
         if (index >= 7) {
             index = -1;
-            Log.d(TAG, "loop is " + looping);
             if (!looping) {
                 this.cancel();
                 someTM = null;
@@ -103,8 +101,6 @@ public class SequencerTask extends TimerTask {
         tempo = tempo1;
 
         int secondsPerMeasure = (int) (1f / ((float) tempo / 60f / 4f / 1000f));
-
-        Log.d(TAG, "period: " + secondsPerMeasure);
 
         timer.schedule(instance, 0, secondsPerMeasure);
 

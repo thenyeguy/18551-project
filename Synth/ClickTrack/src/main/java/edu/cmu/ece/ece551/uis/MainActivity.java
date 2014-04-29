@@ -103,23 +103,6 @@ public class MainActivity extends Activity {
             selectItem(0);
         }
 
-        // Create our directories
-        File root = new File("/sdcard/ClickTrack/");
-        if(!root.exists())
-            root.mkdir();
-
-        File subsynthTones = new File("/sdcard/ClickTrack/SubtractiveSynthTones/");
-        if(!subsynthTones.exists())
-            subsynthTones.mkdir();
-
-        File fmTones = new File("/sdcard/ClickTrack/FMSynthTones/");
-        if(!fmTones.exists())
-            fmTones.mkdir();
-
-        File drumMachineTones = new File("/sdcard/ClickTrack/DrumMachineTones/");
-        if(!drumMachineTones.exists())
-            drumMachineTones.mkdir();
-
         // Load the library
         Log.i(TAG, "Creating a new ClickTrack instance.");
         NativeClickTrack.loadLibray();
