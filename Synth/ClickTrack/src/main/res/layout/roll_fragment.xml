@@ -90,6 +90,11 @@
             android:layout_marginBottom="2dp" />
 
         <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/instrumentSpinner"/>
+
+        <Spinner
             android:id="@+id/scaleSpinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"/>
@@ -99,10 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"/>
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/instrumentSpinner"/>
+
 
     </LinearLayout>
 

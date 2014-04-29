@@ -21,6 +21,7 @@ public class SequencerState implements Serializable{
     private int currentOctave = 2;
 
     private Scale scale;
+    private String name;
 
     public SequencerState() {
         scale = new DiatonicScale("C", Tonality.MAJOR);
@@ -63,5 +64,12 @@ public class SequencerState implements Serializable{
         sequences = source.sequences;
         currentOctave = source.currentOctave;
         scale = source.scale;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

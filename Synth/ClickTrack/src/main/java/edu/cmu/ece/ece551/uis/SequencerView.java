@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class SequencerView extends View {
 
 
@@ -27,10 +30,13 @@ public class SequencerView extends View {
     private static final String TAG = "SequencerView";
 
     private boolean hasNext = false;
+    private Timer timer;
 
     public static final int FRAME_WIDTH = 200;
     public static final int FRAME_HEIGHT = 300;
     public static final int NAME_WIDTH = 300;
+
+    private float rectX = NAME_WIDTH;
 
     private SequencerState[][] measures = new SequencerState[3][8];
     private SequencerState nextMeasure;
@@ -68,9 +74,8 @@ public class SequencerView extends View {
         params.height = size.y;
         setLayoutParams(params);
 
-
+        Log.d(TAG, "rectX is " + rectX);
         paint.setColor(Color.DKGRAY);
-        paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
 
         for (int i = 0; i < measures.length; i++) {
@@ -101,6 +106,12 @@ public class SequencerView extends View {
                 paint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect(r, paint);
 
+                if (measures[i][j] != null) {
+                    paint.setColor(Color.BLUE);
+                    canvas.drawText(measures[i][j].getName(), r.left, r.centerY(), paint);
+                }
+
+
                 if (measures[i][j] == null && hasNext) {
                     Log.d(TAG, "Making a crosshair");
                     // Green crosshair
@@ -119,6 +130,11 @@ public class SequencerView extends View {
                 }
             }
         }
+
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.CYAN);
+        paint.setStrokeWidth(20);
+        canvas.drawLine(rectX, 0, rectX, params.height, paint);
     }
 
     public void setNextThing(SequencerState ss) {
@@ -126,6 +142,7 @@ public class SequencerView extends View {
         nextMeasure = ss;
         Log.d(TAG, "measures: " + ss.getSequences());
     }
+
 
 
     private class MyOnTouchListener implements OnTouchListener {
@@ -190,6 +207,52 @@ public class SequencerView extends View {
         return measures;
     }
 
+    public void startRectMotion(int tempo) {
+
+        final float msPerMeasure = 4.25f / tempo * 60000f;
+        final float rectIncrement = PianoRollView.FRAME_WIDTH / msPerMeasure * 21f;
+
+        timer = new Timer();
+
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+
+                rectX += rectIncrement;
+
+                Log.d(TAG, "rectx should be " + rectX);
+
+                if (rectX > size.x) {
+                    rectX = NAME_WIDTH;
+                    this.cancel();
+                }
+
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidate();
+                    }
+                });
+            }
+        };
+
+
+        timer.schedule(tt, 0, 10);
+    }
+
+    public void stopRect() {
+        timer.cancel();
+        timer.purge();
+        rectX = NAME_WIDTH;
+
+        post(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        });
+
+    }
 
     private String getStringFromRowIndex(int i) {
         switch(i) {

@@ -142,6 +142,7 @@ public class PianoRollFragment extends Fragment {
 
                         // Write out the tone file
                         try {
+                            prv.getState().setName(name);
                             oos.writeObject(prv.getState());
                             //Files.write(prv.getState().toString(), f, Charsets.UTF_8);
                         } catch(IOException e1) {

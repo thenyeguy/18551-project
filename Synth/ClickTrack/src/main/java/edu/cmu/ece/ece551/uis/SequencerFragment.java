@@ -58,6 +58,7 @@ public class SequencerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SequencerTask.stop();
+                sv.stopRect();
             }
         });
 
@@ -85,7 +86,9 @@ public class SequencerFragment extends Fragment {
             public void onClick(View v) {
                 final SequencerState[][] ss = sv.getMeasures();
 
-                SequencerTask.startSequencer(ss, Integer.parseInt(tempoNum.getText().toString()));
+                int tempo = Integer.parseInt(tempoNum.getText().toString());
+                sv.startRectMotion(tempo);
+                SequencerTask.startSequencer(ss, tempo);
 
             }
         });
