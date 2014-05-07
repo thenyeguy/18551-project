@@ -91,7 +91,7 @@ Our sequencer controls the tempo of each song, but the key is left up to individ
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/subtractivesynth.png}
+\includegraphics[width=\textwidth]{figures/subtractivesynth.png}
 \caption{Subtractive Synthesizer}
 \label{fig:subtractivesynth}
 \end{figure}
@@ -218,10 +218,20 @@ The piano roll and sequencer both include a moving bar to keep time with the aud
 
 
 \section{Live demonstration}
-
 The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs - "More Than a Feeling" by Boston and "The District Sleeps Alone" by The Postal Service.
 
+Feedback at the demonstration was mostly positive. Users enjoyed the simplicity of creating music over a drum track, and limiting the piano roll to a specific key and scale ensured that compositions sounded pleasant even under a largely random selection of notes. Progress could be made with the interface, which intimidated people less acquainted with synthesizers and digital music production tools. 
 
+\section{Potential Future Work}
+\begin{itemize}
+  \item Interface cleanup and polishing: friendlier UI or instructions bundled with the application. 
+  \item Additional effects: phaser, distortion, etc.
+  \item Stereo Sound
+  \item Optimization of save data - move from Java Serialization to a custom representation
+  \item MIDI interface for loading/saving songs.
+  \item Recording live audio performances
+  \item Variable loop lengths and note resolution
+\end{itemize}
 
 \section{Libraries used}
 \begin{itemize}
