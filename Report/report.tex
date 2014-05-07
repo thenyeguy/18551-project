@@ -99,6 +99,8 @@ The synthesizer and mastering interfaces feature a number of knobs to control th
 
 Synthesizer control panels also allow for the saving and loading of favorite configurations.
 
+
+
 \section{Audio Processing Algorithms}
 
 \subsection{Oscillators}
@@ -202,12 +204,25 @@ By composing several of these filters in different modes, we can create multi-po
 
 A ring modulator is a very simple device. It simply multiples a signal by a fixed frequency sine wave. The resulting signal output resembles the input, but shifted in frequency space. It can be used to create interesting pitch shifts and aliasing effects, especially on instruments that aren't inherently pitched such as drums.
 
+
+
 \section{Timing and optimization}
-One of the largest challenges for developing on Android is the audio latency time. Each device has a different optimal buffer size and delay between the audio command being sent and output from speaker. In this project, we optimized for the Google Nexus 7 2013, which had a latency of XXXXXXX ms.
+
+One of the largest challenges for developing on Android is the audio latency time. Each device has a different optimal buffer size and delay between the audio command being sent and output from speaker. In this project, we optimized for the Google Nexus 7 2013, which had an end to end latency of 200-250 ms. After further delays introduced by our processing chain and user interface, final latency was approximately 300ms.
+
+Another challenge of developing for Android is performance constraints. While modern Android devices are fairly powerful, the OS itself is incredibly conservative about allocating CPU time. As audio demands real-time performance bounds, the inconsistency of Android's resource allocation places a heavy limit on the amount of processing we can do. In practice, our application was never allocated more then 35-40\% usage of one core on average. As a result, careful optimization of the audio code was required to meet real-time constraints.
+
+The first optimization was to provide heavier use of buffering. While ClickTrack was designed to generate small buffers of audio in order to keep latency low, it was necessary to make use of larger buffers in order to increase cache performance. Additionally, in many cases multiple simple blocks were merged into more functional single blocks, in order to cut down on processing overhead of the generic block code. Finally, we were very careful about the number of processing blocks we allowed to run on the device, including scrapping some effects and reducing the number of voices in our instruments.
+
 The piano roll and sequencer both include a moving bar to keep time with the audio track. The velocity of these bars is directly proportional to the tempo of the song. We also keep the bars moving delayed with respect to the actual scheduling of the notes with a linear offset.
 
+
+
 \section{Live demonstration}
+
 The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs - "More Than a Feeling" by Boston and "The District Sleeps Alone" by The Postal Service.
+
+
 
 \section{Libraries used}
 \begin{itemize}
