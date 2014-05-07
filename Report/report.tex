@@ -22,7 +22,7 @@
 
 \section{The Problem}
 
-Music performance applications on Android are virtually non-existent. Part of this problem is that historically, Android has had audio latency that is too large to facilitate responsive live performance. Latency also varies wildly between devices and OS versions. Some devices enjoy latency around 100-150ms, while others have something closer to 300-350ms. This is not yet low enough for a traditional keyboard interface, but it allows for performance on an appropriate interface with CD-quality audio (44.1kHz, 16-bit samples) in real-time.
+Music performance applications on Android are virtually non-existent. Part of this problem is that historically, Android has had audio latency that is too large to facilitate responsive live performance. Latency also varies wildly between devices and OS versions. Some devices have a latency around 100-150ms, while others are closer to 300-350ms. This is not yet low enough for a traditional keyboard interface, but it allows for performance on an appropriate interface in real-time.
 
 
 
@@ -106,7 +106,10 @@ Synthesizer interfaces allow users to prototype synth tones before moving to the
 The mastering interface contains controls for the effects on the master channel: EQ, reverb, and limiter.
 
 
-The knobs on each interface mimic a physical synthesizer. The feeling of controlling knobs on a physical synthesizer is integral to providing a satisfying experience when controlling Synthotron. As any sound technician knows, a board is only as fun as the number of knobs it has.\footnote{Please note, however, that three EQ channels are more than necessary in almost all circumstances.} Knobs implement Android's \texttt{View} interface and are designed to act like other display elements. The \texttt{KnobReceiver} interface acts analogously to the \texttt{OnClickListener}, but can also scale the knob between arbitrary minimum and maximum values. Custom \texttt{KnobReceivers} also allow for logarithmic scales, which are necessary when dealing with frequency ranges.
+The knobs on each interface mimic a physical synthesizer. The feeling of controlling knobs on a physical synthesizer is integral to providing a satisfying experience when controlling Synthotron. As any sound technician knows, a board is only as fun as the number of knobs it has.\footnote{Please note, however, that three EQ channels are more than necessary in almost all circumstances.} Knobs implement Android's \texttt{View} interface and are designed to act like other display elements. The \texttt{KnobReceiver} interface acts analogously to the \texttt{OnClickListener}, but can also scale the knob between arbitrary minimum and maximum values. Custom \texttt{KnobReceivers} also allow for logarithmic scales, which are desirable when dealing with frequency ranges.
+
+
+
 \section{Audio Processing Algorithms}
 
 \subsection{Oscillators}
@@ -142,11 +145,11 @@ This method is incredibly effective, and can pull down the peak sidelobe aliasin
 
 \subsection{Low Frequency Oscillators}
 
-A typical oscillator is used to generate an audible waveform. Low Frequency Oscillators, or LFOs, are oscillators at sub-audible frequencies that are instead used to modify parameters of filters or other oscillators. Our application uses LFOs to create two different effects: vibrato, and tremolo.
+A typical oscillator is used to generate an audible waveform. Low Frequency Oscillators, or LFOs, are oscillators at sub-audible frequencies that are instead used to modify parameters of filters or other oscillators. Our application uses LFOs to create two different effects: vibrato and tremolo.
 
-Vibrato uses an LFO to modify the frequency a waveform oscillates at. For example, we can use the following equation to compute the instantaneous frequency of an oscillator from its stationary frequency as $f_i = f_s \cdot 2^{LFO(t) \cdot I}$, where $LFO(t)$ represents the LFO waveform, and $I$ controls the depth of the vibrato, where 0 represents no vibrato, and 1 represents an octave.
+Vibrato uses an LFO to modify the frequency a waveform oscillates at. For example, we can use the following equation to compute the instantaneous frequency of an oscillator from its stationary frequency as $f_i = f_s \cdot 2^{LFO(t) \cdot I}$, where $LFO(t)$ represents the LFO waveform and $I$ controls the depth of the vibrato.
 
-Tremolo uses an LFO to modify the gain of an input signal to create a wavering sound. The tremolo gain can be computed as $10^{LFO(t) \cdot I}$, where $LFO(t)$ represents the LFO waveform, and $I$ controls the depth of the tremolo.
+Tremolo uses an LFO to modify the gain of an input signal to create a wavering sound. The tremolo gain can be computed as $10^{LFO(t) \cdot I}$, where $LFO(t)$ represents the LFO waveform and $I$ controls the depth of the tremolo.
 
 
 \subsection{ADSR Envelopes}
@@ -172,11 +175,11 @@ In the attack state, the gain of the note scales from 0 to 1; this gives the not
 \label{fig:envelopes}
 \end{wrapfigure}
 
-Compressors and limiters are a class of nonlinear processors that respond to the signal level of its inputs. The devices first rely on an envelope estimation, that determines the amplitude of the signal.
+Compressors and limiters are a class of nonlinear processors that respond to the signal level of its inputs. The devices first rely on an envelope estimation that determines the amplitude of the signal.
 
 In order to estimate the envelope of a signal, we rely on leaky integration of our signal. This takes the from $env(t) = \alpha \cdot env(t-1) + (1-\alpha) \cdot x(t)$. However, in order to rise quickly and fall slowly, we use to different values of $\alpha$. A small value of $\alpha$ is used if $x(t) > env(t-1)$, and a larger value is used if $x(t) < env(t-1)$. A sample envelope estimation is show in Figure \ref{fig:envelopes}.
 
-Once we have an envelope function, a limiter and compressor can use to calculate a new gain. Both devices have a set threshold; in Figure \ref{fig:compressor-limiter}, the threshold is set to 0.5. A limiter scales back a signal so that its output level never exceeds the threshold. A compressor scales back a signal by a certain ratio. In Figure \ref{fig:compressor-limiter}, this ratio is set to 0.5, so it reduces the signal by half the value it exceeds the threshold.
+Once we have an envelope function, a limiter and compressor can use to calculate a new gain. Both devices have a set threshold; in Figure \ref{fig:compressor-limiter} the threshold is set to 0.5. A limiter scales back a signal so that its output level never exceeds the threshold. A compressor scales back a signal by a certain ratio. In Figure \ref{fig:compressor-limiter}, this ratio is set to 0.5; it reduces the signal by half the value it exceeds the threshold.
 
 \begin{figure}[h]
 \centering
@@ -221,7 +224,7 @@ Another challenge of developing for Android is performance constraints. While mo
 The first optimization was to provide heavier use of buffering. While ClickTrack was designed to generate small buffers of audio in order to keep latency low, it was necessary to make use of larger buffers in order to increase cache performance. Additionally, in many cases multiple simple blocks were merged into more functional single blocks, in order to cut down on processing overhead of the generic block code. Finally, we were very careful about the number of processing blocks we allowed to run on the device, including scrapping some effects and reducing the number of voices in our instruments.
 
 \section{Live demonstration}
-The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs - "More Than a Feeling" by Boston and "The District Sleeps Alone Tonight" by The Postal Service.
+The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs -- ``More Than a Feeling'' by Boston and ``The District Sleeps Alone Tonight'' by The Postal Service.
 
 Feedback at the demonstration was mostly positive. Users enjoyed the simplicity of creating music over a drum track, and limiting the piano roll to a specific key and scale ensured that compositions sounded pleasant even under a largely random selection of notes. Progress could be made with the interface, which intimidated people less acquainted with synthesizers and digital music production tools. 
 
