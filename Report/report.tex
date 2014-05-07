@@ -82,18 +82,18 @@ Users can also save or load measures using the Android device's storage. Once sa
 
 \subsection{Sequencer}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.45\textwidth}
 \centering
-\includegraphics[width=.5\textwidth]{figures/sequencer.png}
+\includegraphics[width=.45\textwidth]{figures/sequencer.png}
 \caption{Sequencer interface}
 \label{fig:sequencer}
 \end{wrapfigure}
 
-The sequencer functions similarly to the piano roll, but with saved measures instead of notes. It has one channel for each instrument with eight measures of composition. Users can load single measures or entire songs into the sequencer.
+The sequencer functions similarly to the piano roll but with saved measures instead of notes. It has one channel for each instrument with eight measures of composition. Users can load single measures or entire songs into the sequencer.
 
 The sequencer controls the tempo of each song, leaving the key up to individual measures for key changes. The sequencer can be set to play once or loop continuously so that the user can return to the piano roll and compose a new measure. This facilitates live performance and improvisation, a primary objective of the project.
 
-\subsection{Synthesizer and Mastering}
+\subsection{Synthesizers and Mastering}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\textwidth]{figures/subtractivesynth.png}
@@ -102,6 +102,8 @@ The sequencer controls the tempo of each song, leaving the key up to individual 
 \end{figure}
 
 Synthesizer interfaces allow users to prototype synth tones before moving to the piano roll or sequencer. The effects of different configurations becomes immediately apparent through the test notes for each instrument, and the synthesis backend is updated in real time with the values of each knob and selector. Synthesizer control panels also allow for the saving and loading of favorite configurations.
+
+The mastering interface contains controls for the effects on the master channel: EQ, reverb, and limiter.
 
 
 The knobs on each interface mimic a physical synthesizer. The feeling of controlling knobs on a physical synthesizer is integral to providing a satisfying experience when controlling Synthotron. As any sound technician knows, a board is only as fun as the number of knobs it has.\footnote{Please note, however, that three EQ channels are more than necessary in almost all circumstances.} Knobs implement Android's \texttt{View} interface and are designed to act like other display elements. The \texttt{KnobReceiver} interface acts analogously to the \texttt{OnClickListener}, but can also scale the knob between arbitrary minimum and maximum values. Custom \texttt{KnobReceivers} also allow for logarithmic scales, which are necessary when dealing with frequency ranges.
