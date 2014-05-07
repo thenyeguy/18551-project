@@ -22,9 +22,9 @@
 Music performance applications on Android are virtually non-existent. Part of this problem is that historically, Android has had audio latency that is too large to facilitate responsive live performance. Latency also varies wildly between devices and OS versions. Some devices enjoy latency around 100-150ms, while others have something closer to 300-350ms. This is not yet low enough for a traditional keyboard interface, but it allows for performance on an appropriate interface with CD-quality audio (44.1kHz, 16-bit samples) in real-time.
 
 \section{The Solution}
-Synthotron addresses the need for a real-time music performance and synthesis application on the Android platform. We avoid the usual pitfalls of long latency times by scheduling music instead of playing it as a response to user touch input. This allows the application to compensate for latency and provide synchronized visual and audio feedback to users. The interface lets users create individual measures by the sixteenth notes and string eight measures together in the sequencer. The sequenced track can also loop to allow users to compose or perform with a backing track.\\
+Synthotron addresses the need for a real-time music performance and synthesis application on the Android platform. We avoid the usual pitfalls of long latency times by scheduling music instead of playing it as a response to user touch input. This allows the application to compensate for latency and provide synchronized visual and audio feedback to users. The interface lets users create individual measures by the sixteenth notes and string eight measures together in the sequencer. The sequenced track can also loop to allow users to compose or perform with a backing track.
 
-Synthotron also presents a satisfying range of audio synthesis options. The subtractive synthesizer, FM synthesizer, and drum machine each have their own private effects as well as shared mastering effects. These include reverb, vibrato and tremolo LFOs, a ring modulator, and three-band EQ. These effects are important for users to feel like they are interacting with a full-featured synthesizer and vastly increase the range of tones and music that one can create. \\
+Synthotron also presents a satisfying range of audio synthesis options. The subtractive synthesizer, FM synthesizer, and drum machine each have their own private effects as well as shared mastering effects. These include reverb, vibrato and tremolo LFOs, a ring modulator, and three-band EQ. These effects are important for users to feel like they are interacting with a full-featured synthesizer and vastly increase the range of tones and music that one can create.
 
 \section{Interface}
 
@@ -61,7 +61,7 @@ Just as the piano roll composes notes on a grid of quarter beats, the seqeuncer 
 \label{fig:subtractivesynth}
 \end{wrapfigure}
 
-The synthesizer and mastering interfaces feature a number of knobs to control the aspects of each instrument and the entire synthesis engine. The knobs act like analog knobs on a physical synthesizer, and this feeling is important for providing a satisfying experience when controlling Synthotron. \\
+The synthesizer and mastering interfaces feature a number of knobs to control the aspects of each instrument and the entire synthesis engine. The knobs act like analog knobs on a physical synthesizer, and this feeling is important for providing a satisfying experience when controlling Synthotron.
 
 Synthesizer control panels also allow for the saving and loading of favorite configurations.
 
@@ -169,7 +169,7 @@ By composing several of these filters in different modes, we can create multi-po
 A ring modulator is a very simple device. It simply multiples a signal by a fixed frequency sine wave. The resulting signal output resembles the input, but shifted in frequency space. It can be used to create interesting pitch shifts and aliasing effects, especially on instruments that aren't inherently pitched such as drums.
 
 \section{Timing and optimization}
-One of the largest challenges for developing on Android is the audio latency time. Each device has a different optimal buffer size and delay between the audio command being sent and output from speaker. In this project, we optimized for the Google Nexus 7 2013, which had a latency of XXXXXXX ms. \\
+One of the largest challenges for developing on Android is the audio latency time. Each device has a different optimal buffer size and delay between the audio command being sent and output from speaker. In this project, we optimized for the Google Nexus 7 2013, which had a latency of XXXXXXX ms.
 The piano roll and sequencer both include a moving bar to keep time with the audio track. The velocity of these bars is directly proportional to the tempo of the song. We also keep the bars moving delayed with respect to the actual scheduling of the notes with a linear offset.
 
 \section{Live demonstration}
@@ -177,9 +177,9 @@ The demo included the free use of Synthotron with a variety of presets to showca
 
 \section{Libraries used}
 \begin{itemize}
-\item OpenSLES: Industry standard embedded audio API. Used to send all music to the system for playback. \cite{opensles}\\
-\item Guava: Google Java Collections library \cite{guava}\\
-\item Gson: Google Java Serialization library \cite{gson}\\
+    \item OpenSLES: Industry standard embedded audio API, provided by Google as the core Android audio driver. Used to send all music to the system for playback. \cite{opensles}
+    \item Guava: Google Java Collections library \cite{guava}
+    \item Gson: Google Java JSON Serialization library \cite{gson}
 \end{itemize}
 
 \clearpage
