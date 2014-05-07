@@ -1,3 +1,8 @@
+# My additions
+*.pdf
+
+
+### ANDROID ###
 # built application files
 *.apk
 *.ap_
