@@ -39,8 +39,7 @@ Synthotron is designed in two connected layers: a Java frontend, and a C++ backe
 
 The frontend provides a user interface for creating and scheduling one measure loops. For more details on the interface, see Section \ref{sec:interface}.
 
-The interface code communicates with a timing manager. \textbf{TODO: DESCRIBE THIS}
-
+The interface code communicates with a timing manager. The \texttt{TimingManager} class tracks the key and notes for a given measure with sixteenth note resolution. Once triggered, it will play the measure on the instrument passed to it via MIDI messages passed to the backend controller for a specified instrument. The sequencer maintains one for each instrument as it plays measures.
 
 \subsection{Backend}
 
@@ -58,49 +57,49 @@ When requested to handle the next buffer, an audio consumer ask their input chan
 
 Our project makes heavy use of this modularity and composability; the final project contains 38 separate processing blocks. The majority of these processing blocks were implemented for this project.
 
-
-
 \section{Interface}
 \label{sec:interface}
 
 \subsection{Piano Roll}
-The piano roll is a common interface for computer synthesizers. It  presents the keys of a piano with note name labels on the vertical axis and outlines a grid on which the user can place notes that follow time on the horizontal axis.
+The piano roll is a common interface for computer synthesizers. It  presents the keys of a piano with note name labels on the vertical axis and outlines a grid on which the user can place notes that follow time on the horizontal axis. 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{figures/pianoroll.png}
+\includegraphics[width=.8\textwidth]{figures/pianoroll.png}
 \caption{Piano Roll interface}
 \label{fig:pianoroll}
 \end{figure}
 
-Our piano roll has been simplified to limit the user to a specific key. In most cases, this is not only sufficient, but makes composition easier. The user can choose between diatonic, pentatonic, and blues major and minor scales. Restricting notes to one key helps inexperienced composers generate satisfying music with only a few touches of the screen. 
+Our piano roll has been simplified to limit the user to a specific key. In most cases, this is not only sufficient, but makes composition easier. The user can choose between diatonic, pentatonic, and blues major and minor scales with any tonic. Restricting notes to one key helps inexperienced composers generate satisfying music with only a few touches of the screen. The interface displays only one octave at a time for simplicity, but notes scheduled in all octaves play regardless of the current view.
+
+Users can also save or load measures using the Android devices storage. Once saved, these can be replayed from the piano roll or scheduled in the sequencer.
 
 \subsection{Sequencer}
 
-Just as the piano roll composes notes on a grid of quarter beats, the seqeuncer composes measures. The vertical axis is now occupied by Synthotron's three channels. Users can copy measures from one cell to another and save or load individual measures and whole songs.
-
-\begin{figure}[h]
+\begin{wrapfigure}{r}{0.5\textwidth}
 \centering
-\includegraphics[width=0.4\textwidth]{figures/sequencer.png}
+\includegraphics[width=.6\textwidth]{figures/sequencer.png}
 \caption{Sequencer interface}
 \label{fig:sequencer}
-\end{figure}
+\end{wrapfigure}
+
+The sequencer functions similarly to the piano roll, but with saved measures instead of notes. It has one channel for each instrument with eight measures of composition. Users can load single measures or entire songs into the sequencer.
+
+Our sequencer controls the tempo of each song, but the key is left up to individual measures to allow for key changes. The sequencer can be set to plat through once or loop continuously so that the user can return to the piano roll and compose a new measure. This allows for live performance and improvisation, a primary objective of the project.
 
 \subsection{Synthesizer and Mastering}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{figures/subtractivesynth.png}
+\includegraphics[width=0.5\textwidth]{figures/subtractivesynth.png}
 \caption{Subtractive Synthesizer}
 \label{fig:subtractivesynth}
-\end{wrapfigure}
+\end{figure}
 
-The synthesizer and mastering interfaces feature a number of knobs to control the aspects of each instrument and the entire synthesis engine. The knobs act like analog knobs on a physical synthesizer, and this feeling is important for providing a satisfying experience when controlling Synthotron.
-
-Synthesizer control panels also allow for the saving and loading of favorite configurations.
+Synthesizer interfaces allow users to prototype synth tones before moving to the piano roll or sequencer. The effects of different configurations becomes immediately apparent through the test notes for each instrument, and the synthesis backend is updated in real time with the values of each knob and selector. Synthesizer control panels also allow for the saving and loading of favorite configurations.
 
 
-
+The knobs on each interface mimic a physical synthesizer. The feeling of controlling knobs on a physical synthesizer is integral to providing a satisfying experience when controlling Synthotron. As any sound technician knows, a board is only as fun as the number of knobs it has.\footnote{Please note, however, that three EQ channels are more than necessary in almost all circumstances.} Knobs implement Android's \texttt{View} interface and are designed to act like other display elements. The \texttt{KnobReceiver} interface acts analogously to the \texttt{OnClickListener}, but can also scale the knob between arbitrary minimum and maximum values. Custom \texttt{KnobReceivers} also allow for logarithmic scales, which are necessary when dealing with frequency ranges.
 \section{Audio Processing Algorithms}
 
 \subsection{Oscillators}
