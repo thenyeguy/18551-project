@@ -35,6 +35,10 @@ Synthotron also presents a satisfying range of audio synthesis options. The subt
 
 Synthotron is designed in two connected layers: a Java frontend, and a C++ backend built using the Android NDK. The frontend is responsible for user interface and scheduling notes, while the backend is responsible for generating and processing the audio signal. The two layers communicate using a MIDI style protocol.
 
+\subsection{Audio Data}
+
+Synthotron uses mono, CD-quality audio. Audio is processed at 44100 samples per second. Samples are 32-bit floating point numbers internally, and converted down to 16-bit unsigned integers when passed to the audio driver. Audio is processed in system-defined buffers. On our target device (a 2013 Nexus 7) these buffers are 3300 samples long, or 75 milliseconds.
+
 \subsection{Frontend}
 
 The frontend provides a user interface for creating and scheduling one measure loops. For more details on the interface, see Section \ref{sec:interface}.
