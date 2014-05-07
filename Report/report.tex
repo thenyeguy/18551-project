@@ -173,21 +173,21 @@ One of the largest challenges for developing on Android is the audio latency tim
 The piano roll and sequencer both include a moving bar to keep time with the audio track. The velocity of these bars is directly proportional to the tempo of the song. We also keep the bars moving delayed with respect to the actual scheduling of the notes with a linear offset.
 
 \section{Live demonstration}
-
 The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs - "More Than a Feeling" by Boston and "The District Sleeps Alone" by The Postal Service.
 
 \section{Libraries used}
 \begin{itemize}
-OpenSLES: Industry standard embedded audio API. Used to send all music to the system for playback. \cite{opensles}\\
-Guava: Google Java Collections library \cite{guava}\\
-Gson: Google Java Serialization library \cite{gson}\\
+\item OpenSLES: Industry standard embedded audio API. Used to send all music to the system for playback. \cite{opensles}\\
+\item Guava: Google Java Collections library \cite{guava}\\
+\item Gson: Google Java Serialization library \cite{gson}\\
 \end{itemize}
 
 \clearpage
 \section*{Final Work Breakdown}
 
-\begin{tabular}{| c || l |}
-  \hline 
+\onehalfspacing
+\begin{tabular}{ c | l }  
+
   Week 1 (Feb 16 - Feb 22) & Initial proposal and presentation Feb 18 \\ 
                            & Experiment with Android audio latency Feb 22 \\ \hline
   Week 2 (Feb 23 - Mar 2)  & Nye - Begin porting ClickTrack to Android \\
@@ -199,16 +199,15 @@ Gson: Google Java Serialization library \cite{gson}\\
                            & Ryan - Refactor and make robust interface \\ \hline
   Week 6 (Mar 30 - Apr 5)  & \textbf{Updates} \\
                            & Begin expanding functionality for additional instruments \\ & and effects\\ \hline
-  Week 7 (Apr 6 - Apr 12)  &  Continue expanding functionality \\ \hline
-  Week 8 (Apr 13 - Apr 19) & Continue expanding functionality. \\
-                           & Spectrum and envelope visualization tools \\ \hline
+  Week 7 (Apr 6 - Apr 12)  &  Nye - Additional effects, FM Synth \\
+                           & Ryan - Develop sequencer interface \\ \hline
+  Week 8 (Apr 13 - Apr 19) & Load/Save configurations and songs \\                           \hline
   Week 9 (Apr 20 - Apr 26) & Nye - Additional effects and cleanup of audio engine \\
                            & Ryan - Additional effects and cleanup of interface \\ \hline
   Week 10 (Apr 27 - May 3) & Completed project and working demo  \\ \hline
-  Week 11 (May 4 - May 11) & Final report  \\ \hline
+  Week 11 (May 4 - May 11) & Final report  \\ 
 \end{tabular}
-
-
+  
 
 \clearpage
 \begin{thebibliography}{9}
