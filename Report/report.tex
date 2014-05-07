@@ -17,19 +17,53 @@
 \end{center}
 
 
+
 \section{The Problem}
 
 Music performance applications on Android are virtually non-existent. Part of this problem is that historically, Android has had audio latency that is too large to facilitate responsive live performance. Latency also varies wildly between devices and OS versions. Some devices enjoy latency around 100-150ms, while others have something closer to 300-350ms. This is not yet low enough for a traditional keyboard interface, but it allows for performance on an appropriate interface with CD-quality audio (44.1kHz, 16-bit samples) in real-time.
+
+
 
 \section{The Solution}
 Synthotron addresses the need for a real-time music performance and synthesis application on the Android platform. We avoid the usual pitfalls of long latency times by scheduling music instead of playing it as a response to user touch input. This allows the application to compensate for latency and provide synchronized visual and audio feedback to users. The interface lets users create individual measures by the sixteenth notes and string eight measures together in the sequencer. The sequenced track can also loop to allow users to compose or perform with a backing track.
 
 Synthotron also presents a satisfying range of audio synthesis options. The subtractive synthesizer, FM synthesizer, and drum machine each have their own private effects as well as shared mastering effects. These include reverb, vibrato and tremolo LFOs, a ring modulator, and three-band EQ. These effects are important for users to feel like they are interacting with a full-featured synthesizer and vastly increase the range of tones and music that one can create.
 
+
+
+\section{Architecture}
+
+Synthotron is designed in two connected layers: a Java frontend, and a C++ backend built using the Android NDK. The frontend is responsible for user interface and scheduling notes, while the backend is responsible for generating and processing the audio signal. The two layers communicate using a MIDI style protocol.
+
+\subsection{Frontend}
+
+The frontend provides a user interface for creating and scheduling one measure loops. For more details on the interface, see Section \ref{sec:interface}.
+
+The interface code communicates with a timing manager. \textbf{TODO: DESCRIBE THIS}
+
+
+\subsection{Backend}
+
+The backend spawns into a separate thread and continuously generates audio output, feeding it to the audio driver for playback. In order to trigger notes or change effect parameters, a Java interface is provided to pass MIDI messages to the backend.
+
+The backend is an adaptation of an audio processing framework developed by Michael Nye called ClickTrack\cite{clicktrack}. ClickTrack provides a generic interface for modular processing blocks. These blocks can be one of:
+\begin{enumerate}
+    \item Producer, which produces audio on its own (e.g.\ oscillators)
+    \item Consumer, which takes audio input and passes them to outside sources (e.g.\ speakers)
+    \item Filter, which takes in audio and produces new audio output (e.g.\ reverb)
+\end{enumerate}
+These blocks are connected using channels which contain circular buffers. Blocks have support for an arbitrary number of input channels and an arbitrary number of output channels. This allows for modularity of components, and makes complicated topologies simple to implement.
+
+When requested to handle the next buffer, an audio consumer ask their input channels for audio. The channel either has the requested audio and provides it right away, or asks its parent generator to produce the audio and push it to the buffer. This allows all audio timing to be managed by a single end point and lazily generate audio as needed to maintain seamless playback.
+
+Our project makes heavy use of this modularity and composability; the final project contains 38 separate processing blocks. The majority of these processing blocks were implemented for this project.
+
+
+
 \section{Interface}
+\label{sec:interface}
 
 \subsection{Piano Roll}
-
 The piano roll is a common interface for computer synthesizers. It  presents the keys of a piano with note name labels on the vertical axis and outlines a grid on which the user can place notes that follow time on the horizontal axis.
 
 \begin{figure}[h]
@@ -181,6 +215,8 @@ The demo included the free use of Synthotron with a variety of presets to showca
     \item Guava: Google Java Collections library \cite{guava}
     \item Gson: Google Java JSON Serialization library \cite{gson}
 \end{itemize}
+
+
 
 \clearpage
 \section*{Final Work Breakdown}
