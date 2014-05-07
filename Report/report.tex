@@ -19,16 +19,51 @@
 
 \section{The Problem}
 
-Music performance applications on Android are virtually non-existent. Part of
-this problem is that historically, Android has not had good audio or touch
-latency, and music applications require very low latency to feel responsive.
-Modern Android versions have latency on the order of 100-150 ms. While this
-isn't yet low enough for a traditional keyboard-like interface, it is low enough
-to allow for performance aspects with an appropriate interface, with CD-quality
-audio (44.1kHz, 16-bit samples) in real-time.
+Music performance applications on Android are virtually non-existent. Part of this problem is that historically, Android has had audio latency that is too large to facilitate responsive live performance. Latency also varies wildly between devices and OS versions. Some devices enjoy latency around 100-150ms, while others have something closer to 300-350ms. This is not yet low enough for a traditional keyboard interface, but it allows for performance on an appropriate interface with CD-quality audio (44.1kHz, 16-bit samples) in real-time.
 
+\section{The Solution}
+Synthotron addresses the need for a real-time music performance and synthesis application on the Android platform. We avoid the usual pitfalls of long latency times by scheduling music instead of playing it as a response to user touch input. This allows the application to compensate for latency and provide synchronized visual and audio feedback to users. The interface lets users create individual measures by the sixteenth notes and string eight measures together in the sequencer. The sequenced track can also loop to allow users to compose or perform with a backing track.\\
 
+Synthotron also presents a satisfying range of audio synthesis options. The subtractive synthesizer, FM synthesizer, and drum machine each have their own private effects as well as shared mastering effects. These include reverb, vibrato and tremolo LFOs, a ring modulator, and three-band EQ. These effects are important for users to feel like they are interacting with a full-featured synthesizer and vastly increase the range of tones and music that one can create. \\
 
+\section{Interface}
+
+\subsection{Piano Roll}
+
+The piano roll is a common interface for computer synthesizers. It  presents the keys of a piano with note name labels on the vertical axis and outlines a grid on which the user can place notes that follow time on the horizontal axis.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/pianoroll.png}
+\caption{Piano Roll interface}
+\label{fig:pianoroll}
+\end{figure}
+
+Our piano roll has been simplified to limit the user to a specific key. In most cases, this is not only sufficient, but makes composition easier. The user can choose between diatonic, pentatonic, and blues major and minor scales. Restricting notes to one key helps inexperienced composers generate satisfying music with only a few touches of the screen. 
+
+\subsection{Sequencer}
+
+Just as the piano roll composes notes on a grid of quarter beats, the seqeuncer composes measures. The vertical axis is now occupied by Synthotron's three channels. Users can copy measures from one cell to another and save or load individual measures and whole songs.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/sequencer.png}
+\caption{Sequencer interface}
+\label{fig:sequencer}
+\end{figure}
+
+\subsection{Synthesizer and Mastering}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\centering
+\includegraphics[width=0.4\textwidth]{figures/subtractivesynth.png}
+\caption{Subtractive Synthesizer}
+\label{fig:subtractivesynth}
+\end{wrapfigure}
+
+The synthesizer and mastering interfaces feature a number of knobs to control the aspects of each instrument and the entire synthesis engine. The knobs act like analog knobs on a physical synthesizer, and this feeling is important for providing a satisfying experience when controlling Synthotron. \\
+
+Synthesizer control panels also allow for the saving and loading of favorite configurations.
 
 \section{Algorithms}
 
@@ -133,7 +168,20 @@ By composing several of these filters in different modes, we can create multi-po
 
 A ring modulator is a very simple device. It simply multiples a signal by a fixed frequency sine wave. The resulting signal output resembles the input, but shifted in frequency space. It can be used to create interesting pitch shifts and aliasing effects, especially on instruments that aren't inherently pitched such as drums.
 
+\section{Timing and optimization}
+One of the largest challenges for developing on Android is the audio latency time. Each device has a different optimal buffer size and delay between the audio command being sent and output from speaker. In this project, we optimized for the Google Nexus 7 2013, which had a latency of XXXXXXX ms. \\
+The piano roll and sequencer both include a moving bar to keep time with the audio track. The velocity of these bars is directly proportional to the tempo of the song. We also keep the bars moving delayed with respect to the actual scheduling of the notes with a linear offset.
 
+\section{Live demonstration}
+
+The demo included the free use of Synthotron with a variety of presets to showcase all functionality. Attendees toyed with all features of the system while being guided on functionality and were encouraged to loop a rock drum track while experimenting in the piano roll, the main method of live performance with the application. Completed demos included several synthesizer presets and two songs - "More Than a Feeling" by Boston and "The District Sleeps Alone" by The Postal Service.
+
+\section{Libraries used}
+\begin{itemize}
+OpenSLES: Industry standard embedded audio API. Used to send all music to the system for playback. \cite{opensles}\\
+Guava: Google Java Collections library \cite{guava}\\
+Gson: Google Java Serialization library \cite{gson}\\
+\end{itemize}
 
 \clearpage
 \section*{Final Work Breakdown}
@@ -185,6 +233,12 @@ A ring modulator is a very simple device. It simply multiples a signal by a fixe
 
 \bibitem{polyblep}
     \url{http://www.kvraudio.com/forum/viewtopic.php?t=375517}
+
+\bibitem{guava}
+    \url{http://code.google.com/p/guava-libraries/}
+
+\bibitem{gson}
+    \url{https://code.google.com/p/google-gson/}
 
 \end{thebibliography}
 
